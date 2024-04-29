@@ -5,20 +5,19 @@ import com.arkivanov.mvikotlin.core.store.Store
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.core.utils.ExperimentalMviKotlinApi
 import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapperScope
+import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineExecutorScope
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
-import com.nesterov.veld.common.AppCoroutineDispatcherProvider
 import com.nesterov.veld.common.ResultHolder
-import com.nesterov.veld.domain.usecases.FetchSpellListUseCase
+import com.nesterov.veld.domain.model.SpellDomainModel
 import com.nesterov.veld.presentation.di.SpellDependencies
 import com.nesterov.veld.presentation.mapper.toSpellPresentationModel
 import com.nesterov.veld.presentation.model.SpellPresentationModel
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.coroutines.suspendCoroutine
 
 @OptIn(ExperimentalMviKotlinApi::class)
 class SpellStoreFactory(
@@ -38,6 +37,25 @@ class SpellStoreFactory(
                 onAction<Action.FetchSpellListFailure> { dispatch(Msg.FetchSpellListFailure) }
                 onAction<Action.FetchSpellListLoading> { dispatch(Msg.FetchSpellListLoading) }
                 onAction<Action.FetchSpellListSuccess> { dispatch(Msg.FetchSpellListSuccess(spellList = it.spellList)) }
+                onIntent<SpellStore.Intent.SearchSpell> {
+                    when {
+                        it.query.isBlank() && ReducerImpl.backupSpellList == null -> {
+                            refreshSpellList(
+                                failure = Msg.FetchSpellListFailure,
+                                loading = Msg.FetchSpellListLoading,
+                                success = { spellList ->
+                                    Msg.FetchSpellListSuccess(spellList.toSpellPresentationModel())
+                                }
+                            )
+                        }
+                        it.query.isBlank() && ReducerImpl.backupSpellList != null -> {
+                            dispatch(Msg.RefreshSpellList)
+                        }
+                        else -> {
+                            dispatch(Msg.SearchSpell(it.query))
+                        }
+                    }
+                }
             },
             reducer = ReducerImpl
         ) { }
@@ -64,8 +82,43 @@ class SpellStoreFactory(
                     is ResultHolder.Success -> {
                         withContext(dispatcher.mainDispatcher) {
                             dispatch(
-                                Action.FetchSpellListSuccess(spellList = result.data.toSpellPresentationModel())
+                                Action.FetchSpellListSuccess(spellList = result.data.toSpellPresentationModel().also {
+                                    ReducerImpl.backupSpellList = it
+                                })
                             )
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private var refreshSpellList: Job? = null
+    fun <State : Any, Message : Any, Action : Any, Label : Any> CoroutineExecutorScope<State, Message, Action, Label>.refreshSpellList(
+        failure: Message,
+        loading: Message,
+        success: (List<SpellDomainModel>) -> Message,
+    ) {
+        if (refreshSpellList?.isActive == true) return
+
+        refreshSpellList = launch {
+            withContext(dispatcher.ioDispatcher) {
+                when (val result = fetchSpellListUseCase().status) {
+                    is ResultHolder.Error -> {
+                        withContext(dispatcher.mainDispatcher) {
+                            dispatch(failure)
+                        }
+                    }
+
+                    is ResultHolder.Loading -> {
+                        withContext(dispatcher.mainDispatcher) {
+                            dispatch(loading)
+                        }
+                    }
+
+                    is ResultHolder.Success -> {
+                        withContext(dispatcher.mainDispatcher) {
+                            dispatch(success(result.data))
                         }
                     }
                 }
@@ -80,17 +133,51 @@ class SpellStoreFactory(
     }
 
     private sealed interface Msg {
+        data class SearchSpell(val query: String): Msg
+        data object RefreshSpellList: Msg
         data object FetchSpellListFailure: Msg
         data object FetchSpellListLoading: Msg
         data class FetchSpellListSuccess(val spellList: ImmutableList<SpellPresentationModel>): Msg
     }
 
     private object ReducerImpl : Reducer<SpellStore.State, Msg> {
+        var backupSpellList: ImmutableList<SpellPresentationModel>? = null
+
         override fun SpellStore.State.reduce(msg: Msg): SpellStore.State =
             when(msg) {
                 is Msg.FetchSpellListFailure -> copy(screenState = SpellStore.ScreenState.Failure)
                 is Msg.FetchSpellListLoading -> copy(screenState = SpellStore.ScreenState.Loading)
                 is Msg.FetchSpellListSuccess -> copy(screenState = SpellStore.ScreenState.Success(msg.spellList))
+                is Msg.SearchSpell -> {
+                    val successState = screenState as? SpellStore.ScreenState.Success
+                    if (successState != null && backupSpellList != null) {
+                        copy(
+                            screenState = successState.copy(
+                                spellsList = backupSpellList?.filter { spell ->
+                                    spell.name.startsWith(
+                                        prefix = msg.query,
+                                        ignoreCase = true,
+                                    ) || spell.level.toString() == msg.query
+                                }?.toImmutableList() ?: successState.spellsList
+                            )
+                        )
+                    } else {
+                        copy()
+                    }
+                }
+
+                Msg.RefreshSpellList -> {
+                    val successState = screenState as? SpellStore.ScreenState.Success
+                    if (successState != null && backupSpellList != null) {
+                        copy(
+                            screenState = successState.copy(
+                                spellsList = backupSpellList ?: successState.spellsList
+                            )
+                        )
+                    } else {
+                        copy()
+                    }
+                }
             }
     }
 

@@ -31,7 +31,7 @@ fun VieldSearchBar(
     query: String,
     placeholderText: String,
     onQueryChange: (String) -> Unit,
-    onSearch: (String) -> Unit,
+    onSearch: () -> Unit,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
 ) {
@@ -46,7 +46,7 @@ fun VieldSearchBar(
         placeholder = { Text(text = placeholderText) },
         textStyle = TextStyle(fontSize = 16.sp),
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions(onSearch = { onSearch(query) }),
+        keyboardActions = KeyboardActions(onSearch = { onSearch() }),
         colors = OutlinedTextFieldDefaults.colors(
             focusedContainerColor = VeldTheme.colors.materialColors.background,
             unfocusedContainerColor = VeldTheme.colors.materialColors.background,

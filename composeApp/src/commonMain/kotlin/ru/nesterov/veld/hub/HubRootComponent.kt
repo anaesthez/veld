@@ -15,7 +15,7 @@ import com.nesterov.veld.common.base.BaseComponent
 import com.nesterov.veld.di.graph.AppDependenciesGraph
 import ru.nesterov.veld.hub.model.Page
 import ru.nesterov.veld.hub.model.SelectablePageUiModel
-import com.nesterov.veld.graph.hub.store.HubStore
+import ru.nesterov.veld.hub.store.HubStore
 import ru.nesterov.veld.hub.store.HubStoreFactory
 import com.nesterov.veld.presentation.BackstoryComponent
 import com.nesterov.veld.presentation.BackstoryComponentImpl
@@ -27,6 +27,7 @@ import com.nesterov.veld.presentation.RaceComponent
 import com.nesterov.veld.presentation.RaceComponentImpl
 import com.nesterov.veld.presentation.SpellComponent
 import com.nesterov.veld.presentation.SpellComponentImpl
+import com.nesterov.veld.presentation.model.SpellPresentationModel
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.serialization.Serializable
@@ -38,7 +39,14 @@ interface HubRootComponent {
     val pages: Value<ChildPages<*, Pages>>
     val state: Value<HubStore.State>
 
-    fun selectPage(index: Int)
+    fun onObtainEvent(event: Event)
+
+    sealed interface Event {
+        data class OnInputQuery(val input: String): Event
+        data class OnSelectPage(val index: Int): Event
+        data object OnSearchQuery: Event
+        data object NavigateFilter: Event
+    }
 
     sealed interface Pages {
         data class Spells(val component: SpellComponent): Pages
@@ -121,12 +129,6 @@ class HubRootComponentImpl(
             )
         }
 
-    override fun selectPage(index: Int) {
-        pagesNavigation.select(index) { _, _ ->
-            hubStore.accept(HubStore.Intent.SelectPage(index))
-        }
-    }
-
     private val hubStore = instanceKeeper.getStore {
         HubStoreFactory(
             storeFactory = storeFactory,
@@ -134,6 +136,55 @@ class HubRootComponentImpl(
         ).create()
     }
     override val state: Value<HubStore.State> = hubStore.asValue()
+
+    override fun onObtainEvent(event: HubRootComponent.Event) =
+        when (event) {
+            is HubRootComponent.Event.OnInputQuery -> {
+                hubStore.accept(HubStore.Intent.InputQuery(event.input))
+            }
+
+            is HubRootComponent.Event.OnSelectPage -> {
+                selectPage(event.index)
+            }
+
+            HubRootComponent.Event.OnSearchQuery -> {
+                search()
+            }
+
+            HubRootComponent.Event.NavigateFilter -> {
+
+            }
+        }
+
+
+    private fun selectPage(index: Int) {
+        pagesNavigation.select(index) { _, _ ->
+            hubStore.accept(HubStore.Intent.SelectPage(index))
+        }
+    }
+
+    private fun search() {
+        when(val instance = pages.value.items[pages.value.selectedIndex].instance) {
+            is HubRootComponent.Pages.Backstory -> {
+
+            }
+            is HubRootComponent.Pages.Classes -> {
+
+            }
+            is HubRootComponent.Pages.Items -> {
+
+            }
+            is HubRootComponent.Pages.Race -> {
+
+            }
+            is HubRootComponent.Pages.Spells -> {
+                instance.component.onObtainEvent(
+                    SpellComponent.Event.SearchSpell(state.value.query)
+                )
+            }
+            null -> return
+        }
+    }
 
     @Serializable
     sealed interface Configuration {

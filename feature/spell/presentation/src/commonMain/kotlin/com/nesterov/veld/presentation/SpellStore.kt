@@ -5,7 +5,9 @@ import com.nesterov.veld.presentation.model.SpellPresentationModel
 import kotlinx.collections.immutable.ImmutableList
 
 interface SpellStore : Store<SpellStore.Intent, SpellStore.State, SpellStore.Label> {
-    sealed interface Intent
+    sealed interface Intent {
+        data class SearchSpell(val query: String): Intent
+    }
 
     sealed interface Label
 
