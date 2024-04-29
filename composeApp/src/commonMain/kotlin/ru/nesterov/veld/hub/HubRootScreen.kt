@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -66,10 +67,11 @@ fun HubRootScreen(component: HubRootComponent) {
     val pages by component.pages.subscribeAsState()
     val lazyPagesListState = rememberLazyListState()
 
-    val onSelectPage: (Int) -> Unit = remember { { component.selectPage(it) } }
-    val onQueryChange: (String) -> Unit = remember { {  } }
-    val onNavigateSearch: (String) -> Unit = remember { {  } }
-    val onNavigateFilter: () -> Unit = remember { {  } }
+    val onObtainEvent: (HubRootComponent.Event) -> Unit = remember {
+        { event ->
+            component.onObtainEvent(event)
+        }
+    }
 
     LaunchedEffect(pages) {
         lazyPagesListState.animateScrollToItem(pages.selectedIndex)
@@ -79,6 +81,7 @@ fun HubRootScreen(component: HubRootComponent) {
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        Spacer(Modifier.height(24.dp))
         Column {
             HubHeaderTitle(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
@@ -88,23 +91,33 @@ fun HubRootScreen(component: HubRootComponent) {
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 query = state.query,
                 placeholderText = "A spell, feature or race...",
-                onQueryChange = onQueryChange,
-                onSearch = onNavigateSearch,
-                onFilter = onNavigateFilter,
+                onQueryChange = {
+                    onObtainEvent(HubRootComponent.Event.OnInputQuery(it))
+                },
+                onSearch = {
+                    onObtainEvent(HubRootComponent.Event.OnSearchQuery)
+                },
+                onFilter = {
+                    onObtainEvent(HubRootComponent.Event.NavigateFilter)
+                },
             )
         }
         Spacer(Modifier.size(16.dp))
         HubPagesLazyRow(
             lazyPagesListState = lazyPagesListState,
             pages = state.pages,
-            onSelectPage = onSelectPage,
+            onSelectPage = {
+                onObtainEvent(HubRootComponent.Event.OnSelectPage(it))
+            },
         )
         Spacer(Modifier.size(8.dp))
         HorizontalDivider(color = colors.materialColors.surfaceVariant)
         Spacer(Modifier.size(8.dp))
         Pages(
             pages = component.pages,
-            onPageSelected = onSelectPage,
+            onPageSelected = {
+                onObtainEvent(HubRootComponent.Event.OnSelectPage(it))
+            },
             scrollAnimation = PagesScrollAnimation.Default,
         ) { _, page ->
             when (page) {
@@ -162,7 +175,7 @@ private fun HubSearchBar(
     query: String,
     placeholderText: String,
     onQueryChange: (String) -> Unit,
-    onSearch: (String) -> Unit,
+    onSearch: () -> Unit,
     onFilter: () -> Unit,
 ) {
     VieldSearchBar(
@@ -184,7 +197,7 @@ private fun HubSearchBar(
         },
         trailingIcon = {
             IconButton(
-                onClick = { onSearch(query) },
+                onClick = onSearch,
                 content = {
                     Icon(
                         imageVector = Icons.Default.Search,

@@ -16,6 +16,7 @@ sealed interface SpellComponent {
 
     sealed interface Event {
         data class OnSpellClick(val spell: SpellPresentationModel): Event
+        data class SearchSpell(val input: String): Event
     }
 
     sealed interface Action {
@@ -41,6 +42,10 @@ class SpellComponentImpl(
         when(event) {
             is SpellComponent.Event.OnSpellClick -> {
                 onAction(SpellComponent.Action.NavigateSpellDetails(event.spell.index))
+            }
+
+            is SpellComponent.Event.SearchSpell -> {
+                spellsStore.accept(SpellStore.Intent.SearchSpell(event.input))
             }
         }
 }

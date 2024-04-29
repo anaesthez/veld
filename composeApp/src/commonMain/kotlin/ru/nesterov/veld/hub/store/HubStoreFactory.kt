@@ -8,7 +8,6 @@ import com.arkivanov.mvikotlin.core.utils.ExperimentalMviKotlinApi
 import com.arkivanov.mvikotlin.extensions.reaktive.reaktiveBootstrapper
 import com.arkivanov.mvikotlin.extensions.reaktive.reaktiveExecutorFactory
 import ru.nesterov.veld.hub.model.SelectablePageUiModel
-import com.nesterov.veld.graph.hub.store.HubStore
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
@@ -32,12 +31,16 @@ class HubStoreFactory(
                 onIntent<HubStore.Intent.SelectPage> {
                     dispatch(Msg.SelectPage(it.index))
                 }
+                onIntent<HubStore.Intent.InputQuery> {
+                    dispatch(Msg.InputQuery(it.input))
+                }
             },
             reducer = ReducerImpl,
         ) { }
 
     private sealed interface Msg {
         data class SelectPage(val index: Int): Msg
+        data class InputQuery(val input: String): Msg
     }
 
     private object ReducerImpl : Reducer<HubStore.State, Msg> {
@@ -56,6 +59,8 @@ class HubStoreFactory(
                             .toImmutableList()
                     )
                 }
+
+                is Msg.InputQuery -> copy(query = msg.input)
             }
     }
 
