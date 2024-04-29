@@ -6,7 +6,6 @@ import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.nesterov.veld.common.base.BaseComponent
 import com.nesterov.veld.presentation.di.SpellDetailsDependencies
-import com.nesterov.veld.presentation.model.SpellDetailsPresentationModel
 
 sealed interface SpellDetailsComponent {
     val state: Value<SpellDetailsStore.State>
@@ -29,7 +28,7 @@ class SpellDetailsComponentImpl(
     dependencies: SpellDetailsDependencies,
     spellIndex: String,
     componentContext: ComponentContext,
-    onAction: (SpellDetailsComponent.Action) -> Unit,
+    private val action: (SpellDetailsComponent.Action) -> Unit,
 ): BaseComponent(componentContext), SpellDetailsComponent {
     private val spellsStore = instanceKeeper.getStore {
         SpellDetailsDetailsStoreFactory(
@@ -42,6 +41,16 @@ class SpellDetailsComponentImpl(
 
     override fun onObtainEvent(event: SpellDetailsComponent.Event) =
         when(event) {
-            else -> {}
+            SpellDetailsComponent.Event.OnBackClick -> {
+                action(SpellDetailsComponent.Action.NavigateBack)
+            }
+
+            SpellDetailsComponent.Event.OnClassClick -> {
+
+            }
+
+            SpellDetailsComponent.Event.OnSubclassClick -> {
+                
+            }
         }
 }

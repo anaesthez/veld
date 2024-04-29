@@ -13,10 +13,6 @@ import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.nesterov.veld.common.base.BaseComponent
 import com.nesterov.veld.di.graph.AppDependenciesGraph
-import ru.nesterov.veld.hub.model.Page
-import ru.nesterov.veld.hub.model.SelectablePageUiModel
-import ru.nesterov.veld.hub.store.HubStore
-import ru.nesterov.veld.hub.store.HubStoreFactory
 import com.nesterov.veld.presentation.BackstoryComponent
 import com.nesterov.veld.presentation.BackstoryComponentImpl
 import com.nesterov.veld.presentation.ClassesComponent
@@ -27,11 +23,14 @@ import com.nesterov.veld.presentation.RaceComponent
 import com.nesterov.veld.presentation.RaceComponentImpl
 import com.nesterov.veld.presentation.SpellComponent
 import com.nesterov.veld.presentation.SpellComponentImpl
-import com.nesterov.veld.presentation.model.SpellPresentationModel
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.serializer
+import ru.nesterov.veld.hub.model.Page
+import ru.nesterov.veld.hub.model.SelectablePageUiModel
+import ru.nesterov.veld.hub.store.HubStore
+import ru.nesterov.veld.hub.store.HubStoreFactory
 
 @Stable
 interface HubRootComponent {
@@ -79,7 +78,7 @@ class HubRootComponentImpl(
 
     private fun initialPages() = Pages(
         items = pagesMap.values.toList(),
-        selectedIndex = INITIAL_SELECTED_INDEX,
+        selectedIndex = pagesMap.values.indices.first,
     )
 
     private fun childFactory(page: Configuration, ctx: ComponentContext): HubRootComponent.Pages =
@@ -196,7 +195,6 @@ class HubRootComponentImpl(
     }
 
     private companion object {
-        private const val INITIAL_SELECTED_INDEX = 0
         private val pagesMap = persistentMapOf(
             SelectablePageUiModel(
                 pageType = Page.ClASSES,
@@ -206,18 +204,18 @@ class HubRootComponentImpl(
                 pageType = Page.SPELL,
                 isSelected = false,
             ) to Configuration.Spells,
-            SelectablePageUiModel(
-                pageType = Page.ITEM,
-                isSelected = false,
-            ) to Configuration.Items,
-            SelectablePageUiModel(
-                pageType = Page.RACE,
-                isSelected = false,
-            ) to Configuration.Race,
-            SelectablePageUiModel(
-                pageType = Page.BACKSTORY,
-                isSelected = false,
-            ) to Configuration.Backstory,
+//            SelectablePageUiModel(
+//                pageType = Page.ITEM,
+//                isSelected = false,
+//            ) to Configuration.Items,
+//            SelectablePageUiModel(
+//                pageType = Page.RACE,
+//                isSelected = false,
+//            ) to Configuration.Race,
+//            SelectablePageUiModel(
+//                pageType = Page.BACKSTORY,
+//                isSelected = false,
+//            ) to Configuration.Backstory,
         )
     }
 }
