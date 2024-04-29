@@ -1,0 +1,60 @@
+[versions]
+
+kotlin = "1.9.23"
+compose = "1.6.1"
+agp = "8.2.2"
+androidx-activityCompose = "1.8.2"
+androidx-uiTest = "1.6.4"
+android-compileSdk = "34"
+android-minSdk = "24"
+android-targetSdk = "34"
+libres = "1.2.2"
+lifecycle = "2.0.0-alpha02"
+decompose = "3.0.0-alpha04"
+extensions = "2.2.2"
+kotlinx-coroutines = "1.8.0"
+kotlinx-serialization = "1.6.3"
+ktor = "3.0.0-beta-1"
+mvi-kotlin = "4.0.0-alpha01"
+badoo-reaktive = "2.0.1"
+
+[libraries]
+
+androidx-activityCompose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
+androidx-testManifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-uiTest" }
+androidx-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-uiTest" }
+
+libres = { module = "io.github.skeptick.libres:libres-compose", version.ref = "libres" }
+
+mvi-core = { module = "com.arkivanov.mvikotlin:mvikotlin", version.ref = "mvi-kotlin" }
+mvi-main = { module = "com.arkivanov.mvikotlin:mvikotlin-main", version.ref = "mvi-kotlin" }
+mvi-coroutines = { module = "com.arkivanov.mvikotlin:mvikotlin-extensions-coroutines", version.ref = "mvi-kotlin" }
+mvi-reaktive = { module = "com.arkivanov.mvikotlin:mvikotlin-extensions-reaktive", version.ref = "mvi-kotlin" }
+
+badoo-reaktive = { module = "com.badoo.reaktive:reaktive", version.ref = "badoo-reaktive" }
+
+decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
+decompose-extensions = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
+lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "lifecycle" }
+
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
+ktor-client-js = { module = "io.ktor:ktor-client-js", version.ref = "ktor" }
+ktor-client-ios = { module = "io.ktor:ktor-client-ios", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+
+[plugins]
+
+multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+compose = { id = "org.jetbrains.compose", version.ref = "compose" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+libres = { id = "io.github.skeptick.libres", version.ref = "libres" }
+android-application = { id = "com.android.application", version.ref = "agp" }

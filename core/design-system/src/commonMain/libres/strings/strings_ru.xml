@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hub_page_races_text">Расы</string>
+    <string name="hub_page_spells_text">Заклинания</string>
+    <string name="hub_page_items_text">Предметы</string>
+    <string name="hub_page_traits_text">Черты</string>
+    <string name="hub_page_bestiary_text">Бестиарий</string>
+    <string name="hub_page_backstory_text">Предыстория</string>
+    <string name="hub_page_classes_text">Классы</string>
+
+    <string name="spell_details_casting_text">Время накладывания</string>
+    <string name="spell_details_attack_text">Тип атаки</string>
+    <string name="spell_details_range_text">Дальность</string>
+    <string name="spell_details_duration_text">Длительность</string>
+    <string name="spell_details_requires_text">Требуется</string>
+    <string name="spell_details_damage_text">урон</string>
+    <string name="spell_details_abjuration_text">фыв</string>
+    <string name="spell_details_conjuration_text">фыв</string>
+    <string name="spell_details_enchantment_text">фыв</string>
+    <string name="spell_details_divination_text">фыв</string>
+    <string name="spell_details_evocation_text">фыв</string>
+    <string name="spell_details_illusion_text">фыв</string>
+    <string name="spell_details_necromancy_text">фыв</string>
+    <string name="spell_details_transmutation_text">фыв</string>
+
+</resources>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hub_page_races_text">Races</string>
+    <string name="hub_page_spells_text">Spells</string>
+    <string name="hub_page_items_text">Items</string>
+    <string name="hub_page_traits_text">Traits</string>
+    <string name="hub_page_bestiary_text">Bestiary</string>
+    <string name="hub_page_backstory_text">Backstory</string>
+    <string name="hub_page_classes_text">Classes</string>
+
+    <string name="spell_details_casting_text">Сasting time</string>
+    <string name="spell_details_attack_text">Attack type</string>
+    <string name="spell_details_range_text">Range</string>
+    <string name="spell_details_duration_text">Duration</string>
+    <string name="spell_details_requires_text">Requires</string>
+    <string name="spell_details_damage_text">damage</string>
+    <string name="spell_details_abjuration_text">Abjuration</string>
+    <string name="spell_details_conjuration_text">Conjuration</string>
+    <string name="spell_details_enchantment_text">Enchantment</string>
+    <string name="spell_details_divination_text">Divination</string>
+    <string name="spell_details_evocation_text">Evocation</string>
+    <string name="spell_details_illusion_text">Illusion</string>
+    <string name="spell_details_necromancy_text">Necromancy</string>
+    <string name="spell_details_transmutation_text">Transmutation</string>
+</resources>

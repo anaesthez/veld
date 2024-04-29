@@ -1,0 +1,25 @@
+package com.nesterov.veld.domain.model
+
+data class SpellDetailsDomainModel(
+    val level: Int,
+    val areaSize: Int,
+    val name: String,
+    val url: String,
+    val index: String,
+    val range: String,
+    val material: String,
+    val duration: String,
+    val schoolUrl: String,
+    val attackType: String,
+    val castingTime: String,
+    val schoolIndex: String,
+    val isRitual: Boolean,
+    val isConcentration: Boolean,
+    val description: List<String>,
+    val higherLevel: List<String>,
+    val components: List<String>,
+    val areaType: String,
+    val charClasses: List<CharacterClassDomainModel>,
+    val subClasses: List<CharacterSubclassDomainModel>,
+    val damage: DamageDomainModel,
+)
