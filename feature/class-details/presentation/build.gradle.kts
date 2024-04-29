@@ -25,10 +25,8 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "FeatureClassesPresentation"
+            baseName = "FeatureClassDetailsPresentation"
             isStatic = true
-            export(libs.decompose)
-            export(libs.lifecycle)
         }
     }
 
@@ -46,13 +44,14 @@ kotlin {
                 implementation(main)
                 implementation(reaktive)
             }
+            implementation(project(":feature:class-details:domain"))
             implementation(project(":core:common"))
         }
     }
 }
 
 android {
-    namespace = "ru.nesterov.veld.feature.classes.ui"
+    namespace = "ru.nesterov.veld.feature.class.details.ui"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

@@ -6,16 +6,19 @@ import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.arkivanov.mvikotlin.core.utils.ExperimentalMviKotlinApi
 import com.arkivanov.mvikotlin.extensions.reaktive.reaktiveBootstrapper
 import com.arkivanov.mvikotlin.extensions.reaktive.reaktiveExecutorFactory
+import com.nesterov.veld.model.CharacterClassPresentationModel
+import kotlinx.collections.immutable.toImmutableList
 
 class ClassesStoreFactory(
     private val storeFactory: StoreFactory,
+    val characterClassesList: List<CharacterClassPresentationModel>,
 ) {
     @OptIn(ExperimentalMviKotlinApi::class)
     fun create(): ClassesStore =
         object : ClassesStore, Store<ClassesStore.Intent, ClassesStore.State, ClassesStore.Label>
         by storeFactory.create(
             name = STORE_NAME,
-            initialState = ClassesStore.State(""),
+            initialState = ClassesStore.State(charClassesList = characterClassesList.toImmutableList()),
             bootstrapper = reaktiveBootstrapper {
 
             },

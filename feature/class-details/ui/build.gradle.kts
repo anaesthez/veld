@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.multiplatform)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.libres)
     id("com.android.library")
 }
 
@@ -25,34 +27,32 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "FeatureClassesPresentation"
+            baseName = "FeatureClassDetailsUi"
             isStatic = true
-            export(libs.decompose)
-            export(libs.lifecycle)
         }
     }
 
     sourceSets {
         commonMain.dependencies {
+            with(compose) {
+                implementation(runtime)
+                implementation(foundation)
+                implementation(material3)
+                implementation(ui)
+            }
             with(libs) {
                 implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
                 implementation(decompose.extensions)
-                implementation(badoo.reaktive)
-                api(decompose)
-                api(lifecycle)
+                implementation(libres)
             }
-            with(libs.mvi) {
-                implementation(core)
-                implementation(main)
-                implementation(reaktive)
-            }
-            implementation(project(":core:common"))
+            implementation(project(":feature:class-details:presentation"))
+            implementation(project(":core:design-system"))
         }
     }
 }
 
 android {
-    namespace = "ru.nesterov.veld.feature.classes.ui"
+    namespace = "ru.nesterov.veld.feature.class.details.ui"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

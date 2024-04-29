@@ -25,34 +25,19 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "FeatureClassesPresentation"
+            baseName = "FeatureClassDetailsDomain"
             isStatic = true
-            export(libs.decompose)
-            export(libs.lifecycle)
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            with(libs) {
-                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
-                implementation(decompose.extensions)
-                implementation(badoo.reaktive)
-                api(decompose)
-                api(lifecycle)
-            }
-            with(libs.mvi) {
-                implementation(core)
-                implementation(main)
-                implementation(reaktive)
-            }
-            implementation(project(":core:common"))
         }
     }
 }
 
 android {
-    namespace = "ru.nesterov.veld.feature.classes.ui"
+    namespace = "ru.nesterov.veld.feature.class.details.domain"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
