@@ -82,9 +82,7 @@ class SpellStoreFactory(
                     is ResultHolder.Success -> {
                         withContext(dispatcher.mainDispatcher) {
                             dispatch(
-                                Action.FetchSpellListSuccess(spellList = result.data.toSpellPresentationModel().also {
-                                    ReducerImpl.backupSpellList = it
-                                })
+                                Action.FetchSpellListSuccess(spellList = result.data.toSpellPresentationModel())
                             )
                         }
                     }
@@ -147,7 +145,10 @@ class SpellStoreFactory(
             when(msg) {
                 is Msg.FetchSpellListFailure -> copy(screenState = SpellStore.ScreenState.Failure)
                 is Msg.FetchSpellListLoading -> copy(screenState = SpellStore.ScreenState.Loading)
-                is Msg.FetchSpellListSuccess -> copy(screenState = SpellStore.ScreenState.Success(msg.spellList))
+                is Msg.FetchSpellListSuccess -> {
+                    backupSpellList = msg.spellList
+                    copy(screenState = SpellStore.ScreenState.Success(msg.spellList))
+                }
                 is Msg.SearchSpell -> {
                     val successState = screenState as? SpellStore.ScreenState.Success
                     if (successState != null && backupSpellList != null) {

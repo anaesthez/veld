@@ -7,6 +7,9 @@
     <string name="hub_page_bestiary_text">Бестиарий</string>
     <string name="hub_page_backstory_text">Предыстория</string>
     <string name="hub_page_classes_text">Классы</string>
+    <string name="hub_search_bar_placeholder">Заклинание, уровень или...</string>
+    <string name="hub_header_first_text">Что же ты ищешь,</string>
+    <string name="hub_header_second_text">приключенец?</string>
 
     <string name="spell_details_casting_text">Время накладывания</string>
     <string name="spell_details_attack_text">Тип атаки</string>
@@ -14,13 +17,17 @@
     <string name="spell_details_duration_text">Длительность</string>
     <string name="spell_details_requires_text">Требуется</string>
     <string name="spell_details_damage_text">урон</string>
-    <string name="spell_details_abjuration_text">фыв</string>
-    <string name="spell_details_conjuration_text">фыв</string>
-    <string name="spell_details_enchantment_text">фыв</string>
-    <string name="spell_details_divination_text">фыв</string>
-    <string name="spell_details_evocation_text">фыв</string>
-    <string name="spell_details_illusion_text">фыв</string>
-    <string name="spell_details_necromancy_text">фыв</string>
-    <string name="spell_details_transmutation_text">фыв</string>
+    <string name="spell_details_abjuration_text">Отречение</string>
+    <string name="spell_details_conjuration_text">Вызов</string>
+    <string name="spell_details_enchantment_text">Очарование</string>
+    <string name="spell_details_divination_text">Прорицание</string>
+    <string name="spell_details_evocation_text">Воплощение</string>
+    <string name="spell_details_illusion_text">Иллюзия</string>
+    <string name="spell_details_necromancy_text">Некромантия</string>
+    <string name="spell_details_transmutation_text">Преобразование</string>
+    <string name="spell_details_components_header">Компоненты</string>
+    <string name="spell_details_description_header">Описание</string>
+    <string name="spell_details_subclasses_header">Подклассы</string>
+    <string name="spell_details_classes_header">Классы</string>
 
 </resources>

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -20,8 +21,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Build
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -46,6 +45,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.nesterov.veld.design_system.strings.DesignStrings
 import com.nesterov.veld.design_system.theme.VeldIcons
 import com.nesterov.veld.design_system.theme.VeldTheme.colors
 import com.nesterov.veld.design_system.ui.VeldClassesLazyRow
@@ -66,7 +66,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
 
 const val MAX_POSSIBLE_SPELL_LEVEL = 9
-const val ROTATION_SPELL_TYPE = 45f
 
 @Composable
 fun SpellDetailsScreen(component: SpellDetailsComponent) {
@@ -172,6 +171,7 @@ private fun SpellDetailsScreenStateful(
             ClassesList(
                 lazyListState = lazyClassesListState,
                 charClasses = charClasses,
+                schoolColor = schoolColor,
                 onClassClick = { onObtainEvent(SpellDetailsComponent.Event.OnClassClick) }
             )
         }
@@ -179,6 +179,7 @@ private fun SpellDetailsScreenStateful(
             SubclassesList(
                 lazyListState = lazySubclassesListState,
                 subclasses = subclasses,
+                schoolColor = schoolColor,
                 onSubclassClick = { onObtainEvent(SpellDetailsComponent.Event.OnSubclassClick) }
             )
         }
@@ -190,6 +191,7 @@ private fun SpellDetailsScreenStateful(
         SpellDescription(
             description = description,
         )
+        Spacer(Modifier.size(16.dp))
     }
 }
 
@@ -206,7 +208,7 @@ private fun SpellToolBar(
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
         navigationIcon = {
             IconButton(
-                onClick = { onBackClick() }
+                onClick = onBackClick,
             ) {
                 Icon(
                     imageVector = VeldIcons.backArrow,
@@ -241,6 +243,7 @@ private fun SpellDetailsHeader(
         Spacer(Modifier.height(16.dp))
         SpellLevelCircle(
             modifier = headerModifier,
+            schoolColor = schoolColor,
             level = level,
         )
     }
@@ -300,6 +303,7 @@ private fun MagicSchoolHeader(
 @Composable
 private fun SpellLevelCircle(
     modifier: Modifier = Modifier,
+    schoolColor: Color,
     level: Int,
 ) {
     Row(
@@ -313,9 +317,9 @@ private fun SpellLevelCircle(
                     .size(18.dp)
                     .background(
                         if (currentLevelIndex < level) {
-                            colors.necromancySpell
+                            schoolColor
                         } else {
-                            colors.necromancySpell.copy(alpha = 0.2f)
+                            schoolColor.copy(alpha = 0.2f)
                         },
                         CircleShape
                     )
@@ -328,9 +332,10 @@ private fun SpellLevelCircle(
 private fun ClassesList(
     lazyListState: LazyListState,
     charClasses: ImmutableList<CharacterClassPresentationModel>,
+    schoolColor: Color,
     onClassClick: () -> Unit,
 ) {
-    HeadedBlock(headerText = "Classes") {
+    HeadedBlock(headerText = DesignStrings.spell_details_classes_header) {
         VeldClassesLazyRow(
             lazyRowListState = lazyListState,
             charClasses = charClasses,
@@ -338,6 +343,7 @@ private fun ClassesList(
             ClassItem(
                 className = classItem.name,
                 onClassClick = onClassClick,
+                schoolColor = schoolColor,
             )
         }
     }
@@ -347,9 +353,10 @@ private fun ClassesList(
 private fun SubclassesList(
     lazyListState: LazyListState,
     subclasses: ImmutableList<CharacterSubclassPresentationModel>,
+    schoolColor: Color,
     onSubclassClick: () -> Unit,
 ) {
-    HeadedBlock(headerText = "Subclasses") {
+    HeadedBlock(headerText = DesignStrings.spell_details_subclasses_header) {
         VeldClassesLazyRow(
             lazyRowListState = lazyListState,
             charClasses = subclasses,
@@ -357,6 +364,7 @@ private fun SubclassesList(
             ClassItem(
                 className = subclassItem.name,
                 onClassClick = onSubclassClick,
+                schoolColor = schoolColor,
             )
         }
     }
@@ -365,6 +373,7 @@ private fun SubclassesList(
 @Composable
 private fun ClassItem(
     modifier: Modifier = Modifier,
+    schoolColor: Color,
     className: String,
     onClassClick: () -> Unit,
 ) {
@@ -373,12 +382,6 @@ private fun ClassItem(
             .clip(shape = RoundedCornerShape(12.dp))
             .semantics(mergeDescendants = true) { }
             .clickable(enabled = true, onClick = onClassClick),
-        leadingContent = {
-            Icon(
-                imageVector = Icons.Default.Build,
-                contentDescription = null,
-            )
-        },
         headlineContent = {
             Text(
                 text = className,
@@ -387,7 +390,7 @@ private fun ClassItem(
             )
         },
         colors = ListItemDefaults.colors(
-            containerColor = Color(0xFF717ED4)
+            containerColor = schoolColor
         )
     )
 }
@@ -398,7 +401,7 @@ private fun SpellComponentsBlock(
     schoolColor: Color,
     materials: String,
 ) {
-    HeadedBlock(headerText = "Сomponents") {
+    HeadedBlock(headerText = DesignStrings.spell_details_components_header) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -418,6 +421,7 @@ private fun SpellComponentsBlock(
                     fontSize = 18.sp,
                     textAlign = TextAlign.Center,
                 )
+                Spacer(modifier = Modifier.width(4.dp))
             }
         }
         Spacer(Modifier.height(8.dp))
@@ -430,7 +434,7 @@ private fun SpellComponentsBlock(
 
 @Composable
 private fun SpellDescription(description: String) {
-    HeadedBlock(headerText = "Description") {
+    HeadedBlock(headerText = DesignStrings.spell_details_description_header) {
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = description,

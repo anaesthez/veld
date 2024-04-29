@@ -48,17 +48,18 @@ import com.arkivanov.decompose.extensions.compose.pages.Pages
 import com.arkivanov.decompose.extensions.compose.pages.PagesScrollAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.nesterov.veld.common_ui.VieldSearchBar
+import com.nesterov.veld.design_system.strings.DesignStrings
 import com.nesterov.veld.design_system.theme.VeldTheme.colors
-import ru.nesterov.veld.hub.model.Page
-import ru.nesterov.veld.hub.model.SelectablePageUiModel
-import ru.nesterov.veld.hub.utils.imgByPage
-import ru.nesterov.veld.hub.utils.resByPage
 import com.nesterov.veld.ui.BackstoryScreen
 import com.nesterov.veld.ui.ClassesScreen
 import com.nesterov.veld.ui.ItemScreen
 import com.nesterov.veld.ui.RaceScreen
 import com.nesterov.veld.ui.SpellScreen
 import kotlinx.collections.immutable.ImmutableList
+import ru.nesterov.veld.hub.model.Page
+import ru.nesterov.veld.hub.model.SelectablePageUiModel
+import ru.nesterov.veld.hub.utils.imgByPage
+import ru.nesterov.veld.hub.utils.resByPage
 
 @OptIn(ExperimentalDecomposeApi::class, ExperimentalFoundationApi::class)
 @Composable
@@ -84,13 +85,17 @@ fun HubRootScreen(component: HubRootComponent) {
         Spacer(Modifier.height(24.dp))
         Column {
             HubHeaderTitle(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
             )
             Spacer(Modifier.size(16.dp))
             HubSearchBar(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp),
                 query = state.query,
-                placeholderText = "A spell, feature or race...",
+                placeholderText = DesignStrings.hub_search_bar_placeholder,
                 onQueryChange = {
                     onObtainEvent(HubRootComponent.Event.OnInputQuery(it))
                 },
@@ -112,7 +117,6 @@ fun HubRootScreen(component: HubRootComponent) {
         )
         Spacer(Modifier.size(8.dp))
         HorizontalDivider(color = colors.materialColors.surfaceVariant)
-        Spacer(Modifier.size(8.dp))
         Pages(
             pages = component.pages,
             onPageSelected = {
@@ -151,7 +155,7 @@ private fun HubHeaderTitle(modifier: Modifier = Modifier) {
         Spacer(Modifier.size(24.dp))
         Text(
             modifier = modifier,
-            text = "What are you searching for,",
+            text = DesignStrings.hub_header_first_text,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.SemiBold,
             fontSize = 25.sp,
@@ -160,7 +164,7 @@ private fun HubHeaderTitle(modifier: Modifier = Modifier) {
         Spacer(Modifier.size(12.dp))
         Text(
             modifier = modifier,
-            text = "adventurer?",
+            text = DesignStrings.hub_header_second_text,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.SemiBold,
             fontSize = 25.sp,

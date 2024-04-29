@@ -1,9 +1,11 @@
 package ru.nesterov.veld.root
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.ChildStack
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
+import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
@@ -11,9 +13,9 @@ import com.nesterov.veld.common.base.BaseComponent
 import com.nesterov.veld.di.graph.AppDependenciesGraph
 import com.nesterov.veld.presentation.SpellDetailsComponent
 import com.nesterov.veld.presentation.SpellDetailsComponentImpl
+import kotlinx.serialization.Serializable
 import ru.nesterov.veld.hub.HubRootComponent
 import ru.nesterov.veld.hub.HubRootComponentImpl
-import kotlinx.serialization.Serializable
 
 interface RootComponent{
     val childStack: Value<ChildStack<*, Child>>
@@ -60,11 +62,12 @@ class RootComponentImpl(
                     storeFactory = storeFactory,
                     dependencies = appDependenciesGraph.spellDetailsDependencies,
                     spellIndex = configuration.spellIndex,
-                    onAction = ::onSpellDetailsAction,
+                    action = ::onSpellDetailsAction,
                 )
             )
         }
 
+    @OptIn(ExperimentalDecomposeApi::class)
     private fun onHubAction(action: HubRootComponent.Action) =
         when(action) {
             is HubRootComponent.Action.NavigateSpellDetails -> {
@@ -75,7 +78,7 @@ class RootComponentImpl(
     private fun onSpellDetailsAction(action: SpellDetailsComponent.Action) =
         when(action) {
             is SpellDetailsComponent.Action.NavigateBack -> {
-
+                navigation.pop()
             }
         }
 

@@ -40,88 +40,107 @@ internal fun DamageStatBlock(
     damageType: String,
     areaType: AreaType,
 ) {
-    Row(
+    Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        DamagePerSlot(
-            modifier = Modifier.weight(1f),
+        DamageHeaders(
+            modifier = Modifier.fillMaxWidth(),
             areaTypeTitle = areaTypeTitle,
-            damageSlots = damageSlots,
             damageType = damageType,
-            schoolColor = schoolColor,
         )
-        if (areaTypeTitle.isNotEmpty()) {
-            EffectArea(
-                modifier = Modifier.weight(1f),
-                rangeDistance = rangeDistance,
-                areaType = areaType,
-            )
-        }
+        DamageStats(
+            modifier = Modifier.fillMaxWidth(),
+            hasRange = areaTypeTitle.isNotBlank(),
+            rangeDistance = rangeDistance,
+            damageSlots = damageSlots,
+            schoolColor = schoolColor,
+            areaType = areaType,
+        )
     }
 }
 
 @Composable
-internal fun DamagePerSlot(
+internal fun DamageHeaders(
     modifier: Modifier = Modifier,
     areaTypeTitle: String,
-    schoolColor: Color,
     damageType: String,
-    damageSlots: ImmutableMap<SlotType, String>,
 ) {
-    Column(modifier) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.Bottom,
-        ) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.Bottom,
+    ) {
+        Row {
             Text(
                 text = damageType,
                 fontWeight = FontWeight.SemiBold,
+                color = colors.textColorTertiary,
                 fontSize = 24.sp,
             )
+            Spacer(modifier = Modifier.width(4.dp))
             Text(
+                modifier = Modifier.align(Alignment.Bottom),
                 text = DesignStrings.spell_details_damage_text,
                 fontWeight = FontWeight.SemiBold,
             )
-            Text(
-                text = areaTypeTitle,
-                fontWeight = FontWeight.SemiBold,
-            )
         }
-        Spacer(modifier = Modifier.size(8.dp))
-        damageSlots.forEach { slot ->
-            DamageSlot(
-                damagePerSlot = slot.value,
-                slotType = slot.key.getDamageByType(),
-                schoolColor = schoolColor,
-            )
-            Spacer(modifier = Modifier.size(8.dp))
-        }
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .align(Alignment.Bottom)
+                .padding(end = 24.dp),
+            textAlign = TextAlign.Center,
+            text = areaTypeTitle,
+            fontWeight = FontWeight.SemiBold,
+        )
     }
 }
+
 @Composable
-internal fun EffectArea(
+internal fun DamageStats(
     modifier: Modifier = Modifier,
+    damageSlots: ImmutableMap<SlotType, String>,
+    hasRange: Boolean,
+    schoolColor: Color,
     areaType: AreaType,
     rangeDistance: String,
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        Spacer(Modifier.height(32.dp))
-        Image(
-            modifier = Modifier.size(90.dp),
-            painter = painterResource(areaType.getAreaImageRes()),
-            contentDescription = null,
-        )
-        Text(
-            text = rangeDistance,
-            fontWeight = FontWeight.SemiBold,
-            textAlign = TextAlign.Center,
-            fontSize = 18.sp,
-        )
+        Column {
+            Spacer(modifier = Modifier.size(8.dp))
+            damageSlots.forEach { slot ->
+                DamageSlot(
+                    damagePerSlot = slot.value,
+                    slotType = slot.key.getDamageByType(),
+                    schoolColor = schoolColor,
+                )
+                Spacer(modifier = Modifier.size(8.dp))
+            }
+        }
+        if (hasRange) {
+            Column(
+                modifier = modifier,
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Spacer(Modifier.height(32.dp))
+                Image(
+                    modifier = Modifier.size(90.dp),
+                    painter = painterResource(areaType.getAreaImageRes()),
+                    contentDescription = null,
+                )
+                Text(
+                    text = rangeDistance,
+                    fontWeight = FontWeight.SemiBold,
+                    textAlign = TextAlign.Center,
+                    fontSize = 18.sp,
+                )
+            }
+        }
     }
 }
 
