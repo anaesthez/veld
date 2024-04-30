@@ -91,8 +91,8 @@ kotlin {
             implementation(project(":feature:classes:presentation"))
             implementation(project(":feature:classes:ui"))
 
-            implementation(project(":feature:class-details:presentation"))
-            implementation(project(":feature:class-details:ui"))
+            implementation(project(":feature:classes-details:presentation"))
+            implementation(project(":feature:classes-details:ui"))
 
             implementation(project(":feature:race:presentation"))
             implementation(project(":feature:race:ui"))

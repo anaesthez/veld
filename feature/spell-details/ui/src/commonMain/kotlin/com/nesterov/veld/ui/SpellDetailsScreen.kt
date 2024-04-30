@@ -45,7 +45,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.nesterov.veld.design_system.strings.DesignStrings
 import com.nesterov.veld.design_system.theme.VeldIcons
 import com.nesterov.veld.design_system.theme.VeldTheme.colors
 import com.nesterov.veld.design_system.ui.VeldClassesLazyRow
@@ -61,6 +60,7 @@ import com.nesterov.veld.presentation.model.utils.SlotType
 import com.nesterov.veld.presentation.model.utils.StatType
 import com.nesterov.veld.ui.blocks.DamageStatBlock
 import com.nesterov.veld.ui.blocks.SpellStatBlock
+import com.nesterov.veld.сore.design_system.strings.DesignStrings
 import io.github.skeptick.libres.compose.painterResource
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap

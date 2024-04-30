@@ -2,10 +2,16 @@ package ru.nesterov.veld.hub.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
-import com.nesterov.veld.design_system.Design
-import ru.nesterov.veld.hub.model.Page
-import ru.nesterov.veld.hub.model.Page.*
+import com.nesterov.veld.сore.design_system.Design
 import io.github.skeptick.libres.compose.painterResource
+import ru.nesterov.veld.hub.model.Page
+import ru.nesterov.veld.hub.model.Page.BACKSTORY
+import ru.nesterov.veld.hub.model.Page.BESTIARY
+import ru.nesterov.veld.hub.model.Page.ClASSES
+import ru.nesterov.veld.hub.model.Page.ITEM
+import ru.nesterov.veld.hub.model.Page.RACE
+import ru.nesterov.veld.hub.model.Page.SPELL
+import ru.nesterov.veld.hub.model.Page.TRAIT
 
 fun Page.resByPage(): String = when(this) {
     ClASSES -> Design.string.hub_page_classes_text

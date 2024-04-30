@@ -51,9 +51,9 @@ kotlin {
             implementation(project(":feature:spell-details:domain"))
             implementation(project(":feature:spell-details:presentation"))
 
-            implementation(project(":feature:class-details:data"))
-            implementation(project(":feature:class-details:domain"))
-            implementation(project(":feature:class-details:presentation"))
+            implementation(project(":feature:classes-details:data"))
+            implementation(project(":feature:classes-details:domain"))
+            implementation(project(":feature:classes-details:presentation"))
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)

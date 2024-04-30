@@ -23,11 +23,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.nesterov.veld.design_system.strings.DesignStrings
 import com.nesterov.veld.design_system.theme.VeldTheme.colors
 import com.nesterov.veld.presentation.model.utils.AreaType
 import com.nesterov.veld.presentation.model.utils.SlotType
 import com.nesterov.veld.ui.getAreaImageRes
+import com.nesterov.veld.сore.design_system.strings.DesignStrings
 import io.github.skeptick.libres.compose.painterResource
 import kotlinx.collections.immutable.ImmutableMap
 

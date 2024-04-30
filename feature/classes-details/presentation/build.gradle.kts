@@ -25,23 +25,33 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "FeatureClassDetailsData"
+            baseName = "FeatureClassDetailsPresentation"
             isStatic = true
         }
     }
 
     sourceSets {
         commonMain.dependencies {
+            with(libs) {
+                implementation(kotlinx.coroutines.core)
+                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
+                implementation(decompose.extensions)
+                api(decompose)
+                api(lifecycle)
+            }
+            with(libs.mvi) {
+                implementation(core)
+                implementation(main)
+                implementation(coroutines)
+            }
+            implementation(project(":feature:classes-details:domain"))
             implementation(project(":core:common"))
-            implementation(project(":core:helpers"))
-            implementation(project(":datasource:api:network"))
-            implementation(project(":feature:class-details:domain"))
         }
     }
 }
 
 android {
-    namespace = "ru.nesterov.veld.feature.class.details.data"
+    namespace = "ru.nesterov.veld.feature.classes_details.ui"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

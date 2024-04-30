@@ -45,14 +45,14 @@ kotlin {
                 implementation(decompose.extensions)
                 implementation(libres)
             }
-            implementation(project(":feature:class-details:presentation"))
+            implementation(project(":feature:classes-details:presentation"))
             implementation(project(":core:design-system"))
         }
     }
 }
 
 android {
-    namespace = "ru.nesterov.veld.feature.class.details.ui"
+    namespace = "ru.nesterov.veld.feature.classes_details.ui"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

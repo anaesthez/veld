@@ -48,13 +48,13 @@ import com.arkivanov.decompose.extensions.compose.pages.Pages
 import com.arkivanov.decompose.extensions.compose.pages.PagesScrollAnimation
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.nesterov.veld.common_ui.VieldSearchBar
-import com.nesterov.veld.design_system.strings.DesignStrings
 import com.nesterov.veld.design_system.theme.VeldTheme.colors
 import com.nesterov.veld.ui.BackstoryScreen
 import com.nesterov.veld.ui.ClassesScreen
 import com.nesterov.veld.ui.ItemScreen
 import com.nesterov.veld.ui.RaceScreen
 import com.nesterov.veld.ui.SpellScreen
+import com.nesterov.veld.сore.design_system.strings.DesignStrings
 import kotlinx.collections.immutable.ImmutableList
 import ru.nesterov.veld.hub.model.Page
 import ru.nesterov.veld.hub.model.SelectablePageUiModel

@@ -11,12 +11,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.nesterov.veld.design_system.images.DesignImages
-import com.nesterov.veld.design_system.strings.DesignStrings
 import com.nesterov.veld.design_system.theme.VeldTheme.colors
 import com.nesterov.veld.presentation.model.utils.AreaType
 import com.nesterov.veld.presentation.model.utils.MagicSchool
 import com.nesterov.veld.presentation.model.utils.StatType
+import com.nesterov.veld.сore.design_system.images.DesignImages
+import com.nesterov.veld.сore.design_system.strings.DesignStrings
 import io.github.skeptick.libres.images.Image
 
 const val TRANSPARENCY_ALPHA = 0.2f

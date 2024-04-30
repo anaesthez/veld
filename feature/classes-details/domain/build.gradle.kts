@@ -38,7 +38,7 @@ kotlin {
 }
 
 android {
-    namespace = "ru.nesterov.veld.feature.class.details.domain"
+    namespace = "ru.nesterov.veld.feature.classes_details.domain"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
