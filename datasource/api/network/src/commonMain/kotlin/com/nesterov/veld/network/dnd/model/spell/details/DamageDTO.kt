@@ -1,4 +1,4 @@
-package com.nesterov.veld.network.dnd.model.details
+package com.nesterov.veld.network.dnd.model.spell.details
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

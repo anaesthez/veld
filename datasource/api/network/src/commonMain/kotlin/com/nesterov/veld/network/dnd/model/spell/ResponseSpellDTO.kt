@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 class ResponseSpellDTO(
     @SerialName("count") val count: Int,
-    @SerialName("results") val results: List<SpellDTO>,
+    @SerialName("results") val results: List<ReferenceOptionDTO>,
 )

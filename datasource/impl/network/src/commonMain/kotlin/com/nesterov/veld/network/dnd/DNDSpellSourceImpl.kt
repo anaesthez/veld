@@ -3,13 +3,12 @@ package com.nesterov.veld.network.dnd
 import com.nesterov.veld.common.RequestResult
 import com.nesterov.veld.network.dnd.config.HttpClientConfig
 import com.nesterov.veld.network.dnd.config.HttpRequestWrapper
-import com.nesterov.veld.network.dnd.model.details.SpellDetailsDTO
+import com.nesterov.veld.network.dnd.model.spell.ReferenceOptionDTO
 import com.nesterov.veld.network.dnd.model.spell.ResponseSpellDTO
-import com.nesterov.veld.network.dnd.model.spell.SpellDTO
+import com.nesterov.veld.network.dnd.model.spell.details.SpellDetailsDTO
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.url
-import io.ktor.client.statement.bodyAsText
 
 class DNDSpellSourceImpl(
     private val dependencies: DNDSpellSource.Dependencies,
@@ -17,7 +16,7 @@ class DNDSpellSourceImpl(
     HttpClientConfig by dependencies.config,
     HttpRequestWrapper by dependencies.wrapper {
 
-    override suspend fun fetchSpellList(): RequestResult<List<SpellDTO>> =
+    override suspend fun fetchSpellList(): RequestResult<List<ReferenceOptionDTO>> =
         wrapHttpExceptions {
             return@wrapHttpExceptions client.get {
                 url(HttpRoutes.SPELLS)

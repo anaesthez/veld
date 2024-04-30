@@ -6,7 +6,7 @@ import com.nesterov.veld.domain.model.DamageTypeDomainModel
 import com.nesterov.veld.domain.model.SpellDetailsDomainModel
 import com.nesterov.veld.helpers.orFalse
 import com.nesterov.veld.helpers.orZero
-import com.nesterov.veld.network.dnd.model.details.SpellDetailsDTO
+import com.nesterov.veld.network.dnd.model.spell.details.SpellDetailsDTO
 
 fun SpellDetailsDTO.toSpellDomainModel(): SpellDetailsDomainModel =
     SpellDetailsDomainModel(

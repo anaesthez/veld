@@ -1,5 +1,6 @@
-package com.nesterov.veld.network.dnd.model.details
+package com.nesterov.veld.network.dnd.model.spell.details
 
+import com.nesterov.veld.network.dnd.model.spell.ReferenceOptionDTO
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -21,7 +22,7 @@ class SpellDetailsDTO(
     @SerialName("components") val components: List<String>? = null,
     @SerialName("damage") val damage: DamageDTO? = null,
     @SerialName("area_of_effect") val effectArea: EffectAreaDTO? = null,
-    @SerialName("school") val school: SchoolDTO? = null,
-    @SerialName("classes") val charClasses: List<ClassDTO?>? = null,
-    @SerialName("subclasses") val subclasses: List<SubclassDTO?>? = null,
+    @SerialName("school") val school: ReferenceOptionDTO? = null,
+    @SerialName("classes") val charClasses: List<ReferenceOptionDTO?>? = null,
+    @SerialName("subclasses") val subclasses: List<ReferenceOptionDTO?>? = null,
 )

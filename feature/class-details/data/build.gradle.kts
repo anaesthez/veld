@@ -34,6 +34,7 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":core:common"))
             implementation(project(":datasource:api:network"))
+            implementation(project(":feature:class-details:domain"))
         }
     }
 }
