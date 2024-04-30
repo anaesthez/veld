@@ -5,6 +5,6 @@ import com.nesterov.veld.domain.ClassDetailsRepository
 import com.nesterov.veld.domain.model.CharacterClassDetailsDomainModel
 
 class FetchClassDetailsUseCase(private val repository: ClassDetailsRepository) {
-    operator fun invoke(): RequestResult<CharacterClassDetailsDomainModel> =
-        repository.fetchSpellDetails()
+    suspend operator fun invoke(index: String): RequestResult<CharacterClassDetailsDomainModel> =
+        repository.fetchClassDetails(index)
 }

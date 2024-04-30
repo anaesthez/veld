@@ -2,6 +2,7 @@ package com.nesterov.veld.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridState
@@ -17,7 +18,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.nesterov.veld.design_system.theme.VeldTheme.colors
 import com.nesterov.veld.model.CharacterClassPresentationModel
@@ -68,7 +72,12 @@ private fun CharClassItem(
             .clip(RoundedCornerShape(16.dp)),
         headlineContent = {
             Text(
+                modifier = Modifier.fillMaxWidth(),
                 text = charClassName,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Medium,
+                fontSize = 14.sp,
+                maxLines = 1,
                 color = colors.textColorPrimary,
             )
         },

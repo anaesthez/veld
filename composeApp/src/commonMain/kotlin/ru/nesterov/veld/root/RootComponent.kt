@@ -11,6 +11,8 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.nesterov.veld.common.base.BaseComponent
 import com.nesterov.veld.di.graph.AppDependenciesGraph
+import com.nesterov.veld.presentation.ClassDetailsComponent
+import com.nesterov.veld.presentation.ClassDetailsComponentImpl
 import com.nesterov.veld.presentation.SpellDetailsComponent
 import com.nesterov.veld.presentation.SpellDetailsComponentImpl
 import kotlinx.serialization.Serializable
@@ -23,6 +25,7 @@ interface RootComponent{
     sealed interface Child {
         data class Hub(val component: HubRootComponent): Child
         data class SpellDetails(val component: SpellDetailsComponent): Child
+        data class ClassDetails(val component: ClassDetailsComponent) : Child
     }
 }
 
@@ -65,6 +68,15 @@ class RootComponentImpl(
                     action = ::onSpellDetailsAction,
                 )
             )
+
+            is Configuration.ClassDetails -> RootComponent.Child.ClassDetails(
+                ClassDetailsComponentImpl(
+                    componentContext = componentContext,
+                    storeFactory = storeFactory,
+                    index = configuration.classIndex,
+                    classDetailsDependencies = appDependenciesGraph.classDetailsDependencies,
+                )
+            )
         }
 
     @OptIn(ExperimentalDecomposeApi::class)
@@ -83,8 +95,12 @@ class RootComponentImpl(
         }
 
     @Serializable
-    sealed class Configuration {
-        @Serializable data object Hub : Configuration()
-        @Serializable data class SpellDetails(val spellIndex: String) : Configuration()
+    private sealed interface Configuration {
+        @Serializable
+        data object Hub : Configuration
+        @Serializable
+        data class SpellDetails(val spellIndex: String) : Configuration
+        @Serializable
+        data class ClassDetails(val classIndex: String) : Configuration
     }
 }

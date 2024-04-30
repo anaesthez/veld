@@ -20,6 +20,6 @@ class FromOptionDTO(
 
 @Serializable
 class OptionDTO(
-    @SerialName("option_type") val optionType: String? = null,
-    @SerialName("item") val item: ReferenceOptionDTO? = null,
+    @SerialName("option_type") val optionType: String,
+    @SerialName("item") val item: ReferenceOptionDTO,
 )

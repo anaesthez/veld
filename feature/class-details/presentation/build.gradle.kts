@@ -33,16 +33,16 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             with(libs) {
+                implementation(kotlinx.coroutines.core)
                 implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
                 implementation(decompose.extensions)
-                implementation(badoo.reaktive)
                 api(decompose)
                 api(lifecycle)
             }
             with(libs.mvi) {
                 implementation(core)
                 implementation(main)
-                implementation(reaktive)
+                implementation(coroutines)
             }
             implementation(project(":feature:class-details:domain"))
             implementation(project(":core:common"))

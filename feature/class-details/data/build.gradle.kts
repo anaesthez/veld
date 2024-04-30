@@ -33,6 +33,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:common"))
+            implementation(project(":core:helpers"))
             implementation(project(":datasource:api:network"))
             implementation(project(":feature:class-details:domain"))
         }

@@ -13,5 +13,5 @@ class MulticlassDTO(
 @Serializable
 class PrerequisitesDTO(
     @SerialName("ability_score") val abilityScore: ReferenceOptionDTO? = null,
-    @SerialName("minimum_score") val minimumScore: String? = null,
+    @SerialName("minimum_score") val minimumScore: Int? = null,
 )

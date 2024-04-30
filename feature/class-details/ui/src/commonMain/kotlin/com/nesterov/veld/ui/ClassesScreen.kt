@@ -6,20 +6,18 @@ import androidx.compose.runtime.getValue
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.nesterov.veld.presentation.ClassDetailsComponent
 
-private const val GRID_CELLS = 2
-
 @Composable
-fun ClassesScreen(component: ClassDetailsComponent) {
+fun ClassDetailsScreen(component: ClassDetailsComponent) {
     val state by component.state.subscribeAsState()
     val lazyGridState = rememberLazyGridState()
 
-    ClassesScreenStateful(
+    ClassDetailsScreenStateful(
 
     )
 }
 
 @Composable
-private fun ClassesScreenStateful(
+private fun ClassDetailsScreenStateful(
 
 ) {
 

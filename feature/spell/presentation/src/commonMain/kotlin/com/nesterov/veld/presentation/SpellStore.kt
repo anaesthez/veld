@@ -15,6 +15,14 @@ interface SpellStore : Store<SpellStore.Intent, SpellStore.State, SpellStore.Lab
         val screenState: ScreenState,
     )
 
+    sealed interface Action {
+        data object FetchSpellListFailure : Action
+        data object FetchSpellListLoading : Action
+        data class FetchSpellListSuccess(val spellList: ImmutableList<SpellPresentationModel>) :
+            Action
+    }
+
+
     sealed interface ScreenState {
         data object Loading: ScreenState
         data object Failure: ScreenState

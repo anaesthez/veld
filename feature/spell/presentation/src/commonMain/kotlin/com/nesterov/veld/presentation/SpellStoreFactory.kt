@@ -34,9 +34,15 @@ class SpellStoreFactory(
                 loadSpellList()
             },
             executorFactory = coroutineExecutorFactory {
-                onAction<Action.FetchSpellListFailure> { dispatch(Msg.FetchSpellListFailure) }
-                onAction<Action.FetchSpellListLoading> { dispatch(Msg.FetchSpellListLoading) }
-                onAction<Action.FetchSpellListSuccess> { dispatch(Msg.FetchSpellListSuccess(spellList = it.spellList)) }
+                onAction<SpellStore.Action.FetchSpellListFailure> { dispatch(Msg.FetchSpellListFailure) }
+                onAction<SpellStore.Action.FetchSpellListLoading> { dispatch(Msg.FetchSpellListLoading) }
+                onAction<SpellStore.Action.FetchSpellListSuccess> {
+                    dispatch(
+                        Msg.FetchSpellListSuccess(
+                            spellList = it.spellList
+                        )
+                    )
+                }
                 onIntent<SpellStore.Intent.SearchSpell> {
                     when {
                         it.query.isBlank() && ReducerImpl.backupSpellList == null -> {
@@ -61,7 +67,7 @@ class SpellStoreFactory(
         ) { }
 
     private var loadSpellList: Job? = null
-    private fun CoroutineBootstrapperScope<Action>.loadSpellList() {
+    private fun CoroutineBootstrapperScope<SpellStore.Action>.loadSpellList() {
         if (loadSpellList?.isActive == true) return
 
         loadSpellList = launch {
@@ -69,20 +75,20 @@ class SpellStoreFactory(
                 when (val result = fetchSpellListUseCase().status) {
                     is ResultHolder.Error -> {
                         withContext(dispatcher.mainDispatcher) {
-                            dispatch(Action.FetchSpellListFailure)
+                            dispatch(SpellStore.Action.FetchSpellListFailure)
                         }
                     }
 
                     is ResultHolder.Loading -> {
                         withContext(dispatcher.mainDispatcher) {
-                            dispatch(Action.FetchSpellListLoading)
+                            dispatch(SpellStore.Action.FetchSpellListLoading)
                         }
                     }
 
                     is ResultHolder.Success -> {
                         withContext(dispatcher.mainDispatcher) {
                             dispatch(
-                                Action.FetchSpellListSuccess(spellList = result.data.toSpellPresentationModel())
+                                SpellStore.Action.FetchSpellListSuccess(spellList = result.data.toSpellPresentationModel())
                             )
                         }
                     }
@@ -122,12 +128,6 @@ class SpellStoreFactory(
                 }
             }
         }
-    }
-
-    private sealed interface Action {
-        data object FetchSpellListFailure: Action
-        data object FetchSpellListLoading: Action
-        data class FetchSpellListSuccess(val spellList: ImmutableList<SpellPresentationModel>): Action
     }
 
     private sealed interface Msg {

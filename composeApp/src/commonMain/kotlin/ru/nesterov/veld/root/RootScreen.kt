@@ -2,6 +2,7 @@ package ru.nesterov.veld.root
 
 import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.extensions.compose.stack.Children
+import com.nesterov.veld.ui.ClassDetailsScreen
 import com.nesterov.veld.ui.SpellDetailsScreen
 import ru.nesterov.veld.hub.HubRootScreen
 
@@ -13,6 +14,7 @@ fun RootScreen(component: RootComponent) {
             when (val child = it.instance) {
                 is RootComponent.Child.Hub -> HubRootScreen(component = child.component)
                 is RootComponent.Child.SpellDetails -> SpellDetailsScreen(component = child.component)
+                is RootComponent.Child.ClassDetails -> ClassDetailsScreen(component = child.component)
             }
         }
     )
