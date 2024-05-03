@@ -1,7 +1,6 @@
 package com.nesterov.veld.presentation.model.utils
 
-
-enum class MagicSchool {
+enum class MagicSchoolType {
     ABJURATION,
     CONJURATION,
     DIVINATION,

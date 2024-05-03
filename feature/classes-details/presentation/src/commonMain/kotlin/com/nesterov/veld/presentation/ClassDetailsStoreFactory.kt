@@ -32,9 +32,15 @@ class ClassDetailsStoreFactory(
                     loadClassDetails(index = index)
                 },
                 executorFactory = coroutineExecutorFactory {
-                    onAction<ClassDetailsStore.Action.FetchClassDetailsLoading> { }
-                    onAction<ClassDetailsStore.Action.FetchClassDetailsFailure> { }
-                    onAction<ClassDetailsStore.Action.FetchClassDetailsSuccess> { }
+                    onAction<ClassDetailsStore.Action.FetchClassDetailsLoading> { dispatch(Msg.FetchClassDetailsLoading) }
+                    onAction<ClassDetailsStore.Action.FetchClassDetailsFailure> { dispatch(Msg.FetchClassDetailsFailure) }
+                    onAction<ClassDetailsStore.Action.FetchClassDetailsSuccess> {
+                        dispatch(
+                            Msg.FetchClassDetailsSuccess(
+                                it.details
+                            )
+                        )
+                    }
                 },
                 reducer = ReducerImpl
             ) {}

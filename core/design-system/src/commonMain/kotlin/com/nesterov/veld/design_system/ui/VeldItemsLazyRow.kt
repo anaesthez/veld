@@ -6,16 +6,17 @@ import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
-fun <T> VeldClassesLazyRow(
+fun <T> VeldItemsLazyRow(
     modifier: Modifier = Modifier,
-    charClasses: ImmutableList<T>,
-    lazyRowListState: LazyListState,
+    itemsList: ImmutableList<T>,
+    lazyRowListState: LazyListState = rememberLazyListState(),
     items: @Composable LazyItemScope.(T) -> Unit,
 ) {
     LazyRow(
@@ -24,7 +25,7 @@ fun <T> VeldClassesLazyRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         state = lazyRowListState,
     ){
-        items(charClasses) {
+        items(itemsList) {
             items(it)
         }
     }

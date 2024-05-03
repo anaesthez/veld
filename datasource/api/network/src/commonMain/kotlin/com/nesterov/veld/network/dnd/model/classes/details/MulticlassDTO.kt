@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class MulticlassDTO(
-    @SerialName("prerequisites") val prerequisites: PrerequisitesDTO? = null,
+    @SerialName("prerequisites") val prerequisites: List<PrerequisitesDTO>? = null,
     @SerialName("proficiencies") val proficiencies: List<ReferenceOptionDTO>? = null,
 )
 

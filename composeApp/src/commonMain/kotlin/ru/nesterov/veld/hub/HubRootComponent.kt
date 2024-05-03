@@ -57,6 +57,7 @@ interface HubRootComponent {
 
     sealed interface Action {
         data class NavigateSpellDetails(val spellIndex: String): Action
+        data class NavigateClassDetails(val classIndex: String) : Action
     }
 }
 
@@ -87,6 +88,7 @@ class HubRootComponentImpl(
                 ClassesComponentImpl(
                     componentContext = ctx,
                     storeFactory = storeFactory,
+                    action = ::onClassesAction
                 )
             )
 
@@ -95,7 +97,7 @@ class HubRootComponentImpl(
                     componentContext = ctx,
                     storeFactory = storeFactory,
                     dependencies = appDependenciesGraph.spellDependencies,
-                    onAction = ::onSpellAction,
+                    action = ::onSpellAction,
                 )
             )
 
@@ -125,6 +127,13 @@ class HubRootComponentImpl(
         when (action) {
             is SpellComponent.Action.NavigateSpellDetails -> onAction(
                 HubRootComponent.Action.NavigateSpellDetails(action.index)
+            )
+        }
+
+    private fun onClassesAction(action: ClassesComponent.Action) =
+        when (action) {
+            is ClassesComponent.Action.NavigateClassDetails -> onAction(
+                HubRootComponent.Action.NavigateClassDetails(action.index)
             )
         }
 

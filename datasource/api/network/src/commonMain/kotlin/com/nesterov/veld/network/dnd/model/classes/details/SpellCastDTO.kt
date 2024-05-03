@@ -15,5 +15,5 @@ class SpellCastDTO(
 @Serializable
 class SpellCastInfoDTO(
     @SerialName("name") val name: String? = null,
-    @SerialName("desc") val desc: String? = null,
+    @SerialName("desc") val desc: List<String>? = null,
 )

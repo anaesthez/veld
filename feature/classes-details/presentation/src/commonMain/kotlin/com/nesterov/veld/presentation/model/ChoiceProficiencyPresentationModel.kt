@@ -1,6 +1,6 @@
 package com.nesterov.veld.presentation.model
 
-class ChoiceProficiencyPresentationModel(
-    val title: String,
-    val index: String,
+data class ChoiceProficiencyPresentationModel(
+    val description: String,
+    val options: List<ProficiencyOptionPresentationModel>,
 )

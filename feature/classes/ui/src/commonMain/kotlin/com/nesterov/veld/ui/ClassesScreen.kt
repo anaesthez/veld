@@ -1,5 +1,6 @@
 package com.nesterov.veld.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +16,7 @@ import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -35,9 +37,16 @@ fun ClassesScreen(component: ClassesComponent) {
     val state by component.state.subscribeAsState()
     val lazyGridState = rememberLazyGridState()
 
+    val onObtainEvent: (ClassesComponent.Event) -> Unit = remember {
+        { event ->
+            component.onObtainEvent(event)
+        }
+    }
+
     ClassesScreenStateful(
         charClassesList = state.charClassesList,
         lazyGridState = lazyGridState,
+        onObtainEvent = onObtainEvent,
     )
 }
 
@@ -45,6 +54,7 @@ fun ClassesScreen(component: ClassesComponent) {
 private fun ClassesScreenStateful(
     charClassesList: ImmutableList<CharacterClassPresentationModel>,
     lazyGridState: LazyGridState,
+    onObtainEvent: (ClassesComponent.Event) -> Unit,
 ) {
     LazyVerticalGrid(
         modifier = Modifier
@@ -57,6 +67,9 @@ private fun ClassesScreenStateful(
         items(charClassesList) { charClass ->
             CharClassItem(
                 charClassName = charClass.name,
+                onClassClick = {
+                    onObtainEvent(ClassesComponent.Event.OnClassClick(charClass.char.index))
+                }
             )
         }
     }
@@ -64,12 +77,14 @@ private fun ClassesScreenStateful(
 
 @Composable
 private fun CharClassItem(
-    charClassName: String
+    charClassName: String,
+    onClassClick: () -> Unit,
 ) {
     ListItem(
         modifier = Modifier
             .padding(vertical = 8.dp)
-            .clip(RoundedCornerShape(16.dp)),
+            .clip(RoundedCornerShape(16.dp))
+            .clickable(onClick = onClassClick),
         headlineContent = {
             Text(
                 modifier = Modifier.fillMaxWidth(),

@@ -4,7 +4,6 @@ import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.StoreFactory
-import com.nesterov.veld.common.AppCoroutineDispatcherProvider
 import com.nesterov.veld.common.base.BaseComponent
 import com.nesterov.veld.presentation.di.SpellDependencies
 import com.nesterov.veld.presentation.model.SpellPresentationModel
@@ -28,7 +27,7 @@ class SpellComponentImpl(
     storeFactory: StoreFactory,
     dependencies: SpellDependencies,
     componentContext: ComponentContext,
-    private val onAction: (SpellComponent.Action) -> Unit,
+    private val action: (SpellComponent.Action) -> Unit,
 ): BaseComponent(componentContext), SpellComponent {
     private val spellsStore = instanceKeeper.getStore {
         SpellStoreFactory(
@@ -41,7 +40,7 @@ class SpellComponentImpl(
     override fun onObtainEvent(event: SpellComponent.Event) =
         when(event) {
             is SpellComponent.Event.OnSpellClick -> {
-                onAction(SpellComponent.Action.NavigateSpellDetails(event.spell.index))
+                action(SpellComponent.Action.NavigateSpellDetails(event.spell.index))
             }
 
             is SpellComponent.Event.SearchSpell -> {

@@ -1,7 +1,7 @@
 package com.nesterov.veld.presentation.model
 
 import com.nesterov.veld.presentation.model.utils.AreaType
-import com.nesterov.veld.presentation.model.utils.MagicSchool
+import com.nesterov.veld.presentation.model.utils.MagicSchoolType
 import com.nesterov.veld.presentation.model.utils.StatType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
@@ -24,7 +24,7 @@ data class SpellDetailsPresentationModel(
     val isRitual: Boolean,
     val isConcentration: Boolean,
     val areaType: AreaType,
-    val schoolType: MagicSchool,
+    val schoolType: MagicSchoolType,
     val description: List<String>,
     val higherLevel: List<String>,
     val components: List<String>,

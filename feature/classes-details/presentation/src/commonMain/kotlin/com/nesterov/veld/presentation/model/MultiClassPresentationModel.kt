@@ -1,7 +1,6 @@
 package com.nesterov.veld.presentation.model
 
 data class MultiClassPresentationModel(
-    val abilityName: String,
-    val abilityIndex: String,
-    val minimumScore: Int,
+    val prerequisites: List<PrerequisitePresentationModel>,
+    val proficiencies: List<ProficiencyMultiClassPresentationModel>,
 )

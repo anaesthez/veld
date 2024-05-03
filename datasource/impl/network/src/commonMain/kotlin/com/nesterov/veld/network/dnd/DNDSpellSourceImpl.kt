@@ -27,11 +27,14 @@ class DNDSpellSourceImpl(
     override suspend fun fetchSpellDetails(index: String): RequestResult<SpellDetailsDTO> =
         wrapHttpExceptions {
             return@wrapHttpExceptions client.get {
-                url("${HttpRoutes.DETAILS}/$index")
+                url("${HttpRoutes.SPELL_DETAILS}/$index")
             }.body<SpellDetailsDTO>()
         }
 
-    override suspend fun fetchCharacterClassDetails(index: String): RequestResult<ClassDetailsDTO> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun fetchCharacterClassDetails(index: String): RequestResult<ClassDetailsDTO> =
+        wrapHttpExceptions {
+            return@wrapHttpExceptions client.get {
+                url("${HttpRoutes.CLASSES_DETAILS}/$index")
+            }.body<ClassDetailsDTO>()
+        }
 }

@@ -9,6 +9,16 @@ import com.nesterov.veld.presentation.di.ClassDetailsDependencies
 
 sealed interface ClassDetailsComponent {
     val state: Value<ClassDetailsStore.State>
+
+    fun obtainEvent(event: Event)
+
+    sealed interface Event {
+        data object OnBackClick : Event
+    }
+
+    sealed interface Action {
+        data object NavigateBack : Action
+    }
 }
 
 class ClassDetailsComponentImpl(
@@ -16,6 +26,7 @@ class ClassDetailsComponentImpl(
     index: String,
     classDetailsDependencies: ClassDetailsDependencies,
     componentContext: ComponentContext,
+    private val action: (ClassDetailsComponent.Action) -> Unit,
 ) : BaseComponent(componentContext), ClassDetailsComponent {
     private val classesStore = instanceKeeper.getStore {
         ClassDetailsStoreFactory(
@@ -25,4 +36,10 @@ class ClassDetailsComponentImpl(
         ).create()
     }
     override val state: Value<ClassDetailsStore.State> = classesStore.asValue()
+    override fun obtainEvent(event: ClassDetailsComponent.Event) =
+        when (event) {
+            ClassDetailsComponent.Event.OnBackClick -> {
+                action(ClassDetailsComponent.Action.NavigateBack)
+            }
+        }
 }

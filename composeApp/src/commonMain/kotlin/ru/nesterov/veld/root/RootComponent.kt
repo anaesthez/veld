@@ -75,6 +75,7 @@ class RootComponentImpl(
                     storeFactory = storeFactory,
                     index = configuration.classIndex,
                     classDetailsDependencies = appDependenciesGraph.classDetailsDependencies,
+                    action = ::onClassDetailsAction,
                 )
             )
         }
@@ -85,11 +86,27 @@ class RootComponentImpl(
             is HubRootComponent.Action.NavigateSpellDetails -> {
                 navigation.pushNew(Configuration.SpellDetails(spellIndex = action.spellIndex))
             }
+
+            is HubRootComponent.Action.NavigateClassDetails -> {
+                navigation.pushNew(Configuration.ClassDetails(classIndex = action.classIndex))
+            }
         }
 
+    @OptIn(ExperimentalDecomposeApi::class)
     private fun onSpellDetailsAction(action: SpellDetailsComponent.Action) =
         when(action) {
             is SpellDetailsComponent.Action.NavigateBack -> {
+                navigation.pop()
+            }
+
+            is SpellDetailsComponent.Action.NavigateClassDetails -> {
+                navigation.pushNew(Configuration.ClassDetails(classIndex = action.classIndex))
+            }
+        }
+
+    private fun onClassDetailsAction(action: ClassDetailsComponent.Action) =
+        when (action) {
+            ClassDetailsComponent.Action.NavigateBack -> {
                 navigation.pop()
             }
         }
