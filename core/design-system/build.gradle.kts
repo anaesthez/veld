@@ -46,7 +46,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.nesterov.veld.design_system"
+    namespace = "com.nesterov.veld.сore.design_system"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

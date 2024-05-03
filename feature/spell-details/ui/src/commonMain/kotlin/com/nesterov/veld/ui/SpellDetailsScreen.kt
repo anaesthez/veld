@@ -45,22 +45,23 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.nesterov.veld.design_system.strings.DesignStrings
 import com.nesterov.veld.design_system.theme.VeldIcons
 import com.nesterov.veld.design_system.theme.VeldTheme.colors
-import com.nesterov.veld.design_system.ui.VeldClassesLazyRow
+import com.nesterov.veld.design_system.ui.HeadedBlock
 import com.nesterov.veld.design_system.ui.VeldErrorScreen
+import com.nesterov.veld.design_system.ui.VeldItemsLazyRow
 import com.nesterov.veld.design_system.ui.VeldProgressBar
 import com.nesterov.veld.presentation.SpellDetailsComponent
 import com.nesterov.veld.presentation.SpellDetailsStore
 import com.nesterov.veld.presentation.model.CharacterClassPresentationModel
 import com.nesterov.veld.presentation.model.CharacterSubclassPresentationModel
 import com.nesterov.veld.presentation.model.utils.AreaType
-import com.nesterov.veld.presentation.model.utils.MagicSchool
+import com.nesterov.veld.presentation.model.utils.MagicSchoolType
 import com.nesterov.veld.presentation.model.utils.SlotType
 import com.nesterov.veld.presentation.model.utils.StatType
 import com.nesterov.veld.ui.blocks.DamageStatBlock
 import com.nesterov.veld.ui.blocks.SpellStatBlock
+import com.nesterov.veld.сore.design_system.strings.DesignStrings
 import io.github.skeptick.libres.compose.painterResource
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
@@ -118,7 +119,7 @@ private fun SpellDetailsScreenStateful(
     damageSlots: ImmutableMap<SlotType, String>,
     components: List<String>,
     schoolColor: Color,
-    school: MagicSchool,
+    school: MagicSchoolType,
     areaType: AreaType,
     areaTypeTitle: String,
     rangeDistance: String,
@@ -149,7 +150,7 @@ private fun SpellDetailsScreenStateful(
             level = level,
         )
         MagicSchoolHeader(
-            magicSchool = school,
+            magicSchoolType = school,
         )
         if (statTypes.isNotEmpty()) {
             SpellStatBlock(
@@ -172,7 +173,7 @@ private fun SpellDetailsScreenStateful(
                 lazyListState = lazyClassesListState,
                 charClasses = charClasses,
                 schoolColor = schoolColor,
-                onClassClick = { onObtainEvent(SpellDetailsComponent.Event.OnClassClick) }
+                onClassClick = { onObtainEvent(SpellDetailsComponent.Event.OnClassClick(it)) }
             )
         }
         if (subclasses.isNotEmpty()) {
@@ -226,7 +227,7 @@ private fun SpellDetailsHeader(
     schoolColor: Color,
     spellName: String,
     level: Int,
-    school: MagicSchool,
+    school: MagicSchoolType,
 ) {
     Column(
         modifier = modifier,
@@ -252,14 +253,14 @@ private fun SpellDetailsHeader(
 @Composable
 private fun SpellHeaderImage(
     modifier: Modifier = Modifier,
-    school: MagicSchool,
+    school: MagicSchoolType,
     schoolColor: Color,
     spellName: String,
 ) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
-            containerColor = schoolColor.copy(alpha = 0.2f)
+            containerColor = schoolColor.copy(alpha = TRANSPARENCY_ALPHA)
         )
     ) {
         Spacer(modifier = Modifier.height(12.dp))
@@ -286,13 +287,13 @@ private fun SpellHeaderImage(
 
 @Composable
 private fun MagicSchoolHeader(
-    magicSchool: MagicSchool,
+    magicSchoolType: MagicSchoolType,
 ) {
     Text(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        text = magicSchool.getSchoolTextRes(),
+        text = magicSchoolType.getSchoolTextRes(),
         textAlign = TextAlign.Center,
         fontWeight = FontWeight.SemiBold,
         fontSize = 24.sp,
@@ -319,7 +320,7 @@ private fun SpellLevelCircle(
                         if (currentLevelIndex < level) {
                             schoolColor
                         } else {
-                            schoolColor.copy(alpha = 0.2f)
+                            schoolColor.copy(alpha = TRANSPARENCY_ALPHA)
                         },
                         CircleShape
                     )
@@ -333,16 +334,16 @@ private fun ClassesList(
     lazyListState: LazyListState,
     charClasses: ImmutableList<CharacterClassPresentationModel>,
     schoolColor: Color,
-    onClassClick: () -> Unit,
+    onClassClick: (String) -> Unit,
 ) {
     HeadedBlock(headerText = DesignStrings.spell_details_classes_header) {
-        VeldClassesLazyRow(
+        VeldItemsLazyRow(
             lazyRowListState = lazyListState,
-            charClasses = charClasses,
+            itemsList = charClasses,
         ) { classItem ->
             ClassItem(
                 className = classItem.name,
-                onClassClick = onClassClick,
+                onClassClick = { onClassClick(classItem.index) },
                 schoolColor = schoolColor,
             )
         }
@@ -357,9 +358,9 @@ private fun SubclassesList(
     onSubclassClick: () -> Unit,
 ) {
     HeadedBlock(headerText = DesignStrings.spell_details_subclasses_header) {
-        VeldClassesLazyRow(
+        VeldItemsLazyRow(
             lazyRowListState = lazyListState,
-            charClasses = subclasses,
+            itemsList = subclasses,
         ) { subclassItem ->
             ClassItem(
                 className = subclassItem.name,

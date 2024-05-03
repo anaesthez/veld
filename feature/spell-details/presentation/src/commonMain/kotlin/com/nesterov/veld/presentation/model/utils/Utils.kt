@@ -3,17 +3,17 @@ package com.nesterov.veld.presentation.model.utils
 import com.nesterov.veld.common.AreaTypeContract
 import com.nesterov.veld.common.MagicSchoolContract
 
-fun String.getMagicSchoolByContract(): MagicSchool =
+fun String.getMagicSchoolByContract(): MagicSchoolType =
     when(this) {
-        MagicSchoolContract.ABJURATION -> MagicSchool.ABJURATION
-        MagicSchoolContract.CONJURATION -> MagicSchool.CONJURATION
-        MagicSchoolContract.EVOCATION -> MagicSchool.EVOCATION
-        MagicSchoolContract.ILLUSION -> MagicSchool.ILLUSION
-        MagicSchoolContract.NECROMANCY -> MagicSchool.NECROMANCY
-        MagicSchoolContract.DIVINATION -> MagicSchool.DIVINATION
-        MagicSchoolContract.ENCHANTMENT -> MagicSchool.ENCHANTMENT
-        MagicSchoolContract.TRANSMUTATION -> MagicSchool.TRANSMUTATION
-        else -> MagicSchool.ABJURATION
+        MagicSchoolContract.ABJURATION -> MagicSchoolType.ABJURATION
+        MagicSchoolContract.CONJURATION -> MagicSchoolType.CONJURATION
+        MagicSchoolContract.EVOCATION -> MagicSchoolType.EVOCATION
+        MagicSchoolContract.ILLUSION -> MagicSchoolType.ILLUSION
+        MagicSchoolContract.NECROMANCY -> MagicSchoolType.NECROMANCY
+        MagicSchoolContract.DIVINATION -> MagicSchoolType.DIVINATION
+        MagicSchoolContract.ENCHANTMENT -> MagicSchoolType.ENCHANTMENT
+        MagicSchoolContract.TRANSMUTATION -> MagicSchoolType.TRANSMUTATION
+        else -> MagicSchoolType.ABJURATION
     }
 
 fun String.getAreaByContract(): AreaType =

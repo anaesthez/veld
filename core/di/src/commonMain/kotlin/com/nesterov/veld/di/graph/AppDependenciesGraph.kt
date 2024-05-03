@@ -2,9 +2,11 @@ package com.nesterov.veld.di.graph
 
 import com.nesterov.veld.common.AppCoroutineDispatcherProvider
 import com.nesterov.veld.di.dispatcher.AppCoroutineDispatcherProviderImpl.Companion.createDefault
+import com.nesterov.veld.di.feature.details.ClassDetailsDataModule
 import com.nesterov.veld.di.feature.details.SpellDetailsDataModule
 import com.nesterov.veld.di.feature.spell.SpellDataModule
 import com.nesterov.veld.di.sources.network.RemoteSourcesHolder
+import com.nesterov.veld.presentation.di.ClassDetailsDependencies
 import com.nesterov.veld.presentation.di.SpellDependencies
 import com.nesterov.veld.presentation.di.SpellDetailsDependencies
 
@@ -23,6 +25,12 @@ class AppDependenciesGraph {
         )
     }
 
+    private val classDetailsModule: ClassDetailsDataModule by lazy {
+        ClassDetailsDataModule.Default(
+            dndSpellSource = RemoteSourcesHolder.dndSpellSource,
+        )
+    }
+
     val spellDependencies: SpellDependencies by lazy {
         SpellDependencies.Default(
             dispatcherProvider = dispatcherProvider,
@@ -34,6 +42,13 @@ class AppDependenciesGraph {
         SpellDetailsDependencies.Default(
             dispatcherProvider = dispatcherProvider,
             repository = spellDetailsModule.repository,
+        )
+    }
+
+    val classDetailsDependencies: ClassDetailsDependencies by lazy {
+        ClassDetailsDependencies.Default(
+            dispatcherProvider = dispatcherProvider,
+            repository = classDetailsModule.repository,
         )
     }
 }

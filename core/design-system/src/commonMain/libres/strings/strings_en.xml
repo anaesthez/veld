@@ -29,4 +29,14 @@
     <string name="spell_details_description_header">Description</string>
     <string name="spell_details_subclasses_header">Subclasses</string>
     <string name="spell_details_classes_header">Classes</string>
+
+    <string name="classes_details_proficiency_descr">The proficiency bonus is added to skill checks, saving throws, or attacks for skills that a character is proficient in.</string>
+    <string name="classes_details_proficiency_header">Proficiency</string>
+    <string name="classes_details_options_header">Available options</string>
+    <string name="classes_details_spell_cast_header">Spellcasting</string>
+    <string name="classes_details_spell_failure_app_bar">Something went wrong</string>
+    <string name="classes_details_spell_failure">Looks like there is a problem with adventure. You can try again.</string>
+    <string name="classes_details_spell_failure_retry">Try again</string>
+    <string name="classes_details_prerequisites_header">Multiclass prerequisites</string>
+    <string name="classes_details_prerequisites_descr">To qualify for a new class, you must meet the ability score prerequisites for both your current class and your new one, as shown beneath.</string>
 </resources>

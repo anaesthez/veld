@@ -13,13 +13,14 @@ sealed interface SpellDetailsComponent {
     fun onObtainEvent(event: Event)
 
     sealed interface Event {
-        data object OnClassClick: Event
+        data class OnClassClick(val index: String) : Event
         data object OnSubclassClick: Event
         data object OnBackClick: Event
     }
 
     sealed interface Action {
         data object NavigateBack: Action
+        data class NavigateClassDetails(val classIndex: String) : Action
     }
 }
 
@@ -45,8 +46,8 @@ class SpellDetailsComponentImpl(
                 action(SpellDetailsComponent.Action.NavigateBack)
             }
 
-            SpellDetailsComponent.Event.OnClassClick -> {
-
+            is SpellDetailsComponent.Event.OnClassClick -> {
+                action(SpellDetailsComponent.Action.NavigateClassDetails(event.index))
             }
 
             SpellDetailsComponent.Event.OnSubclassClick -> {

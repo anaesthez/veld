@@ -42,6 +42,11 @@ include(":feature:item:ui")
 include(":feature:classes:presentation")
 include(":feature:classes:ui")
 
+include(":feature:classes-details:data")
+include(":feature:classes-details:domain")
+include(":feature:classes-details:presentation")
+include(":feature:classes-details:ui")
+
 include(":feature:race:presentation")
 include(":feature:race:ui")
 

@@ -25,7 +25,7 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "FeatureSpellsPresentation"
+            baseName = "FeatureClassesPresentation"
             isStatic = true
             export(libs.decompose)
             export(libs.lifecycle)
@@ -52,7 +52,7 @@ kotlin {
 }
 
 android {
-    namespace = "ru.nesterov.veld.feature.spells.ui"
+    namespace = "ru.nesterov.veld.feature.classes.ui"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
