@@ -23,7 +23,6 @@ import com.nesterov.veld.presentation.model.SpellCastPresentationModel
 fun CharacterClassDetailsDomainModel.toCharacterClassDetailsPresentationModel(): CharacterClassDetailsPresentationModel {
     return CharacterClassDetailsPresentationModel(
         hitDie = when (hitDie) {
-            4 -> HitDiceType.DICE_4
             6 -> HitDiceType.DICE_6
             8 -> HitDiceType.DICE_8
             10 -> HitDiceType.DICE_10

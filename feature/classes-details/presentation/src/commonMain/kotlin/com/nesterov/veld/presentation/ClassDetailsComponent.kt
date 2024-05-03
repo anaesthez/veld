@@ -14,6 +14,8 @@ sealed interface ClassDetailsComponent {
 
     sealed interface Event {
         data object OnBackClick : Event
+        data object OnProficiencyClick : Event
+        data object OnRetryClick : Event
     }
 
     sealed interface Action {
@@ -40,6 +42,14 @@ class ClassDetailsComponentImpl(
         when (event) {
             ClassDetailsComponent.Event.OnBackClick -> {
                 action(ClassDetailsComponent.Action.NavigateBack)
+            }
+
+            ClassDetailsComponent.Event.OnProficiencyClick -> {
+
+            }
+
+            ClassDetailsComponent.Event.OnRetryClick -> {
+
             }
         }
 }

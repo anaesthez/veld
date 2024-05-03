@@ -7,16 +7,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,10 +28,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.fastForEach
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.nesterov.veld.design_system.theme.VeldTheme.colors
 import com.nesterov.veld.design_system.ui.HeadedBlock
 import com.nesterov.veld.design_system.ui.VeldAppBar
+import com.nesterov.veld.design_system.ui.VeldFailureScreen
 import com.nesterov.veld.design_system.ui.VeldItemsLazyRow
 import com.nesterov.veld.design_system.ui.VeldListItem
 import com.nesterov.veld.design_system.ui.VeldProgressBar
@@ -35,6 +41,7 @@ import com.nesterov.veld.presentation.ClassDetailsComponent
 import com.nesterov.veld.presentation.ClassDetailsStore
 import com.nesterov.veld.presentation.model.ChoiceProficiencyPresentationModel
 import com.nesterov.veld.presentation.model.HitDiceType
+import com.nesterov.veld.presentation.model.PrerequisitePresentationModel
 import com.nesterov.veld.presentation.model.ProficiencyPresentationModel
 import com.nesterov.veld.presentation.model.SpellCastPresentationModel
 import com.nesterov.veld.сore.design_system.strings.DesignStrings
@@ -47,24 +54,36 @@ fun ClassDetailsScreen(component: ClassDetailsComponent) {
     val state by component.state.subscribeAsState()
     val lazyListState = rememberLazyListState()
 
+    val onObtainEvent: (ClassDetailsComponent.Event) -> Unit = remember {
+        { event ->
+            component.obtainEvent(event)
+        }
+    }
+
     when (state.screenState) {
-        ClassDetailsStore.ScreenState.Failure -> {
-            println("failed")
+        ClassDetailsStore.ScreenState.Loading -> {
+            VeldProgressBar()
         }
 
-        ClassDetailsStore.ScreenState.Loading -> VeldProgressBar()
+        ClassDetailsStore.ScreenState.Failure -> {
+            VeldFailureScreen(
+                errorText = DesignStrings.classes_details_spell_failure,
+                onBackClick = { onObtainEvent(ClassDetailsComponent.Event.OnBackClick) },
+                onRetryClick = { onObtainEvent(ClassDetailsComponent.Event.OnRetryClick) }
+            )
+        }
+
         is ClassDetailsStore.ScreenState.Success -> {
             val details = (state.screenState as ClassDetailsStore.ScreenState.Success).classDetails
-            println(details)
             ClassDetailsScreenStateful(
                 charClassName = details.charClassName,
                 diceType = details.hitDie,
                 spellCast = details.spellCast,
+                prerequisites = details.multiClass.prerequisites.toImmutableList(),
                 commonProficiencies = details.commonProficiencies.toImmutableList(),
                 choiceProficiencies = details.choiceProficiencies.toImmutableList(),
                 lazyListState = lazyListState,
-                onProficiencyClick = { },
-                onBackClick = { }
+                onObtainEvent = onObtainEvent,
             )
         }
     }
@@ -74,12 +93,12 @@ fun ClassDetailsScreen(component: ClassDetailsComponent) {
 private fun ClassDetailsScreenStateful(
     choiceProficiencies: ImmutableList<ChoiceProficiencyPresentationModel>,
     commonProficiencies: ImmutableList<ProficiencyPresentationModel>,
+    prerequisites: ImmutableList<PrerequisitePresentationModel>,
     spellCast: SpellCastPresentationModel,
     lazyListState: LazyListState,
     charClassName: String,
     diceType: HitDiceType,
-    onBackClick: () -> Unit,
-    onProficiencyClick: () -> Unit,
+    onObtainEvent: (ClassDetailsComponent.Event) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -89,7 +108,7 @@ private fun ClassDetailsScreenStateful(
     ) {
         DetailsTopAppBar(
             charClassName = charClassName,
-            onBackClick = onBackClick,
+            onBackClick = { onObtainEvent(ClassDetailsComponent.Event.OnBackClick) },
         )
         DetailsClassDiceImage(
             modifier = Modifier.fillMaxWidth(),
@@ -100,8 +119,11 @@ private fun ClassDetailsScreenStateful(
         )
         DetailsProficiencyBlock(
             commonProficiencies = commonProficiencies,
-            onProficiencyClick = onProficiencyClick,
+            onProficiencyClick = { onObtainEvent(ClassDetailsComponent.Event.OnProficiencyClick) },
             lazyListState = lazyListState,
+        )
+        DetailsMulticlassBlock(
+            prerequisites = prerequisites,
         )
         if (spellCast.spellAbilityTitle.isNotBlank()) {
             DetailsSpellCastBlock(
@@ -111,6 +133,7 @@ private fun ClassDetailsScreenStateful(
                 spellCast = spellCast,
             )
         }
+        Spacer(modifier = Modifier.size(16.dp))
     }
 }
 
@@ -198,7 +221,6 @@ private fun DetailsProficiencyOptionsBlock(
                     },
                 )
             }
-            Spacer(modifier = Modifier.size(16.dp))
         }
     }
 }
@@ -240,7 +262,61 @@ private fun DetailsSpellCastBlock(
                 text = infoBlock.description,
                 fontSize = 16.sp,
             )
-            Spacer(modifier = Modifier.size(16.dp))
         }
+    }
+}
+
+@Composable
+private fun DetailsMulticlassBlock(
+    prerequisites: ImmutableList<PrerequisitePresentationModel>,
+) {
+    val multiclassModifier = Modifier.padding(horizontal = 16.dp)
+    HeadedBlock(
+        modifier = multiclassModifier,
+        headerText = DesignStrings.classes_details_prerequisites_header,
+    ) {
+        Text(
+            modifier = multiclassModifier,
+            text = DesignStrings.classes_details_prerequisites_descr,
+            fontSize = 16.sp,
+        )
+        Spacer(Modifier.height(8.dp))
+        prerequisites.fastForEach { prerequisite ->
+            MulticlassPrerequisite(
+                prerequisiteTitle = prerequisite.title,
+                minimumScore = prerequisite.minimumScore.toString(),
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+    }
+}
+
+@Composable
+private fun MulticlassPrerequisite(
+    prerequisiteTitle: String,
+    minimumScore: String,
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth(0.5f)
+            .padding(horizontal = 16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Blue,
+        )
+    ) {
+        Spacer(Modifier.height(4.dp))
+        Text(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            text = prerequisiteTitle,
+            fontWeight = FontWeight.SemiBold,
+            color = colors.textColorPrimary,
+        )
+        Text(
+            modifier = Modifier.align(Alignment.CenterHorizontally),
+            text = minimumScore,
+            fontWeight = FontWeight.SemiBold,
+            color = colors.textColorPrimary,
+        )
+        Spacer(Modifier.height(4.dp))
     }
 }

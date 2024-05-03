@@ -34,4 +34,9 @@
     <string name="classes_details_proficiency_header">Владения</string>
     <string name="classes_details_options_header">Можно выбрать из</string>
     <string name="classes_details_spell_cast_header">Заклинания</string>
+    <string name="classes_details_spell_failure_app_bar">Что-то пошло не так</string>
+    <string name="classes_details_spell_failure">Кажется что-то пошло не так во время приключения. Попытаться снова?</string>
+    <string name="classes_details_spell_failure_retry">Повторить попытку</string>
+    <string name="classes_details_prerequisites_header">Требования для мультикласса</string>
+    <string name="classes_details_prerequisites_descr">Чтобы претендовать на новый класс, вы должны соответствовать предварительным требованиям к очкам способностей как для вашего текущего класса, так и для нового, как показано ниже.</string>
 </resources>
