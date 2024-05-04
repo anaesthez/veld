@@ -5,6 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,7 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.nesterov.veld.design_system.theme.VeldTheme.colors
-import com.nesterov.veld.design_system.ui.VeldErrorScreen
+import com.nesterov.veld.design_system.ui.VeldFailureScreen
 import com.nesterov.veld.design_system.ui.VeldProgressBar
 import com.nesterov.veld.presentation.SpellComponent
 import com.nesterov.veld.presentation.SpellStore
@@ -48,7 +50,12 @@ fun SpellScreen(component: SpellComponent) {
     }
 
     when(state.screenState) {
-        is SpellStore.ScreenState.Failure -> VeldErrorScreen()
+        is SpellStore.ScreenState.Failure -> VeldFailureScreen(
+            errorText = "",
+            onRetryClick = {
+                component.onObtainEvent(SpellComponent.Event.OnRetryClick)
+            }
+        )
         is SpellStore.ScreenState.Loading -> VeldProgressBar()
         is SpellStore.ScreenState.Success -> SpellScreenStateful(
             spellList = (state.screenState as SpellStore.ScreenState.Success).spellsList,
@@ -67,10 +74,10 @@ private fun SpellScreenStateful(
 ) {
     LazyColumn(
         modifier = modifier.padding(horizontal = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
         state = scrollState,
     ) {
         items(spellList) { spell ->
+            Spacer(modifier = Modifier.height(8.dp))
             SpellNewCard(
                 level = spell.level.toString(),
                 name = spell.name,

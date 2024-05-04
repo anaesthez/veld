@@ -16,6 +16,7 @@ sealed interface SpellDetailsComponent {
         data class OnClassClick(val index: String) : Event
         data object OnSubclassClick: Event
         data object OnBackClick: Event
+        data object OnRetryClick : Event
     }
 
     sealed interface Action {
@@ -41,7 +42,7 @@ class SpellDetailsComponentImpl(
     override val state: Value<SpellDetailsStore.State> = spellsStore.asValue()
 
     override fun onObtainEvent(event: SpellDetailsComponent.Event) =
-        when(event) {
+        when (event) {
             SpellDetailsComponent.Event.OnBackClick -> {
                 action(SpellDetailsComponent.Action.NavigateBack)
             }
@@ -51,7 +52,11 @@ class SpellDetailsComponentImpl(
             }
 
             SpellDetailsComponent.Event.OnSubclassClick -> {
-                
+
+            }
+
+            SpellDetailsComponent.Event.OnRetryClick -> {
+
             }
         }
 }

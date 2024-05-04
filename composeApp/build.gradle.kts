@@ -71,7 +71,7 @@ kotlin {
                 implementation(libres)
                 implementation(decompose.extensions)
                 implementation(badoo.reaktive)
-                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
+                implementation(kotlinx.collections.immutable)
                 api(decompose)
                 api(lifecycle)
             }
@@ -97,8 +97,8 @@ kotlin {
             implementation(project(":feature:race:presentation"))
             implementation(project(":feature:race:ui"))
 
-            implementation(project(":feature:backstory:presentation"))
-            implementation(project(":feature:backstory:ui"))
+            implementation(project(":feature:bestiary:presentation"))
+            implementation(project(":feature:bestiary:ui"))
         }
 
         commonTest.dependencies {

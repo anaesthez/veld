@@ -39,7 +39,7 @@ kotlin {
                 implementation(foundation)
                 implementation(material3)
                 implementation(ui)
-                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
+                implementation(libs.kotlinx.collections.immutable)
             }
         }
     }

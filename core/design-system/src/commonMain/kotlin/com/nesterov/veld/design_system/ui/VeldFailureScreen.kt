@@ -17,32 +17,36 @@ import com.nesterov.veld.сore.design_system.strings.DesignStrings
 @Composable
 fun VeldFailureScreen(
     errorText: String,
-    onBackClick: () -> Unit,
-    onRetryClick: () -> Unit,
+    onBackClick: (() -> Unit)? = null,
+    onRetryClick: (() -> Unit)? = null,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        VeldAppBar(
-            onBackClick = onBackClick,
-            titleText = DesignStrings.classes_details_spell_failure_app_bar
-        )
+        if (onBackClick != null) {
+            VeldAppBar(
+                onBackClick = onBackClick,
+                titleText = DesignStrings.classes_details_spell_failure_app_bar
+            )
+        }
         Column {
             Text(
                 text = errorText,
             )
             Spacer(modifier = Modifier.size(8.dp))
-            Button(
-                onClick = onRetryClick,
-                content = {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        text = DesignStrings.classes_details_spell_failure_retry
-                    )
-                }
-            )
+            if (onRetryClick != null) {
+                Button(
+                    onClick = onRetryClick,
+                    content = {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            text = DesignStrings.classes_details_spell_failure_retry
+                        )
+                    }
+                )
+            }
         }
     }
 }

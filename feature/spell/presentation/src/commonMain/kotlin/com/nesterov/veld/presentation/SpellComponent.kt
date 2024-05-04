@@ -14,6 +14,7 @@ sealed interface SpellComponent {
     fun onObtainEvent(event: Event)
 
     sealed interface Event {
+        data object OnRetryClick : Event
         data class OnSpellClick(val spell: SpellPresentationModel): Event
         data class SearchSpell(val input: String): Event
     }
@@ -38,13 +39,17 @@ class SpellComponentImpl(
     override val state: Value<SpellStore.State> = spellsStore.asValue()
 
     override fun onObtainEvent(event: SpellComponent.Event) =
-        when(event) {
+        when (event) {
             is SpellComponent.Event.OnSpellClick -> {
                 action(SpellComponent.Action.NavigateSpellDetails(event.spell.index))
             }
 
             is SpellComponent.Event.SearchSpell -> {
                 spellsStore.accept(SpellStore.Intent.SearchSpell(event.input))
+            }
+
+            SpellComponent.Event.OnRetryClick -> {
+                TODO()
             }
         }
 }
