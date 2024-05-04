@@ -5,6 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -51,7 +53,7 @@ fun SpellScreen(component: SpellComponent) {
         is SpellStore.ScreenState.Failure -> VeldFailureScreen(
             errorText = "",
             onRetryClick = {
-
+                component.onObtainEvent(SpellComponent.Event.OnRetryClick)
             }
         )
         is SpellStore.ScreenState.Loading -> VeldProgressBar()
@@ -72,10 +74,10 @@ private fun SpellScreenStateful(
 ) {
     LazyColumn(
         modifier = modifier.padding(horizontal = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
         state = scrollState,
     ) {
         items(spellList) { spell ->
+            Spacer(modifier = Modifier.height(8.dp))
             SpellNewCard(
                 level = spell.level.toString(),
                 name = spell.name,

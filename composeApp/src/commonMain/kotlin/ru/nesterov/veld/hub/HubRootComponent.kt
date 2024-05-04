@@ -175,7 +175,9 @@ class HubRootComponentImpl(
     private fun search() {
         when(val instance = pages.value.items[pages.value.selectedIndex].instance) {
             is HubRootComponent.Pages.Bestiary -> {
-
+                instance.component.onObtainEvent(
+                    BestiaryComponent.Event.OnSearchCreature(state.value.query)
+                )
             }
             is HubRootComponent.Pages.Classes -> {
 

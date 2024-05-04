@@ -2,6 +2,7 @@ package com.nesterov.veld.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -61,9 +62,15 @@ private fun ClassesScreenStateful(
             .fillMaxSize()
             .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
         state = lazyGridState,
         columns = GridCells.Fixed(GRID_CELLS),
     ) {
+        repeat(GRID_CELLS) {
+            item {
+                Spacer(Modifier)
+            }
+        }
         items(charClassesList) { charClass ->
             CharClassItem(
                 charClassName = charClass.name,
@@ -82,7 +89,6 @@ private fun CharClassItem(
 ) {
     ListItem(
         modifier = Modifier
-            .padding(vertical = 8.dp)
             .clip(RoundedCornerShape(16.dp))
             .clickable(onClick = onClassClick),
         headlineContent = {

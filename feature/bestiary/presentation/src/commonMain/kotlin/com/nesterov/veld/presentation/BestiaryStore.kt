@@ -5,7 +5,9 @@ import com.nesterov.veld.presentation.model.CreaturePresentationModel
 import kotlinx.collections.immutable.ImmutableList
 
 interface BestiaryStore : Store<BestiaryStore.Intent, BestiaryStore.State, BestiaryStore.Label> {
-    sealed interface Intent
+    sealed interface Intent {
+        data class OnSearchCreature(val query: String) : Intent
+    }
 
     sealed interface Label
 

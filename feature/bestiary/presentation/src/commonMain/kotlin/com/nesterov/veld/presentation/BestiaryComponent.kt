@@ -15,6 +15,8 @@ interface BestiaryComponent {
     sealed interface Event {
         data object OnRetryClick : Event
         data object OnBackClick : Event
+        data object OnCreatureClick : Event
+        data class OnSearchCreature(val query: String) : Event
     }
 }
 
@@ -39,6 +41,14 @@ class BestiaryComponentImpl(
 
             BestiaryComponent.Event.OnRetryClick -> {
 
+            }
+
+            BestiaryComponent.Event.OnCreatureClick -> {
+
+            }
+
+            is BestiaryComponent.Event.OnSearchCreature -> {
+                bestiaryStore.accept(BestiaryStore.Intent.OnSearchCreature(event.query))
             }
         }
 }

@@ -12,6 +12,7 @@ import com.nesterov.veld.domain.CreatureDomainModel
 import com.nesterov.veld.presentation.di.BestiaryDependencies
 import com.nesterov.veld.presentation.mapper.toCreaturePresentationModel
 import com.nesterov.veld.presentation.model.CreaturePresentationModel
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -39,6 +40,13 @@ class BestiaryStoreFactory(
                         dispatch(
                             Msg.FetchCreatureListSuccess(
                                 it.creatures
+                            )
+                        )
+                    }
+                    onIntent<BestiaryStore.Intent.OnSearchCreature> {
+                        dispatch(
+                            Msg.OnSearchCreature(
+                                it.query
                             )
                         )
                     }
@@ -80,21 +88,46 @@ class BestiaryStoreFactory(
     }
 
     private sealed interface Msg {
+        data class OnSearchCreature(val query: String) : Msg
         data object FetchCreatureListFailure : Msg
         data object FetchCreatureListLoading : Msg
         data class FetchCreatureListSuccess(val creatures: List<CreaturePresentationModel>) : Msg
     }
 
     private object ReducerImpl : Reducer<BestiaryStore.State, Msg> {
+        var backupCreaturesList: ImmutableList<CreaturePresentationModel>? = null
+
         override fun BestiaryStore.State.reduce(msg: Msg): BestiaryStore.State =
             when (msg) {
                 Msg.FetchCreatureListFailure -> copy(screenState = BestiaryStore.ScreenState.Failure)
                 Msg.FetchCreatureListLoading -> copy(screenState = BestiaryStore.ScreenState.Loading)
-                is Msg.FetchCreatureListSuccess -> copy(
-                    screenState = BestiaryStore.ScreenState.Success(
-                        creatures = msg.creatures.toImmutableList()
+                is Msg.FetchCreatureListSuccess -> {
+                    val creaturesList = msg.creatures.toImmutableList()
+                    backupCreaturesList = creaturesList
+                    copy(
+                        screenState = BestiaryStore.ScreenState.Success(
+                            creatures = creaturesList
+                        )
                     )
-                )
+                }
+
+                is Msg.OnSearchCreature -> {
+                    val successState = screenState as? BestiaryStore.ScreenState.Success
+                    if (successState != null && backupCreaturesList != null) {
+                        copy(
+                            screenState = successState.copy(
+                                creatures = backupCreaturesList?.filter { spell ->
+                                    spell.name.startsWith(
+                                        prefix = msg.query,
+                                        ignoreCase = true,
+                                    )
+                                }?.toImmutableList() ?: successState.creatures
+                            )
+                        )
+                    } else {
+                        copy()
+                    }
+                }
             }
     }
 
