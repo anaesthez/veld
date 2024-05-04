@@ -50,8 +50,10 @@ include(":feature:classes-details:ui")
 include(":feature:race:presentation")
 include(":feature:race:ui")
 
-include(":feature:backstory:presentation")
-include(":feature:backstory:ui")
+include(":feature:bestiary:data")
+include(":feature:bestiary:domain")
+include(":feature:bestiary:presentation")
+include(":feature:bestiary:ui")
 
 include(":feature:search:presentation")
 include(":feature:search:ui")

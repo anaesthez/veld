@@ -1,7 +1,5 @@
 plugins {
     alias(libs.plugins.multiplatform)
-    alias(libs.plugins.compose)
-    alias(libs.plugins.libres)
     id("com.android.library")
 }
 
@@ -27,32 +25,20 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "FeatureBackstoryUi"
+            baseName = "FeatureBestiaryDomain"
             isStatic = true
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            with(compose) {
-                implementation(runtime)
-                implementation(foundation)
-                implementation(material3)
-                implementation(ui)
-            }
-            with(libs) {
-                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
-                implementation(decompose.extensions)
-                implementation(libres)
-            }
-            implementation(project(":feature:backstory:presentation"))
-            implementation(project(":core:design-system"))
+            implementation(project(":core:common"))
         }
     }
 }
 
 android {
-    namespace = "ru.nesterov.veld.feature.backstory.ui"
+    namespace = "ru.nesterov.veld.feature.bestiary.domain"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

@@ -13,8 +13,8 @@ import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.nesterov.veld.common.base.BaseComponent
 import com.nesterov.veld.di.graph.AppDependenciesGraph
-import com.nesterov.veld.presentation.BackstoryComponent
-import com.nesterov.veld.presentation.BackstoryComponentImpl
+import com.nesterov.veld.presentation.BestiaryComponent
+import com.nesterov.veld.presentation.BestiaryComponentImpl
 import com.nesterov.veld.presentation.ClassesComponent
 import com.nesterov.veld.presentation.ClassesComponentImpl
 import com.nesterov.veld.presentation.ItemComponent
@@ -52,7 +52,7 @@ interface HubRootComponent {
         data class Items(val component: ItemComponent): Pages
         data class Classes(val component: ClassesComponent): Pages
         data class Race(val component: RaceComponent): Pages
-        data class Backstory(val component: BackstoryComponent): Pages
+        data class Bestiary(val component: BestiaryComponent) : Pages
     }
 
     sealed interface Action {
@@ -115,8 +115,8 @@ class HubRootComponentImpl(
                 )
             )
 
-            Configuration.Backstory -> HubRootComponent.Pages.Backstory(
-                BackstoryComponentImpl(
+            Configuration.Bestiary -> HubRootComponent.Pages.Bestiary(
+                BestiaryComponentImpl(
                     componentContext = ctx,
                     storeFactory = storeFactory,
                 )
@@ -173,7 +173,7 @@ class HubRootComponentImpl(
 
     private fun search() {
         when(val instance = pages.value.items[pages.value.selectedIndex].instance) {
-            is HubRootComponent.Pages.Backstory -> {
+            is HubRootComponent.Pages.Bestiary -> {
 
             }
             is HubRootComponent.Pages.Classes -> {
@@ -200,7 +200,8 @@ class HubRootComponentImpl(
         @Serializable data object Items: Configuration
         @Serializable data object Classes: Configuration
         @Serializable data object Race: Configuration
-        @Serializable data object Backstory: Configuration
+        @Serializable
+        data object Bestiary : Configuration
     }
 
     private companion object {
@@ -213,6 +214,10 @@ class HubRootComponentImpl(
                 pageType = Page.SPELL,
                 isSelected = false,
             ) to Configuration.Spells,
+            SelectablePageUiModel(
+                pageType = Page.BESTIARY,
+                isSelected = false,
+            ) to Configuration.Bestiary,
 //            SelectablePageUiModel(
 //                pageType = Page.ITEM,
 //                isSelected = false,
@@ -221,10 +226,6 @@ class HubRootComponentImpl(
 //                pageType = Page.RACE,
 //                isSelected = false,
 //            ) to Configuration.Race,
-//            SelectablePageUiModel(
-//                pageType = Page.BACKSTORY,
-//                isSelected = false,
-//            ) to Configuration.Backstory,
         )
     }
 }

@@ -25,34 +25,20 @@ kotlin {
         iosSimulatorArm64()
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "FeatureBackstoryPresentation"
+            baseName = "FeatureBestiaryData"
             isStatic = true
-            export(libs.decompose)
-            export(libs.lifecycle)
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            with(libs) {
-                implementation(decompose.extensions)
-                implementation(badoo.reaktive)
-                api(decompose)
-                api(lifecycle)
-            }
-            with(libs.mvi) {
-                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
-                implementation(core)
-                implementation(main)
-                implementation(reaktive)
-            }
             implementation(project(":core:common"))
         }
     }
 }
 
 android {
-    namespace = "ru.nesterov.veld.feature.backstory.ui"
+    namespace = "ru.nesterov.veld.feature.bestiary.data"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()

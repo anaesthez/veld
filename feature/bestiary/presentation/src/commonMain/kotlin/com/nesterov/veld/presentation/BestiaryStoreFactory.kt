@@ -7,15 +7,16 @@ import com.arkivanov.mvikotlin.core.utils.ExperimentalMviKotlinApi
 import com.arkivanov.mvikotlin.extensions.reaktive.reaktiveBootstrapper
 import com.arkivanov.mvikotlin.extensions.reaktive.reaktiveExecutorFactory
 
-class BackstoryStoreFactory(
+class BestiaryStoreFactory(
     private val storeFactory: StoreFactory,
 ) {
     @OptIn(ExperimentalMviKotlinApi::class)
-    fun create(): BackstoryStore =
-        object : BackstoryStore, Store<BackstoryStore.Intent, BackstoryStore.State, BackstoryStore.Label>
+    fun create(): BestiaryStore =
+        object : BestiaryStore,
+            Store<BestiaryStore.Intent, BestiaryStore.State, BestiaryStore.Label>
         by storeFactory.create(
             name = STORE_NAME,
-            initialState = BackstoryStore.State(""),
+                initialState = BestiaryStore.State(""),
             bootstrapper = reaktiveBootstrapper {
 
             },
@@ -32,8 +33,8 @@ class BackstoryStoreFactory(
     private sealed class Msg {
     }
 
-    private object ReducerImpl : Reducer<BackstoryStore.State, Msg> {
-        override fun BackstoryStore.State.reduce(msg: Msg): BackstoryStore.State =
+    private object ReducerImpl : Reducer<BestiaryStore.State, Msg> {
+        override fun BestiaryStore.State.reduce(msg: Msg): BestiaryStore.State =
             when(msg) {
                 else -> copy()
             }

@@ -97,8 +97,8 @@ kotlin {
             implementation(project(":feature:race:presentation"))
             implementation(project(":feature:race:ui"))
 
-            implementation(project(":feature:backstory:presentation"))
-            implementation(project(":feature:backstory:ui"))
+            implementation(project(":feature:bestiary:presentation"))
+            implementation(project(":feature:bestiary:ui"))
         }
 
         commonTest.dependencies {

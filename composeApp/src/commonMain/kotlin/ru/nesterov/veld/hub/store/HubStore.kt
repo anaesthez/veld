@@ -1,8 +1,9 @@
 package ru.nesterov.veld.hub.store
 
+import androidx.compose.runtime.Immutable
 import com.arkivanov.mvikotlin.core.store.Store
-import ru.nesterov.veld.hub.model.SelectablePageUiModel
 import kotlinx.collections.immutable.ImmutableList
+import ru.nesterov.veld.hub.model.SelectablePageUiModel
 
 interface HubStore : Store<HubStore.Intent, HubStore.State, HubStore.Label> {
 
@@ -13,6 +14,7 @@ interface HubStore : Store<HubStore.Intent, HubStore.State, HubStore.Label> {
 
     sealed interface Label
 
+    @Immutable
     data class State(
         val pages: ImmutableList<SelectablePageUiModel>,
         val query: String,

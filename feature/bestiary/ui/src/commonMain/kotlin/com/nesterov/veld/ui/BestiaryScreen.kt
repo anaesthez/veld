@@ -9,22 +9,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
-import com.nesterov.veld.presentation.BackstoryComponent
+import com.nesterov.veld.presentation.BestiaryComponent
 
 @Composable
-fun BackstoryScreen(component: BackstoryComponent) {
+fun BestiaryScreen(component: BestiaryComponent) {
     val state by component.state.subscribeAsState()
 
-    BackstoryScreenStateful()
+    BestiaryScreenStateful()
 }
 
 @Composable
-private fun BackstoryScreenStateful() {
+private fun BestiaryScreenStateful() {
    Column(
        modifier = Modifier.fillMaxSize(),
        horizontalAlignment = Alignment.CenterHorizontally,
        verticalArrangement = Arrangement.Center,
    ) {
-       Text("backstory")
+       Text("bestiary")
    }
 }
