@@ -7,8 +7,9 @@ import com.nesterov.veld.network.dnd.model.classes.details.ClassDetailsDTO
 import com.nesterov.veld.network.dnd.model.spell.ReferenceOptionDTO
 import com.nesterov.veld.network.dnd.model.spell.details.SpellDetailsDTO
 
-interface DNDSpellSource {
+interface DND5eRemoteSource {
     suspend fun fetchSpellList(): RequestResult<List<ReferenceOptionDTO>>
+    suspend fun fetchCreaturesList(): RequestResult<List<ReferenceOptionDTO>>
     suspend fun fetchSpellDetails(index: String): RequestResult<SpellDetailsDTO>
     suspend fun fetchCharacterClassDetails(index: String): RequestResult<ClassDetailsDTO>
 

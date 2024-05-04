@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.nesterov.veld.design_system.theme.VeldTheme.colors
-import com.nesterov.veld.design_system.ui.VeldErrorScreen
+import com.nesterov.veld.design_system.ui.VeldFailureScreen
 import com.nesterov.veld.design_system.ui.VeldProgressBar
 import com.nesterov.veld.presentation.SpellComponent
 import com.nesterov.veld.presentation.SpellStore
@@ -48,7 +48,12 @@ fun SpellScreen(component: SpellComponent) {
     }
 
     when(state.screenState) {
-        is SpellStore.ScreenState.Failure -> VeldErrorScreen()
+        is SpellStore.ScreenState.Failure -> VeldFailureScreen(
+            errorText = "",
+            onRetryClick = {
+
+            }
+        )
         is SpellStore.ScreenState.Loading -> VeldProgressBar()
         is SpellStore.ScreenState.Success -> SpellScreenStateful(
             spellList = (state.screenState as SpellStore.ScreenState.Success).spellsList,

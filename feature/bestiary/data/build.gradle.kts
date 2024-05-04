@@ -32,7 +32,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":feature:bestiary:domain"))
+            implementation(project(":datasource:api:network"))
             implementation(project(":core:common"))
+            implementation(project(":core:helpers"))
         }
     }
 }

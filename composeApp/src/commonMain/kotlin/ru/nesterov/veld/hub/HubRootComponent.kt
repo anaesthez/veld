@@ -119,6 +119,7 @@ class HubRootComponentImpl(
                 BestiaryComponentImpl(
                     componentContext = ctx,
                     storeFactory = storeFactory,
+                    dependencies = appDependenciesGraph.bestiaryDependencies,
                 )
             )
         }

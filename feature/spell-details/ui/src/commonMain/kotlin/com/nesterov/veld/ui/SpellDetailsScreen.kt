@@ -48,7 +48,7 @@ import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.nesterov.veld.design_system.theme.VeldIcons
 import com.nesterov.veld.design_system.theme.VeldTheme.colors
 import com.nesterov.veld.design_system.ui.HeadedBlock
-import com.nesterov.veld.design_system.ui.VeldErrorScreen
+import com.nesterov.veld.design_system.ui.VeldFailureScreen
 import com.nesterov.veld.design_system.ui.VeldItemsLazyRow
 import com.nesterov.veld.design_system.ui.VeldProgressBar
 import com.nesterov.veld.presentation.SpellDetailsComponent
@@ -81,7 +81,15 @@ fun SpellDetailsScreen(component: SpellDetailsComponent) {
     }
 
     when(state.screenState) {
-        is SpellDetailsStore.ScreenState.Failure -> VeldErrorScreen()
+        is SpellDetailsStore.ScreenState.Failure -> VeldFailureScreen(
+            errorText = "",
+            onBackClick = {
+                onObtainEvent(SpellDetailsComponent.Event.OnBackClick)
+            },
+            onRetryClick = {
+                onObtainEvent(SpellDetailsComponent.Event.OnRetryClick)
+            }
+        )
         is SpellDetailsStore.ScreenState.Loading -> VeldProgressBar()
         is SpellDetailsStore.ScreenState.Success -> {
             val details = (state.screenState as SpellDetailsStore.ScreenState.Success)

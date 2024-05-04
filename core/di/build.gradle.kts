@@ -54,6 +54,10 @@ kotlin {
             implementation(project(":feature:classes-details:data"))
             implementation(project(":feature:classes-details:domain"))
             implementation(project(":feature:classes-details:presentation"))
+
+            implementation(project(":feature:bestiary:data"))
+            implementation(project(":feature:bestiary:domain"))
+            implementation(project(":feature:bestiary:presentation"))
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)

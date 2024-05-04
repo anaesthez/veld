@@ -13,7 +13,7 @@ object RemoteSourcesHolder {
         HttpRequestWrapperImpl()
     }
 
-    val dndSpellSource by lazy {
+    val dnD5eRemoteSource by lazy {
         RemoteSourceSpellModule(
             object : RemoteSourceSpellModule.Dependencies {
                 override val config: HttpClientConfig = RemoteSourcesHolder.config

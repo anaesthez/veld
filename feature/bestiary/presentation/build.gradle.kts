@@ -37,6 +37,7 @@ kotlin {
             with(libs) {
                 implementation(decompose.extensions)
                 implementation(kotlinx.collections.immutable)
+                implementation(kotlinx.coroutines.core)
                 api(decompose)
                 api(lifecycle)
             }
@@ -46,6 +47,7 @@ kotlin {
                 implementation(coroutines)
             }
             implementation(project(":core:common"))
+            implementation(project(":feature:bestiary:domain"))
         }
     }
 }
