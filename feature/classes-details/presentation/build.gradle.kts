@@ -34,7 +34,7 @@ kotlin {
         commonMain.dependencies {
             with(libs) {
                 implementation(kotlinx.coroutines.core)
-                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
+                implementation(kotlinx.collections.immutable)
                 implementation(decompose.extensions)
                 api(decompose)
                 api(lifecycle)

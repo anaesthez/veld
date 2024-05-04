@@ -36,15 +36,14 @@ kotlin {
         commonMain.dependencies {
             with(libs) {
                 implementation(decompose.extensions)
-                implementation(badoo.reaktive)
+                implementation(kotlinx.collections.immutable)
                 api(decompose)
                 api(lifecycle)
             }
             with(libs.mvi) {
-                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
                 implementation(core)
                 implementation(main)
-                implementation(reaktive)
+                implementation(coroutines)
             }
             implementation(project(":core:common"))
         }

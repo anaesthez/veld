@@ -35,7 +35,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             with(libs) {
-                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
+                implementation(kotlinx.collections.immutable)
                 implementation(decompose.extensions)
                 implementation(badoo.reaktive)
                 api(decompose)

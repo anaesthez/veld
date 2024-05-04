@@ -35,13 +35,13 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             with(libs) {
+                implementation(kotlinx.collections.immutable)
                 implementation(kotlinx.coroutines.core)
                 implementation(decompose.extensions)
                 api(decompose)
                 api(lifecycle)
             }
             with(libs.mvi) {
-                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
                 implementation(core)
                 implementation(main)
                 implementation(coroutines)

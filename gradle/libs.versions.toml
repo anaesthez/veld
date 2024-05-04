@@ -13,6 +13,7 @@ lifecycle = "2.0.0-alpha02"
 decompose = "3.0.0-alpha04"
 extensions = "2.2.2"
 kotlinx-coroutines = "1.8.0"
+kotlinx-collections = "0.3.7"
 kotlinx-serialization = "1.6.3"
 ktor = "3.0.0-beta-1"
 mvi-kotlin = "4.0.0-alpha01"
@@ -39,6 +40,7 @@ lifecycle = { module = "com.arkivanov.essenty:lifecycle", version.ref = "lifecyc
 
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-collections-immutable = { module = "org.jetbrains.kotlinx:kotlinx-collections-immutable", version.ref = "kotlinx-collections" }
 
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }

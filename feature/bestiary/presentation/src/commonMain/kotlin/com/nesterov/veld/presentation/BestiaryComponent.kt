@@ -6,7 +6,7 @@ import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.nesterov.veld.common.base.BaseComponent
 
-sealed interface BestiaryComponent {
+interface BestiaryComponent {
     val state: Value<BestiaryStore.State>
 }
 

@@ -71,7 +71,7 @@ kotlin {
                 implementation(libres)
                 implementation(decompose.extensions)
                 implementation(badoo.reaktive)
-                implementation("org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.7")
+                implementation(kotlinx.collections.immutable)
                 api(decompose)
                 api(lifecycle)
             }
