@@ -1,8 +1,8 @@
 package com.nesterov.veld.network.dnd
 
 import com.nesterov.veld.common.RequestResult
+import com.nesterov.veld.common.wrapHttpExceptions
 import com.nesterov.veld.network.dnd.config.HttpClientConfig
-import com.nesterov.veld.network.dnd.config.HttpRequestWrapper
 import com.nesterov.veld.network.dnd.model.bestiary.ResponseBestiaryDTO
 import com.nesterov.veld.network.dnd.model.classes.details.ClassDetailsDTO
 import com.nesterov.veld.network.dnd.model.spell.ReferenceOptionDTO
@@ -14,9 +14,7 @@ import io.ktor.client.request.url
 
 class DND5eRemoteSourceImpl(
     private val dependencies: DND5eRemoteSource.Dependencies,
-) : DND5eRemoteSource,
-    HttpClientConfig by dependencies.config,
-    HttpRequestWrapper by dependencies.wrapper {
+) : DND5eRemoteSource, HttpClientConfig by dependencies.config {
 
     override suspend fun fetchSpellList(): RequestResult<List<ReferenceOptionDTO>> =
         wrapHttpExceptions {

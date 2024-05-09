@@ -7,8 +7,8 @@ import com.nesterov.veld.domain.model.SpellDetailsDomainModel
 import com.nesterov.veld.network.dnd.DND5eRemoteSource
 
 class SpellDetailsRepositoryImpl(
-    private val spellSource: DND5eRemoteSource,
+    private val detailsSource: DND5eRemoteSource,
 ): SpellDetailsRepository {
     override suspend fun fetchSpellDetails(index: String): RequestResult<SpellDetailsDomainModel> =
-       spellSource.fetchSpellDetails(index).map { it.toSpellDomainModel() }
+        detailsSource.fetchSpellDetails(index).map { it.toSpellDomainModel() }
 }

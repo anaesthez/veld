@@ -14,7 +14,7 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-class HttpClientConfigImpl: HttpClientConfig {
+object HttpClientConfigImpl : HttpClientConfig {
     private val httpEngine: HttpClientEngineFactory<HttpClientEngineConfig> by lazy(LazyThreadSafetyMode.SYNCHRONIZED) {
         HttpEngineFactory().createEngine()
     }

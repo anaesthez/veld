@@ -8,9 +8,9 @@ import com.nesterov.veld.network.dnd.DND5eRemoteSource
 import com.nesterov.veld.network.dnd.model.classes.details.ClassDetailsDTO
 
 class ClassDetailsRepositoryImpl(
-    private val spellSource: DND5eRemoteSource,
+    private val classDetailsSource: DND5eRemoteSource,
 ) : ClassDetailsRepository {
     override suspend fun fetchClassDetails(index: String): RequestResult<CharacterClassDetailsDomainModel> =
-        spellSource.fetchCharacterClassDetails(index)
+        classDetailsSource.fetchCharacterClassDetails(index)
             .map(ClassDetailsDTO::toCharacterClassDetailsDomainModel)
 }
