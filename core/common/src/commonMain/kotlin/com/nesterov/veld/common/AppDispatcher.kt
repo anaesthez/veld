@@ -2,7 +2,7 @@ package com.nesterov.veld.common
 
 import kotlinx.coroutines.CoroutineDispatcher
 
-interface AppCoroutineDispatcherProvider {
+interface AppDispatcher {
     val mainDispatcher: CoroutineDispatcher
     val defaultDispatcher: CoroutineDispatcher
     val unconfinedDispatcher: CoroutineDispatcher

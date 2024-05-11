@@ -1,19 +1,20 @@
 package com.nesterov.veld.di.feature.details
 
 import com.nesterov.veld.data.SpellDetailsRepositoryImpl
+import com.nesterov.veld.di.sources.network.RemoteSources
 import com.nesterov.veld.domain.SpellDetailsRepository
-import com.nesterov.veld.network.dnd.DND5eRemoteSource
 
-interface SpellDetailsDataModule {
+interface SpellDetailsOwner {
     val repository: SpellDetailsRepository
+}
 
-    class Default(
-        spellSource: DND5eRemoteSource,
-    ): SpellDetailsDataModule {
+fun <T> RemoteSources.provideSpellDetails(block: SpellDetailsOwner.() -> T): T {
+    val detailsSource = this.dndSource
+    return object : SpellDetailsOwner {
         override val repository: SpellDetailsRepository by lazy {
             SpellDetailsRepositoryImpl(
-                spellSource,
+                detailsSource = detailsSource,
             )
         }
-    }
+    }.block()
 }

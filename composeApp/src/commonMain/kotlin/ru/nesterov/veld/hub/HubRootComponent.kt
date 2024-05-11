@@ -12,7 +12,6 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.nesterov.veld.common.base.BaseComponent
-import com.nesterov.veld.di.graph.AppDependenciesGraph
 import com.nesterov.veld.presentation.BestiaryComponent
 import com.nesterov.veld.presentation.BestiaryComponentImpl
 import com.nesterov.veld.presentation.ClassesComponent
@@ -23,6 +22,8 @@ import com.nesterov.veld.presentation.RaceComponent
 import com.nesterov.veld.presentation.RaceComponentImpl
 import com.nesterov.veld.presentation.SpellComponent
 import com.nesterov.veld.presentation.SpellComponentImpl
+import com.nesterov.veld.presentation.di.BestiaryDependencies
+import com.nesterov.veld.presentation.di.SpellDependencies
 import kotlinx.collections.immutable.persistentMapOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.serialization.Serializable
@@ -65,7 +66,8 @@ interface HubRootComponent {
 class HubRootComponentImpl(
     componentContext: ComponentContext,
     private val storeFactory: StoreFactory,
-    private val appDependenciesGraph: AppDependenciesGraph,
+    private val spellDependencies: SpellDependencies,
+    private val bestiaryDependencies: BestiaryDependencies,
     private val onAction: (HubRootComponent.Action) -> Unit,
 ) : BaseComponent(componentContext), HubRootComponent {
     private val pagesNavigation = PagesNavigation<Configuration>()
@@ -96,7 +98,7 @@ class HubRootComponentImpl(
                 SpellComponentImpl(
                     componentContext = ctx,
                     storeFactory = storeFactory,
-                    dependencies = appDependenciesGraph.spellDependencies,
+                    dependencies = spellDependencies,
                     action = ::onSpellAction,
                 )
             )
@@ -119,7 +121,7 @@ class HubRootComponentImpl(
                 BestiaryComponentImpl(
                     componentContext = ctx,
                     storeFactory = storeFactory,
-                    dependencies = appDependenciesGraph.bestiaryDependencies,
+                    dependencies = bestiaryDependencies,
                 )
             )
         }

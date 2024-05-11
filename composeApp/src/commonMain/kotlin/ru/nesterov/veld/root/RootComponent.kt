@@ -9,8 +9,7 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
-import com.nesterov.veld.common.base.BaseComponent
-import com.nesterov.veld.di.graph.AppDependenciesGraph
+import com.nesterov.veld.di.graph.provideDependencies
 import com.nesterov.veld.presentation.ClassDetailsComponent
 import com.nesterov.veld.presentation.ClassDetailsComponentImpl
 import com.nesterov.veld.presentation.SpellDetailsComponent
@@ -31,8 +30,8 @@ interface RootComponent{
 
 class RootComponentImpl(
     componentContext: ComponentContext,
-    private val appDependenciesGraph: AppDependenciesGraph,
-) : BaseComponent(componentContext), RootComponent {
+) : RootComponent, ComponentContext by componentContext {
+
     private val navigation = StackNavigation<Configuration>()
     private val storeFactory: DefaultStoreFactory = DefaultStoreFactory()
     private val stack = childStack(
@@ -50,34 +49,41 @@ class RootComponentImpl(
         componentContext: ComponentContext
     ): RootComponent.Child =
         when (configuration) {
-            is Configuration.Hub -> RootComponent.Child.Hub(
-                HubRootComponentImpl(
-                    componentContext = componentContext,
-                    storeFactory = storeFactory,
-                    appDependenciesGraph = appDependenciesGraph,
-                    onAction = ::onHubAction,
+            is Configuration.Hub -> provideDependencies {
+                RootComponent.Child.Hub(
+                    HubRootComponentImpl(
+                        componentContext = componentContext,
+                        storeFactory = storeFactory,
+                        bestiaryDependencies = bestiaryDependencies,
+                        spellDependencies = spellDependencies,
+                        onAction = ::onHubAction,
+                    )
                 )
-            )
+            }
 
-            is Configuration.SpellDetails -> RootComponent.Child.SpellDetails(
-                SpellDetailsComponentImpl(
-                    componentContext = componentContext,
-                    storeFactory = storeFactory,
-                    dependencies = appDependenciesGraph.spellDetailsDependencies,
-                    spellIndex = configuration.spellIndex,
-                    action = ::onSpellDetailsAction,
+            is Configuration.SpellDetails -> provideDependencies {
+                RootComponent.Child.SpellDetails(
+                    SpellDetailsComponentImpl(
+                        componentContext = componentContext,
+                        storeFactory = storeFactory,
+                        dependencies = spellDetailsDependencies,
+                        spellIndex = configuration.spellIndex,
+                        action = ::onSpellDetailsAction,
+                    )
                 )
-            )
+            }
 
-            is Configuration.ClassDetails -> RootComponent.Child.ClassDetails(
-                ClassDetailsComponentImpl(
-                    componentContext = componentContext,
-                    storeFactory = storeFactory,
-                    index = configuration.classIndex,
-                    classDetailsDependencies = appDependenciesGraph.classDetailsDependencies,
-                    action = ::onClassDetailsAction,
+            is Configuration.ClassDetails -> provideDependencies {
+                RootComponent.Child.ClassDetails(
+                    ClassDetailsComponentImpl(
+                        componentContext = componentContext,
+                        storeFactory = storeFactory,
+                        index = configuration.classIndex,
+                        classDetailsDependencies = classDetailsDependencies,
+                        action = ::onClassDetailsAction,
+                    )
                 )
-            )
+            }
         }
 
     @OptIn(ExperimentalDecomposeApi::class)
