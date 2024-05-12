@@ -42,7 +42,6 @@ kotlin {
             with(libs) {
                 implementation(kotlinx.collections.immutable)
                 implementation(decompose.extensions)
-                implementation(libres)
             }
             implementation(project(":feature:creature:presentation"))
             implementation(project(":core:design-system"))

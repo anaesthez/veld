@@ -99,6 +99,9 @@ kotlin {
 
             implementation(project(":feature:bestiary:presentation"))
             implementation(project(":feature:bestiary:ui"))
+
+            implementation(project(":feature:creature:presentation"))
+            implementation(project(":feature:creature:ui"))
         }
 
         commonTest.dependencies {

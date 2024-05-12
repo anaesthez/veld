@@ -75,7 +75,9 @@ private fun BestiaryScreenStateful(
             Spacer(modifier = Modifier.height(8.dp))
             CreatureListItem(
                 creatureName = creature.name,
-                onCreatureClick = { onObtainEvent(BestiaryComponent.Event.OnBackClick) }
+                onCreatureClick = {
+                    onObtainEvent(BestiaryComponent.Event.OnCreatureClick(creature.index))
+                }
             )
         }
     }

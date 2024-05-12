@@ -1,7 +1,7 @@
 package com.nesterov.veld.presentation.di
 
 import com.nesterov.veld.common.AppDispatcher
-import com.nesterov.veld.domain.CreatureRepository
+import com.nesterov.veld.domain.BestiaryRepository
 import com.nesterov.veld.domain.FetchCreatureListUseCase
 
 interface BestiaryDependencies {
@@ -9,7 +9,7 @@ interface BestiaryDependencies {
     val dispatcher: AppDispatcher
 
     class Default(
-        repository: CreatureRepository,
+        repository: BestiaryRepository,
         dispatcherProvider: AppDispatcher,
     ) : BestiaryDependencies {
         override val fetchCreatureListUseCase: FetchCreatureListUseCase =

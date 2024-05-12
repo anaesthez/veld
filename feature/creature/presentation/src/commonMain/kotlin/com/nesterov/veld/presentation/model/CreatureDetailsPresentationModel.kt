@@ -1,6 +1,6 @@
 package com.nesterov.veld.presentation.model
 
-class CreaturePresentationModel(
+data class CreatureDetailsPresentationModel(
     val xpGain: Int,
     val size: String,
     val type: String,
@@ -12,22 +12,22 @@ class CreaturePresentationModel(
     val hitDice: String,
     val languages: String,
     val alignments: String,
+    val description: String,
     val hitPointsRoll: String,
     val proficiencyBonus: Int,
     val challengeRating: Float,
     val speed: SpeedPresentationModel,
     val sense: SensePresentationModel,
-    val armor: ArmorPresentationModel,
-    val spell: SpellPresentationModel,
+    val spell: CreatureSpellPresentationModel,
     val stats: StatsPresentationModel,
-    val description: List<String>,
+    val armor: List<ArmorPresentationModel>,
     val creatureActions: List<CreatureActionPresentationModel>,
     val specialAbilities: List<CreatureActionPresentationModel>,
     val legendaryActions: List<CreatureActionPresentationModel>,
     val proficiencies: List<CreatureProficiencyPresentationModel>,
 )
 
-class CreatureActionPresentationModel(
+data class CreatureActionPresentationModel(
     val name: String,
     val desc: String,
     val attackBonus: Int,
@@ -37,24 +37,24 @@ class CreatureActionPresentationModel(
     val difficultyClass: DifficultyPresentationModel,
 )
 
-class UsagePresentationModel(
+data class UsagePresentationModel(
     val times: Int,
     val type: String,
     val restTypes: List<String>,
 )
 
-class DifficultyPresentationModel(
+data class DifficultyPresentationModel(
     val difficultyValue: Int,
     val successType: String,
     val type: DifficultyTypePresentationModel,
 )
 
-class DifficultyTypePresentationModel(
+data class DifficultyTypePresentationModel(
     val name: String,
     val index: String,
 )
 
-class StatsPresentationModel(
+data class StatsPresentationModel(
     val wisdom: Int,
     val charisma: Int,
     val strength: Int,
@@ -63,31 +63,31 @@ class StatsPresentationModel(
     val intelligence: Int,
 )
 
-class ActionDamagePresentationModel(
-    val damageType: DamageTypePresentationModel,
+data class ActionDamagePresentationModel(
+    val damageType: CreatureDamageTypePresentationModel,
     val damageDice: String,
 )
 
-class DamageTypePresentationModel(
+data class CreatureDamageTypePresentationModel(
     val index: String,
     val url: String,
     val name: String,
 )
 
-class ActionPresentationModel(
+data class ActionPresentationModel(
     val count: Int,
     val name: String,
     val type: String,
 )
 
-class SpeedPresentationModel(
+data class SpeedPresentationModel(
     val burrow: String,
     val climb: String,
     val walk: String,
     val swim: String,
 )
 
-class SensePresentationModel(
+data class SensePresentationModel(
     val passivePerception: Int,
     val tremorSense: String,
     val blindSight: String,
@@ -95,35 +95,35 @@ class SensePresentationModel(
     val trueSight: String,
 )
 
-class ArmorPresentationModel(
+data class ArmorPresentationModel(
     val type: String,
     val value: Int,
 )
 
-class SpellPresentationModel(
+data class CreatureSpellPresentationModel(
     val level: Int,
     val modifier: String,
     val magicSchool: String,
     val difficultyClass: String,
     val components: List<String>,
     val ability: AbilityPresentationModel,
-    val slots: DamageSlotPresentationModel,
+    val slots: CreatureSlotPresentationModel,
     val spells: List<SpellOptionPresentationModel>,
 )
 
-class AbilityPresentationModel(
+data class AbilityPresentationModel(
     val index: String,
     val url: String,
     val name: String,
 )
 
-class SpellOptionPresentationModel(
+data class SpellOptionPresentationModel(
     val index: String,
     val url: String,
     val name: String,
 )
 
-class DamageSlotPresentationModel(
+data class CreatureSlotPresentationModel(
     val first: String,
     val second: String,
     val third: String,
@@ -135,12 +135,12 @@ class DamageSlotPresentationModel(
     val ninth: String,
 )
 
-class CreatureProficiencyPresentationModel(
+data class CreatureProficiencyPresentationModel(
     val value: Int,
-    val proficiency: ProficiencyPresentationModel,
+    val proficiency: ProficiencyReferencePresentationModel,
 )
 
-class ProficiencyPresentationModel(
+data class ProficiencyReferencePresentationModel(
     val url: String,
     val index: String,
     val name: String,

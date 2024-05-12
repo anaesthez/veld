@@ -12,10 +12,13 @@ interface BestiaryComponent {
 
     fun onObtainEvent(event: Event)
 
+    sealed interface Action {
+        data class OnCreatureClick(val index: String) : Action
+    }
+
     sealed interface Event {
         data object OnRetryClick : Event
-        data object OnBackClick : Event
-        data object OnCreatureClick : Event
+        data class OnCreatureClick(val index: String) : Event
         data class OnSearchCreature(val query: String) : Event
     }
 }
@@ -24,6 +27,7 @@ class BestiaryComponentImpl(
     storeFactory: StoreFactory,
     dependencies: BestiaryDependencies,
     componentContext: ComponentContext,
+    private val action: (BestiaryComponent.Action) -> Unit,
 ) : BaseComponent(componentContext), BestiaryComponent {
     private val bestiaryStore = instanceKeeper.getStore {
         BestiaryStoreFactory(
@@ -35,16 +39,12 @@ class BestiaryComponentImpl(
 
     override fun onObtainEvent(event: BestiaryComponent.Event) =
         when (event) {
-            BestiaryComponent.Event.OnBackClick -> {
-
-            }
-
             BestiaryComponent.Event.OnRetryClick -> {
 
             }
 
-            BestiaryComponent.Event.OnCreatureClick -> {
-
+            is BestiaryComponent.Event.OnCreatureClick -> {
+                action(BestiaryComponent.Action.OnCreatureClick(event.index))
             }
 
             is BestiaryComponent.Event.OnSearchCreature -> {

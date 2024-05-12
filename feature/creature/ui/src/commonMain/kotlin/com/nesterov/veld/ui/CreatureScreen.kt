@@ -8,7 +8,7 @@ import com.nesterov.veld.design_system.ui.VeldFailureScreen
 import com.nesterov.veld.design_system.ui.VeldProgressBar
 import com.nesterov.veld.presentation.CreatureComponent
 import com.nesterov.veld.presentation.CreatureStore
-import com.nesterov.veld.presentation.model.CreaturePresentationModel
+import com.nesterov.veld.presentation.model.CreatureDetailsPresentationModel
 
 @Composable
 fun CreatureScreen(component: CreatureComponent) {
@@ -30,6 +30,7 @@ fun CreatureScreen(component: CreatureComponent) {
         CreatureStore.ScreenState.Loading -> VeldProgressBar()
         is CreatureStore.ScreenState.Success -> {
             val result = (state.screenState as CreatureStore.ScreenState.Success)
+            println(result.creature)
             BestiaryScreenStateful(
                 creature = result.creature,
                 onObtainEvent = onObtainEvent,
@@ -40,7 +41,7 @@ fun CreatureScreen(component: CreatureComponent) {
 
 @Composable
 private fun BestiaryScreenStateful(
-    creature: CreaturePresentationModel,
+    creature: CreatureDetailsPresentationModel,
     onObtainEvent: (CreatureComponent.Event) -> Unit
 ) {
     println(creature)

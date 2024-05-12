@@ -5,10 +5,10 @@ import com.nesterov.veld.domain.ActionDamageDomainModel
 import com.nesterov.veld.domain.ActionDomainModel
 import com.nesterov.veld.domain.ArmorDomainModel
 import com.nesterov.veld.domain.CreatureActionDomainModel
-import com.nesterov.veld.domain.CreatureDomainModel
+import com.nesterov.veld.domain.CreatureDamageTypeDomainModel
+import com.nesterov.veld.domain.CreatureDetailsDomainModel
 import com.nesterov.veld.domain.CreatureProficiencyDomainModel
-import com.nesterov.veld.domain.DamageSlotDomainModel
-import com.nesterov.veld.domain.DamageTypeDomainModel
+import com.nesterov.veld.domain.CreatureSlotDomainModel
 import com.nesterov.veld.domain.DifficultyDomainModel
 import com.nesterov.veld.domain.DifficultyTypeDomainModel
 import com.nesterov.veld.domain.ProficiencyDomainModel
@@ -23,22 +23,22 @@ import com.nesterov.veld.presentation.model.ActionDamagePresentationModel
 import com.nesterov.veld.presentation.model.ActionPresentationModel
 import com.nesterov.veld.presentation.model.ArmorPresentationModel
 import com.nesterov.veld.presentation.model.CreatureActionPresentationModel
-import com.nesterov.veld.presentation.model.CreaturePresentationModel
+import com.nesterov.veld.presentation.model.CreatureDamageTypePresentationModel
+import com.nesterov.veld.presentation.model.CreatureDetailsPresentationModel
 import com.nesterov.veld.presentation.model.CreatureProficiencyPresentationModel
-import com.nesterov.veld.presentation.model.DamageSlotPresentationModel
-import com.nesterov.veld.presentation.model.DamageTypePresentationModel
+import com.nesterov.veld.presentation.model.CreatureSlotPresentationModel
+import com.nesterov.veld.presentation.model.CreatureSpellPresentationModel
 import com.nesterov.veld.presentation.model.DifficultyPresentationModel
 import com.nesterov.veld.presentation.model.DifficultyTypePresentationModel
-import com.nesterov.veld.presentation.model.ProficiencyPresentationModel
+import com.nesterov.veld.presentation.model.ProficiencyReferencePresentationModel
 import com.nesterov.veld.presentation.model.SensePresentationModel
 import com.nesterov.veld.presentation.model.SpeedPresentationModel
 import com.nesterov.veld.presentation.model.SpellOptionPresentationModel
-import com.nesterov.veld.presentation.model.SpellPresentationModel
 import com.nesterov.veld.presentation.model.StatsPresentationModel
 import com.nesterov.veld.presentation.model.UsagePresentationModel
 
-fun CreatureDomainModel.toCreaturePresentationModel(): CreaturePresentationModel =
-    CreaturePresentationModel(
+fun CreatureDetailsDomainModel.toCreaturePresentationModel(): CreatureDetailsPresentationModel =
+    CreatureDetailsPresentationModel(
         xpGain = xpGain,
         size = size,
         type = type,
@@ -48,6 +48,7 @@ fun CreatureDomainModel.toCreaturePresentationModel(): CreaturePresentationModel
         imageUrl = imageUrl,
         subtype = subtype,
         hitDice = hitDice,
+        description = description,
         languages = languages,
         alignments = alignments,
         hitPointsRoll = hitPointsRoll,
@@ -55,10 +56,9 @@ fun CreatureDomainModel.toCreaturePresentationModel(): CreaturePresentationModel
         challengeRating = challengeRating,
         speed = speed.toSpeedPresentationModel(),
         sense = sense.toSensePresentationModel(),
-        armor = armor.toArmorPresentationModel(),
         spell = spell.toSpellPresentationModel(),
         stats = stats.toStatsPresentationModel(),
-        description = description,
+        armor = armor.map(ArmorDomainModel::toArmorPresentationModel),
         creatureActions = creatureActions.map(CreatureActionDomainModel::toCreatureActionPresentationModel),
         specialAbilities = specialAbilities.map(CreatureActionDomainModel::toCreatureActionPresentationModel),
         legendaryActions = legendaryActions.map(CreatureActionDomainModel::toCreatureActionPresentationModel),
@@ -98,8 +98,8 @@ fun ArmorDomainModel.toArmorPresentationModel(): ArmorPresentationModel =
         value = value
     )
 
-fun SpellDomainModel.toSpellPresentationModel(): SpellPresentationModel =
-    SpellPresentationModel(
+fun SpellDomainModel.toSpellPresentationModel(): CreatureSpellPresentationModel =
+    CreatureSpellPresentationModel(
         level = level,
         modifier = modifier,
         magicSchool = magicSchool,
@@ -124,8 +124,8 @@ fun AbilityDomainModel.toAbilityPresentationModel(): AbilityPresentationModel =
         name = name
     )
 
-fun DamageSlotDomainModel.toDamageSlotPresentationModel(): DamageSlotPresentationModel =
-    DamageSlotPresentationModel(
+fun CreatureSlotDomainModel.toDamageSlotPresentationModel(): CreatureSlotPresentationModel =
+    CreatureSlotPresentationModel(
         first = first,
         second = second,
         third = third,
@@ -174,8 +174,8 @@ fun ActionDamageDomainModel.toActionDamagePresentationModel(): ActionDamagePrese
         damageDice = damageDice
     )
 
-fun DamageTypeDomainModel.toDamageTypePresentationModel(): DamageTypePresentationModel =
-    DamageTypePresentationModel(
+fun CreatureDamageTypeDomainModel.toDamageTypePresentationModel(): CreatureDamageTypePresentationModel =
+    CreatureDamageTypePresentationModel(
         index = index,
         url = url,
         name = name
@@ -194,8 +194,8 @@ fun CreatureProficiencyDomainModel.toCreatureProficiencyPresentationModel(): Cre
         proficiency = proficiency.toProficiencyPresentationModel()
     )
 
-fun ProficiencyDomainModel.toProficiencyPresentationModel(): ProficiencyPresentationModel =
-    ProficiencyPresentationModel(
+fun ProficiencyDomainModel.toProficiencyPresentationModel(): ProficiencyReferencePresentationModel =
+    ProficiencyReferencePresentationModel(
         url = url,
         index = index,
         name = name

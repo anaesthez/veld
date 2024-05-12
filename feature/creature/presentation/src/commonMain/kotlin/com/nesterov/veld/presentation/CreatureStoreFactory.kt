@@ -10,7 +10,7 @@ import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
 import com.nesterov.veld.common.ResultHolder
 import com.nesterov.veld.presentation.di.CreatureDependencies
 import com.nesterov.veld.presentation.mapper.toCreaturePresentationModel
-import com.nesterov.veld.presentation.model.CreaturePresentationModel
+import com.nesterov.veld.presentation.model.CreatureDetailsPresentationModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -73,13 +73,14 @@ class CreatureStoreFactory(
     private sealed interface Action {
         data object FetchCreatureListFailure : Action
         data object FetchCreatureListLoading : Action
-        data class FetchCreatureListSuccess(val creatures: CreaturePresentationModel) : Action
+        data class FetchCreatureListSuccess(val creatures: CreatureDetailsPresentationModel) :
+            Action
     }
 
     private sealed interface Msg {
         data object FetchCreatureListFailure : Msg
         data object FetchCreatureListLoading : Msg
-        data class FetchCreatureListSuccess(val creature: CreaturePresentationModel) : Msg
+        data class FetchCreatureListSuccess(val creature: CreatureDetailsPresentationModel) : Msg
     }
 
     private object ReducerImpl : Reducer<CreatureStore.State, Msg> {

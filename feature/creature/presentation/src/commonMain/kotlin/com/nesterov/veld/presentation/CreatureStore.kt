@@ -1,7 +1,7 @@
 package com.nesterov.veld.presentation
 
 import com.arkivanov.mvikotlin.core.store.Store
-import com.nesterov.veld.presentation.model.CreaturePresentationModel
+import com.nesterov.veld.presentation.model.CreatureDetailsPresentationModel
 
 interface CreatureStore : Store<CreatureStore.Intent, CreatureStore.State, CreatureStore.Label> {
     sealed interface Intent {
@@ -17,6 +17,6 @@ interface CreatureStore : Store<CreatureStore.Intent, CreatureStore.State, Creat
     sealed interface ScreenState {
         data object Loading : ScreenState
         data object Failure : ScreenState
-        data class Success(val creature: CreaturePresentationModel) : ScreenState
+        data class Success(val creature: CreatureDetailsPresentationModel) : ScreenState
     }
 }

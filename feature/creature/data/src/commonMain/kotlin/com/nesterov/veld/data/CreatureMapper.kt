@@ -5,10 +5,10 @@ import com.nesterov.veld.domain.ActionDamageDomainModel
 import com.nesterov.veld.domain.ActionDomainModel
 import com.nesterov.veld.domain.ArmorDomainModel
 import com.nesterov.veld.domain.CreatureActionDomainModel
-import com.nesterov.veld.domain.CreatureDomainModel
+import com.nesterov.veld.domain.CreatureDamageTypeDomainModel
+import com.nesterov.veld.domain.CreatureDetailsDomainModel
 import com.nesterov.veld.domain.CreatureProficiencyDomainModel
-import com.nesterov.veld.domain.DamageSlotDomainModel
-import com.nesterov.veld.domain.DamageTypeDomainModel
+import com.nesterov.veld.domain.CreatureSlotDomainModel
 import com.nesterov.veld.domain.DifficultyDomainModel
 import com.nesterov.veld.domain.DifficultyTypeDomainModel
 import com.nesterov.veld.domain.ProficiencyDomainModel
@@ -34,8 +34,8 @@ import com.nesterov.veld.network.dnd.model.creature.DifficultyDTO
 import com.nesterov.veld.network.dnd.model.spell.ReferenceOptionDTO
 import com.nesterov.veld.network.dnd.model.spell.details.DamageSlotDTO
 
-fun CreatureDTO.toCreatureDomainModel(): CreatureDomainModel =
-    CreatureDomainModel(
+fun CreatureDTO.toCreatureDomainModel(): CreatureDetailsDomainModel =
+    CreatureDetailsDomainModel(
         xpGain = xpGain.orZero(),
         size = size.orEmpty(),
         type = type.orEmpty(),
@@ -52,7 +52,6 @@ fun CreatureDTO.toCreatureDomainModel(): CreatureDomainModel =
         challengeRating = challengeRating.orZero(),
         speed = speed?.toSpeedDomainModel() ?: SpeedDomainModel("", "", "", ""),
         sense = senses?.toSenseDomainModel() ?: SenseDomainModel(0, "", "", "", ""),
-        armor = armorClass?.toArmorDomainModel() ?: ArmorDomainModel("", 0),
         spell = spellCasting?.toSpellDomainModel() ?: SpellDomainModel(
             0,
             "",
@@ -60,7 +59,7 @@ fun CreatureDTO.toCreatureDomainModel(): CreatureDomainModel =
             "",
             emptyList(),
             AbilityDomainModel("", "", ""),
-            DamageSlotDomainModel("", "", "", "", "", "", "", "", ""),
+            CreatureSlotDomainModel("", "", "", "", "", "", "", "", ""),
             emptyList()
         ),
         stats = StatsDomainModel(
@@ -72,6 +71,7 @@ fun CreatureDTO.toCreatureDomainModel(): CreatureDomainModel =
             intelligence = intelligence.orZero()
         ),
         description = description.orEmpty(),
+        armor = armorClass?.map(ArmorClassDTO::toArmorDomainModel).orEmpty(),
         creatureActions = actions?.map { it.toCreatureActionDomainModel() }.orEmpty(),
         specialAbilities = specialAbilities?.map { it.toCreatureActionDomainModel() }.orEmpty(),
         legendaryActions = legendaryActions?.map { it.toCreatureActionDomainModel() }.orEmpty(),
@@ -109,7 +109,7 @@ fun CreatureSpellCastDTO.toSpellDomainModel(): SpellDomainModel =
         difficultyClass = difficultyClass.orEmpty(),
         components = components.orEmpty(),
         ability = ability?.toAbilityDomainModel() ?: AbilityDomainModel("", "", ""),
-        slots = slots?.toDamageSlotDomainModel() ?: DamageSlotDomainModel(
+        slots = slots?.toDamageSlotDomainModel() ?: CreatureSlotDomainModel(
             "",
             "",
             "",
@@ -160,12 +160,16 @@ fun DifficultyDTO.toDifficultyTypeDomainModel(): DifficultyTypeDomainModel =
 
 fun ActionDamageDTO.toActionDamageDomainModel(): ActionDamageDomainModel =
     ActionDamageDomainModel(
-        damageType = damageType?.toDamageTypeDomainModel() ?: DamageTypeDomainModel("", "", ""),
+        damageType = damageType?.toDamageTypeDomainModel() ?: CreatureDamageTypeDomainModel(
+            "",
+            "",
+            ""
+        ),
         damageDice = damageDice.orEmpty()
     )
 
-fun ReferenceOptionDTO.toDamageTypeDomainModel(): DamageTypeDomainModel =
-    DamageTypeDomainModel(
+fun ReferenceOptionDTO.toDamageTypeDomainModel(): CreatureDamageTypeDomainModel =
+    CreatureDamageTypeDomainModel(
         index = index.orEmpty(),
         url = url.orEmpty(),
         name = name.orEmpty()
@@ -205,8 +209,8 @@ fun ReferenceOptionDTO.toSpellOptionDomainModel(): SpellOptionDomainModel =
         name = name.orEmpty()
     )
 
-fun DamageSlotDTO.toDamageSlotDomainModel(): DamageSlotDomainModel =
-    DamageSlotDomainModel(
+fun DamageSlotDTO.toDamageSlotDomainModel(): CreatureSlotDomainModel =
+    CreatureSlotDomainModel(
         first = first.orEmpty(),
         second = second.orEmpty(),
         third = third.orEmpty(),

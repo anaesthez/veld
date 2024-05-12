@@ -1,6 +1,6 @@
 package com.nesterov.veld.domain
 
-class CreatureDomainModel(
+class CreatureDetailsDomainModel(
     val xpGain: Int,
     val size: String,
     val type: String,
@@ -12,15 +12,15 @@ class CreatureDomainModel(
     val hitDice: String,
     val languages: String,
     val alignments: String,
+    val description: String,
     val hitPointsRoll: String,
     val proficiencyBonus: Int,
     val challengeRating: Float,
     val speed: SpeedDomainModel,
     val sense: SenseDomainModel,
-    val armor: ArmorDomainModel,
     val spell: SpellDomainModel,
     val stats: StatsDomainModel,
-    val description: List<String>,
+    val armor: List<ArmorDomainModel>,
     val creatureActions: List<CreatureActionDomainModel>,
     val specialAbilities: List<CreatureActionDomainModel>,
     val legendaryActions: List<CreatureActionDomainModel>,
@@ -64,11 +64,11 @@ class StatsDomainModel(
 )
 
 class ActionDamageDomainModel(
-    val damageType: DamageTypeDomainModel,
+    val damageType: CreatureDamageTypeDomainModel,
     val damageDice: String,
 )
 
-class DamageTypeDomainModel(
+class CreatureDamageTypeDomainModel(
     val index: String,
     val url: String,
     val name: String,
@@ -107,7 +107,7 @@ class SpellDomainModel(
     val difficultyClass: String,
     val components: List<String>,
     val ability: AbilityDomainModel,
-    val slots: DamageSlotDomainModel,
+    val slots: CreatureSlotDomainModel,
     val spells: List<SpellOptionDomainModel>,
 )
 
@@ -123,7 +123,7 @@ class SpellOptionDomainModel(
     val name: String,
 )
 
-class DamageSlotDomainModel(
+class CreatureSlotDomainModel(
     val first: String,
     val second: String,
     val third: String,
