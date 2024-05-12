@@ -55,5 +55,10 @@ include(":feature:bestiary:domain")
 include(":feature:bestiary:presentation")
 include(":feature:bestiary:ui")
 
+include(":feature:creature:data")
+include(":feature:creature:domain")
+include(":feature:creature:presentation")
+include(":feature:creature:ui")
+
 include(":feature:search:presentation")
 include(":feature:search:ui")

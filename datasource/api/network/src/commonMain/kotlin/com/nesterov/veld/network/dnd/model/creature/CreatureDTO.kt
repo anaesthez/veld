@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class ResponseCreatureDTO(
+class CreatureDTO(
     @SerialName("xp") val xpGain: Int? = null,
     @SerialName("size") val size: String? = null,
     @SerialName("type") val type: String? = null,
