@@ -2,11 +2,13 @@ package com.nesterov.veld.domain
 
 class CreatureDetailsDomainModel(
     val xpGain: Int,
+    val hitPoints: Int,
+    val proficiencyBonus: Int,
     val size: String,
     val type: String,
+    val name: String,
     val index: String,
     val level: String,
-    val hitPoints: Int,
     val imageUrl: String,
     val subtype: String,
     val hitDice: String,
@@ -14,7 +16,6 @@ class CreatureDetailsDomainModel(
     val alignments: String,
     val description: String,
     val hitPointsRoll: String,
-    val proficiencyBonus: Int,
     val challengeRating: Float,
     val speed: SpeedDomainModel,
     val sense: SenseDomainModel,

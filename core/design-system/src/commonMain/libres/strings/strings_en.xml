@@ -39,4 +39,27 @@
     <string name="classes_details_spell_failure_retry">Try again</string>
     <string name="classes_details_prerequisites_header">Multiclass prerequisites</string>
     <string name="classes_details_prerequisites_descr">To qualify for a new class, you must meet the ability score prerequisites for both your current class and your new one, as shown beneath.</string>
+
+    <string name="creature_hit_rolls">${hitDice} / ${hitRolls}</string>
+    <string name="creature_prof_bonus">Bonus: ${bonus}</string>
+    <string name="creature_attack_bonus">Attack bonus: ${bonus}</string>
+    <string name="creature_hit_points">HP: ${hp}</string>
+    <string name="creature_usage_times">Usage times: ${times}</string>
+    <string name="creature_usage_type">Usage type: ${usageType}</string>
+    <string name="creature_rest_type">Rest type: ${restType}</string>
+    <string name="creature_damage_header_title">Damage</string>
+    <string name="creature_difficulty_header_title">Difficulty</string>
+    <string name="creature_difficulty_success_type">In case of success: ${successType}</string>
+
+    <string name="movement_walk">walking: ${speed}</string>
+    <string name="movement_climbing">climbing: ${speed}</string>
+    <string name="movement_burrowing">burrowing: ${speed}</string>
+    <string name="movement_swimming">swimming: ${speed}</string>
+
+    <string name="wisdom">WIS</string>
+    <string name="dexterity">DEX</string>
+    <string name="charisma">CHA</string>
+    <string name="strength">STR</string>
+    <string name="constitution">CON</string>
+    <string name="intelligence">INT</string>
 </resources>

@@ -24,6 +24,12 @@ class VeldColors(
     textColorPrimary: Color,
     textColorSecondary: Color,
     textColorTertiary: Color,
+    constitution: Color,
+    wisdom: Color,
+    intelligence: Color,
+    dexterity: Color,
+    strength: Color,
+    charisma: Color,
     isLight: Boolean,
 ) {
     var materialColors by mutableStateOf(materialColors)
@@ -52,6 +58,18 @@ class VeldColors(
         private set
     var enchantmentSpell by mutableStateOf(enchantmentSpell)
         private set
+    var constitution by mutableStateOf(constitution)
+        private set
+    var dexterity by mutableStateOf(dexterity)
+        private set
+    var charisma by mutableStateOf(charisma)
+        private set
+    var strength by mutableStateOf(strength)
+        private set
+    var intelligence by mutableStateOf(intelligence)
+        private set
+    var wisdom by mutableStateOf(wisdom)
+        private set
 
     override fun toString() = "VeldColors(" +
             "materialColors=$materialColors" +
@@ -59,6 +77,12 @@ class VeldColors(
 
     fun update(colors: VeldColors) {
         materialColors = colors.materialColors
+        intelligence = colors.intelligence
+        constitution = colors.constitution
+        dexterity = colors.dexterity
+        charisma = colors.charisma
+        strength = colors.strength
+        wisdom = colors.wisdom
         textColorPrimary = colors.textColorPrimary
         textColorSecondary = colors.textColorSecondary
         textColorTertiary = colors.textColorTertiary
@@ -85,6 +109,12 @@ class VeldColors(
         divinationSpell = divinationSpell,
         transmutationSpell = transmutationSpell,
         enchantmentSpell = enchantmentSpell,
+        constitution = constitution,
+        wisdom = wisdom,
+        intelligence = intelligence,
+        dexterity = dexterity,
+        strength = strength,
+        charisma = charisma,
         isLight = isLight
     )
 }

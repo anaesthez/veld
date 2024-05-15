@@ -13,6 +13,12 @@ fun veldLight() = VeldColors(
     divinationSpell = vi_theme_light_divinationSpell,
     transmutationSpell = vi_theme_light_transmutationSpell,
     enchantmentSpell = vi_theme_light_enchantmentSpell,
+    charisma = vi_theme_light_charisma,
+    dexterity = vi_theme_light_dexterity,
+    strength = vi_theme_light_strength,
+    wisdom = vi_theme_light_wisdom,
+    intelligence = vi_theme_light_intelligence,
+    constitution = vi_theme_light_constitution,
     isLight = true,
 )
 
@@ -29,5 +35,11 @@ fun veldDark() = VeldColors(
     divinationSpell = vi_theme_dark_divinationSpell,
     transmutationSpell = vi_theme_dark_transmutationSpell,
     enchantmentSpell = vi_theme_dark_enchantmentSpell,
+    charisma = vi_theme_dark_charisma,
+    dexterity = vi_theme_dark_dexterity,
+    strength = vi_theme_dark_strength,
+    wisdom = vi_theme_dark_wisdom,
+    intelligence = vi_theme_dark_intelligence,
+    constitution = vi_theme_dark_constitution,
     isLight = false,
 )

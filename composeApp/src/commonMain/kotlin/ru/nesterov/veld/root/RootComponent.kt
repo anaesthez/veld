@@ -12,10 +12,10 @@ import com.arkivanov.mvikotlin.main.store.DefaultStoreFactory
 import com.nesterov.veld.di.graph.provideDependencies
 import com.nesterov.veld.presentation.ClassDetailsComponent
 import com.nesterov.veld.presentation.ClassDetailsComponentImpl
-import com.nesterov.veld.presentation.CreatureComponent
-import com.nesterov.veld.presentation.CreatureComponentImpl
 import com.nesterov.veld.presentation.SpellDetailsComponent
 import com.nesterov.veld.presentation.SpellDetailsComponentImpl
+import com.nesterov.veld.presentation.creature.CreatureComponent
+import com.nesterov.veld.presentation.creature.CreatureComponentImpl
 import kotlinx.serialization.Serializable
 import ru.nesterov.veld.hub.HubRootComponent
 import ru.nesterov.veld.hub.HubRootComponentImpl

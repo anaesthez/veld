@@ -1,12 +1,15 @@
-package com.nesterov.veld.presentation.model
+package com.nesterov.veld.presentation.creature.model
+
+import kotlinx.collections.immutable.ImmutableMap
 
 data class CreatureDetailsPresentationModel(
     val xpGain: Int,
+    val hitPoints: Int,
     val size: String,
     val type: String,
+    val name: String,
     val index: String,
     val level: String,
-    val hitPoints: Int,
     val imageUrl: String,
     val subtype: String,
     val hitDice: String,
@@ -14,16 +17,14 @@ data class CreatureDetailsPresentationModel(
     val alignments: String,
     val description: String,
     val hitPointsRoll: String,
-    val proficiencyBonus: Int,
     val challengeRating: Float,
+    val proficiencyBonus: Int,
     val speed: SpeedPresentationModel,
     val sense: SensePresentationModel,
-    val spell: CreatureSpellPresentationModel,
     val stats: StatsPresentationModel,
+    val spell: CreatureSpellPresentationModel,
     val armor: List<ArmorPresentationModel>,
-    val creatureActions: List<CreatureActionPresentationModel>,
-    val specialAbilities: List<CreatureActionPresentationModel>,
-    val legendaryActions: List<CreatureActionPresentationModel>,
+    val actionsMap: Map<ActionType, List<CreatureActionPresentationModel>>,
     val proficiencies: List<CreatureProficiencyPresentationModel>,
 )
 
@@ -55,12 +56,7 @@ data class DifficultyTypePresentationModel(
 )
 
 data class StatsPresentationModel(
-    val wisdom: Int,
-    val charisma: Int,
-    val strength: Int,
-    val dexterity: Int,
-    val constitution: Int,
-    val intelligence: Int,
+    val statsMap: ImmutableMap<Stat, Int>,
 )
 
 data class ActionDamagePresentationModel(
@@ -81,10 +77,7 @@ data class ActionPresentationModel(
 )
 
 data class SpeedPresentationModel(
-    val burrow: String,
-    val climb: String,
-    val walk: String,
-    val swim: String,
+    val movementsMap: ImmutableMap<MovingType, String>,
 )
 
 data class SensePresentationModel(

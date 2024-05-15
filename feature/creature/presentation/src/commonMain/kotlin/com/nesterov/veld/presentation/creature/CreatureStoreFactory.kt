@@ -1,4 +1,4 @@
-package com.nesterov.veld.presentation
+package com.nesterov.veld.presentation.creature
 
 import com.arkivanov.mvikotlin.core.store.Reducer
 import com.arkivanov.mvikotlin.core.store.Store
@@ -8,9 +8,9 @@ import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapperScope
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
 import com.nesterov.veld.common.ResultHolder
-import com.nesterov.veld.presentation.di.CreatureDependencies
-import com.nesterov.veld.presentation.mapper.toCreaturePresentationModel
-import com.nesterov.veld.presentation.model.CreatureDetailsPresentationModel
+import com.nesterov.veld.presentation.creature.di.CreatureDependencies
+import com.nesterov.veld.presentation.creature.mapper.toCreaturePresentationModel
+import com.nesterov.veld.presentation.creature.model.CreatureDetailsPresentationModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

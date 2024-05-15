@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.multiplatform)
+    alias(libs.plugins.kotlinx.serialization)
     id("com.android.library")
 }
 

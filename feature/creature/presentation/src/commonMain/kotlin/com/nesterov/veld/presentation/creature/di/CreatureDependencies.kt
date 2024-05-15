@@ -1,4 +1,4 @@
-package com.nesterov.veld.presentation.di
+package com.nesterov.veld.presentation.creature.di
 
 import com.nesterov.veld.common.AppDispatcher
 import com.nesterov.veld.domain.CreatureRepository

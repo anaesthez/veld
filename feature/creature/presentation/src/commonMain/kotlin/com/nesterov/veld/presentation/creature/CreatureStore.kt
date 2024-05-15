@@ -1,7 +1,7 @@
-package com.nesterov.veld.presentation
+package com.nesterov.veld.presentation.creature
 
 import com.arkivanov.mvikotlin.core.store.Store
-import com.nesterov.veld.presentation.model.CreatureDetailsPresentationModel
+import com.nesterov.veld.presentation.creature.model.CreatureDetailsPresentationModel
 
 interface CreatureStore : Store<CreatureStore.Intent, CreatureStore.State, CreatureStore.Label> {
     sealed interface Intent {

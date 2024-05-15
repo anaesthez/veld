@@ -15,6 +15,7 @@ class CreatureDTO(
     @SerialName("constitution") val constitution: Int? = null,
     @SerialName("intelligence") val intelligence: Int? = null,
     @SerialName("proficiency_bonus") val proficiencyBonus: Int? = null,
+    @SerialName("name") val name: String? = null,
     @SerialName("size") val size: String? = null,
     @SerialName("type") val type: String? = null,
     @SerialName("index") val index: String? = null,

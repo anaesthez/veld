@@ -1,8 +1,8 @@
 package com.nesterov.veld.di.graph
 
+import com.nesterov.veld.presentation.creature.di.CreatureDependencies
 import com.nesterov.veld.presentation.di.BestiaryDependencies
 import com.nesterov.veld.presentation.di.ClassDetailsDependencies
-import com.nesterov.veld.presentation.di.CreatureDependencies
 import com.nesterov.veld.presentation.di.SpellDependencies
 import com.nesterov.veld.presentation.di.SpellDetailsDependencies
 

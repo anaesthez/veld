@@ -42,8 +42,13 @@ kotlin {
             with(libs) {
                 implementation(kotlinx.collections.immutable)
                 implementation(decompose.extensions)
+                implementation(coil)
+                implementation(coil.compose)
+                implementation(coil.ktor)
             }
             implementation(project(":feature:creature:presentation"))
+            implementation(project(":core:common"))
+            implementation(project(":core:helpers"))
             implementation(project(":core:design-system"))
         }
     }

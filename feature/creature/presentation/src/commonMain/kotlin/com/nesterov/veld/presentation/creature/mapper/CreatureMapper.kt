@@ -1,4 +1,4 @@
-package com.nesterov.veld.presentation.mapper
+package com.nesterov.veld.presentation.creature.mapper
 
 import com.nesterov.veld.domain.AbilityDomainModel
 import com.nesterov.veld.domain.ActionDamageDomainModel
@@ -18,30 +18,35 @@ import com.nesterov.veld.domain.SpellDomainModel
 import com.nesterov.veld.domain.SpellOptionDomainModel
 import com.nesterov.veld.domain.StatsDomainModel
 import com.nesterov.veld.domain.UsageDomainModel
-import com.nesterov.veld.presentation.model.AbilityPresentationModel
-import com.nesterov.veld.presentation.model.ActionDamagePresentationModel
-import com.nesterov.veld.presentation.model.ActionPresentationModel
-import com.nesterov.veld.presentation.model.ArmorPresentationModel
-import com.nesterov.veld.presentation.model.CreatureActionPresentationModel
-import com.nesterov.veld.presentation.model.CreatureDamageTypePresentationModel
-import com.nesterov.veld.presentation.model.CreatureDetailsPresentationModel
-import com.nesterov.veld.presentation.model.CreatureProficiencyPresentationModel
-import com.nesterov.veld.presentation.model.CreatureSlotPresentationModel
-import com.nesterov.veld.presentation.model.CreatureSpellPresentationModel
-import com.nesterov.veld.presentation.model.DifficultyPresentationModel
-import com.nesterov.veld.presentation.model.DifficultyTypePresentationModel
-import com.nesterov.veld.presentation.model.ProficiencyReferencePresentationModel
-import com.nesterov.veld.presentation.model.SensePresentationModel
-import com.nesterov.veld.presentation.model.SpeedPresentationModel
-import com.nesterov.veld.presentation.model.SpellOptionPresentationModel
-import com.nesterov.veld.presentation.model.StatsPresentationModel
-import com.nesterov.veld.presentation.model.UsagePresentationModel
+import com.nesterov.veld.presentation.creature.model.AbilityPresentationModel
+import com.nesterov.veld.presentation.creature.model.ActionDamagePresentationModel
+import com.nesterov.veld.presentation.creature.model.ActionPresentationModel
+import com.nesterov.veld.presentation.creature.model.ActionType
+import com.nesterov.veld.presentation.creature.model.ArmorPresentationModel
+import com.nesterov.veld.presentation.creature.model.CreatureActionPresentationModel
+import com.nesterov.veld.presentation.creature.model.CreatureDamageTypePresentationModel
+import com.nesterov.veld.presentation.creature.model.CreatureDetailsPresentationModel
+import com.nesterov.veld.presentation.creature.model.CreatureProficiencyPresentationModel
+import com.nesterov.veld.presentation.creature.model.CreatureSlotPresentationModel
+import com.nesterov.veld.presentation.creature.model.CreatureSpellPresentationModel
+import com.nesterov.veld.presentation.creature.model.DifficultyPresentationModel
+import com.nesterov.veld.presentation.creature.model.DifficultyTypePresentationModel
+import com.nesterov.veld.presentation.creature.model.MovingType
+import com.nesterov.veld.presentation.creature.model.ProficiencyReferencePresentationModel
+import com.nesterov.veld.presentation.creature.model.SensePresentationModel
+import com.nesterov.veld.presentation.creature.model.SpeedPresentationModel
+import com.nesterov.veld.presentation.creature.model.SpellOptionPresentationModel
+import com.nesterov.veld.presentation.creature.model.Stat
+import com.nesterov.veld.presentation.creature.model.StatsPresentationModel
+import com.nesterov.veld.presentation.creature.model.UsagePresentationModel
+import kotlinx.collections.immutable.toImmutableMap
 
 fun CreatureDetailsDomainModel.toCreaturePresentationModel(): CreatureDetailsPresentationModel =
     CreatureDetailsPresentationModel(
         xpGain = xpGain,
         size = size,
         type = type,
+        name = name,
         index = index,
         level = level,
         hitPoints = hitPoints,
@@ -59,28 +64,34 @@ fun CreatureDetailsDomainModel.toCreaturePresentationModel(): CreatureDetailsPre
         spell = spell.toSpellPresentationModel(),
         stats = stats.toStatsPresentationModel(),
         armor = armor.map(ArmorDomainModel::toArmorPresentationModel),
-        creatureActions = creatureActions.map(CreatureActionDomainModel::toCreatureActionPresentationModel),
-        specialAbilities = specialAbilities.map(CreatureActionDomainModel::toCreatureActionPresentationModel),
-        legendaryActions = legendaryActions.map(CreatureActionDomainModel::toCreatureActionPresentationModel),
+        actionsMap = mapOf(
+            ActionType.COMMON to creatureActions.map(CreatureActionDomainModel::toCreatureActionPresentationModel),
+            ActionType.SPECIAL to specialAbilities.map(CreatureActionDomainModel::toCreatureActionPresentationModel),
+            ActionType.LEGENDARY to legendaryActions.map(CreatureActionDomainModel::toCreatureActionPresentationModel),
+        ),
         proficiencies = proficiencies.map(CreatureProficiencyDomainModel::toCreatureProficiencyPresentationModel),
     )
 
 fun StatsDomainModel.toStatsPresentationModel(): StatsPresentationModel =
     StatsPresentationModel(
-        wisdom = wisdom,
-        charisma = charisma,
-        strength = strength,
-        dexterity = dexterity,
-        constitution = constitution,
-        intelligence = intelligence
+        statsMap = mapOf(
+            Stat.CHARISMA to charisma,
+            Stat.WISDOM to wisdom,
+            Stat.STRENGTH to strength,
+            Stat.DEXTERITY to dexterity,
+            Stat.CONSTITUTION to constitution,
+            Stat.INTELLIGENCE to intelligence,
+        ).filter { it.value != 0 }.toImmutableMap(),
     )
 
 fun SpeedDomainModel.toSpeedPresentationModel(): SpeedPresentationModel =
     SpeedPresentationModel(
-        burrow = burrow,
-        climb = climb,
-        walk = walk,
-        swim = swim
+        movementsMap = mapOf(
+            MovingType.BURROW to burrow,
+            MovingType.CLIMBING to climb,
+            MovingType.SWIM to swim,
+            MovingType.WALK to walk,
+        ).filter { it.value.isNotBlank() }.toImmutableMap(),
     )
 
 fun SenseDomainModel.toSensePresentationModel(): SensePresentationModel =

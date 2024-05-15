@@ -10,9 +10,9 @@ import com.nesterov.veld.di.feature.details.provideSpellDetails
 import com.nesterov.veld.di.feature.spell.provideSpells
 import com.nesterov.veld.di.sources.network.RemoteSources
 import com.nesterov.veld.di.sources.network.RemoteSourcesImpl
+import com.nesterov.veld.presentation.creature.di.CreatureDependencies
 import com.nesterov.veld.presentation.di.BestiaryDependencies
 import com.nesterov.veld.presentation.di.ClassDetailsDependencies
-import com.nesterov.veld.presentation.di.CreatureDependencies
 import com.nesterov.veld.presentation.di.SpellDependencies
 import com.nesterov.veld.presentation.di.SpellDetailsDependencies
 

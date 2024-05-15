@@ -36,6 +36,7 @@ import com.nesterov.veld.network.dnd.model.spell.details.DamageSlotDTO
 
 fun CreatureDTO.toCreatureDomainModel(): CreatureDetailsDomainModel =
     CreatureDetailsDomainModel(
+        name = name.orEmpty(),
         xpGain = xpGain.orZero(),
         size = size.orEmpty(),
         type = type.orEmpty(),

@@ -36,6 +36,9 @@ kotlin {
         commonMain.dependencies {
             with(libs) {
                 implementation(kotlinx.coroutines.core)
+                implementation(coil)
+                implementation(coil.compose)
+                implementation(coil.ktor)
                 api(decompose)
                 api(lifecycle)
             }

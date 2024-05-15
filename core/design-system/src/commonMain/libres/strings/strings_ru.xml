@@ -39,4 +39,27 @@
     <string name="classes_details_spell_failure_retry">Повторить попытку</string>
     <string name="classes_details_prerequisites_header">Требования для мультикласса</string>
     <string name="classes_details_prerequisites_descr">Чтобы претендовать на новый класс, вы должны соответствовать предварительным требованиям к очкам способностей как для вашего текущего класса, так и для нового, как показано ниже.</string>
+
+    <string name="creature_hit_rolls">${hitDice} / ${hitRolls}</string>
+    <string name="creature_prof_bonus">Бонус: ${bonus}</string>
+    <string name="creature_attack_bonus">Бонус аттаки: ${bonus}</string>
+    <string name="creature_hit_points">ХП: ${hp}</string>
+    <string name="creature_usage_times">Количество использований: ${times}</string>
+    <string name="creature_usage_type">Тип использования: ${usageType}</string>
+    <string name="creature_rest_type">Тип отдыха: ${restType}</string>
+    <string name="creature_damage_header_title">Урон</string>
+    <string name="creature_difficulty_header_title">Сложность</string>
+    <string name="creature_difficulty_success_type">В случае успеха: ${successType}</string>
+
+     <string name="movement_walk">пешком: ${speed}</string>
+     <string name="movement_climbing">лазания: ${speed}</string>
+     <string name="movement_burrowing">ничком: ${speed}</string>
+     <string name="movement_swimming">вплавь: ${speed}</string>
+
+   <string name="wisdom">МДР</string>
+   <string name="dexterity">ЛОВ</string>
+   <string name="charisma">ХАР</string>
+   <string name="strength">СИЛ</string>
+   <string name="constitution">ВЫН</string>
+   <string name="intelligence">ИНТ</string>
 </resources>
