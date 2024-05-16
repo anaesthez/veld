@@ -25,12 +25,16 @@ import com.nesterov.veld.presentation.creature.CreatureStore
 import com.nesterov.veld.presentation.creature.model.ActionType
 import com.nesterov.veld.presentation.creature.model.ArmorPresentationModel
 import com.nesterov.veld.presentation.creature.model.CreatureActionPresentationModel
+import com.nesterov.veld.presentation.creature.model.CreatureProficiencyPresentationModel
 import com.nesterov.veld.presentation.creature.model.MovingType
 import com.nesterov.veld.presentation.creature.model.Stat
 import com.nesterov.veld.ui.actions.ActionsScreen
 import com.nesterov.veld.ui.info.InfoScreen
 import com.nesterov.veld.ui.stats.StatsScreen
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
+import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toImmutableMap
 
 @OptIn(ExperimentalDecomposeApi::class)
 @Composable
@@ -53,28 +57,41 @@ fun CreatureScreen(component: CreatureComponent) {
 
         CreatureStore.ScreenState.Loading -> VeldProgressBar()
         is CreatureStore.ScreenState.Success -> {
-            val result = (state.screenState as CreatureStore.ScreenState.Success)
-            CreatureScreenStateful(
-                pages = component.pages,
-                name = result.creature.name,
-                headerImageUrl = result.creature.imageUrl,
-                hitPoints = result.creature.hitPoints,
-                hitDice = result.creature.hitDice,
-                challengeRating = result.creature.challengeRating,
-                xpGain = result.creature.xpGain,
-                hitRolls = result.creature.hitPointsRoll,
-                proficiencyBonus = result.creature.proficiencyBonus,
-                actionsMap = result.creature.actionsMap,
-                statsMap = result.creature.stats.statsMap,
-                speedStats = result.creature.speed.movementsMap,
-                creatureArmor = result.creature.armor,
-                onBackClick = {
-                    onObtainEvent(CreatureComponent.Event.OnBackClick)
-                },
-                onPageSelected = {
-                    onObtainEvent(CreatureComponent.Event.OnPageSelected(it))
-                }
-            )
+            with((state.screenState as CreatureStore.ScreenState.Success).creature) {
+                CreatureScreenStateful(
+                    pages = component.pages,
+                    name = name,
+                    headerImageUrl = imageUrl,
+                    hitPoints = hitPoints,
+                    hitDice = hitDice,
+                    challengeRating = challengeRating,
+                    xpGain = xpGain,
+                    size = size,
+                    type = type,
+                    subtype = subtype,
+                    languages = languages,
+                    passivePerception = sense.passivePerception,
+                    tremorSense = sense.tremorSense,
+                    blindSight = sense.blindSight,
+                    darkVision = sense.darkVision,
+                    trueSight = sense.trueSight,
+                    alignments = alignments,
+                    description = description,
+                    hitRolls = hitPointsRoll,
+                    proficiencyBonus = proficiencyBonus,
+                    statsMap = stats.statsMap,
+                    speedStats = speed.movementsMap,
+                    proficiencies = proficiencies.toImmutableList(),
+                    actionsMap = actionsMap.toImmutableMap(),
+                    creatureArmor = armor.toImmutableList(),
+                    onBackClick = {
+                        onObtainEvent(CreatureComponent.Event.OnBackClick)
+                    },
+                    onPageSelected = {
+                        onObtainEvent(CreatureComponent.Event.OnPageSelected(it))
+                    }
+                )
+            }
         }
     }
 }
@@ -82,21 +99,33 @@ fun CreatureScreen(component: CreatureComponent) {
 @OptIn(ExperimentalDecomposeApi::class)
 @Composable
 private fun CreatureScreenStateful(
+    pages: Value<ChildPages<*, CreatureComponent.Pages>>,
     name: String,
     headerImageUrl: String,
     hitPoints: Int,
     xpGain: Int,
+    size: String,
+    type: String,
+    subtype: String,
+    languages: String,
+    alignments: String,
+    description: String,
     challengeRating: Float,
     hitDice: String,
     hitRolls: String,
     proficiencyBonus: Int,
-    statsMap: ImmutableMap<Stat, Int>,
-    speedStats: Map<MovingType, String>,
-    pages: Value<ChildPages<*, CreatureComponent.Pages>>,
-    actionsMap: Map<ActionType, List<CreatureActionPresentationModel>>,
-    creatureArmor: List<ArmorPresentationModel>,
     onBackClick: () -> Unit,
     onPageSelected: (Int) -> Unit,
+    passivePerception: Int,
+    tremorSense: String,
+    blindSight: String,
+    darkVision: String,
+    trueSight: String,
+    statsMap: ImmutableMap<Stat, Int>,
+    speedStats: ImmutableMap<MovingType, String>,
+    actionsMap: ImmutableMap<ActionType, List<CreatureActionPresentationModel>>,
+    proficiencies: ImmutableList<CreatureProficiencyPresentationModel>,
+    creatureArmor: ImmutableList<ArmorPresentationModel>,
 ) {
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -106,19 +135,31 @@ private fun CreatureScreenStateful(
             onBackClick = onBackClick,
         )
         CreaturePages(
+            size = size,
+            type = type,
             pages = pages,
-            headerImageUrl = headerImageUrl,
-            hitPoints = hitPoints,
             xpGain = xpGain,
-            challengeRating = challengeRating,
             hitDice = hitDice,
-            hitRolls = hitRolls,
-            proficiencyBonus = proficiencyBonus,
+            subtype = subtype,
             statsMap = statsMap,
-            speedStats = speedStats,
+            hitRolls = hitRolls,
+            trueSight = trueSight,
+            hitPoints = hitPoints,
+            languages = languages,
+            blindSight = blindSight,
+            darkVision = darkVision,
+            alignments = alignments,
             actionsMap = actionsMap,
+            speedStats = speedStats,
+            description = description,
+            tremorSense = tremorSense,
             creatureArmor = creatureArmor,
+            proficiencies = proficiencies,
             onPageSelected = onPageSelected,
+            headerImageUrl = headerImageUrl,
+            challengeRating = challengeRating,
+            proficiencyBonus = proficiencyBonus,
+            passivePerception = passivePerception,
         )
     }
 }
@@ -127,18 +168,30 @@ private fun CreatureScreenStateful(
 @Composable
 private fun CreaturePages(
     pages: Value<ChildPages<*, CreatureComponent.Pages>>,
-    headerImageUrl: String,
     hitPoints: Int,
     xpGain: Int,
-    challengeRating: Float,
     hitDice: String,
+    size: String,
+    type: String,
+    subtype: String,
     hitRolls: String,
+    languages: String,
+    alignments: String,
+    description: String,
     proficiencyBonus: Int,
+    headerImageUrl: String,
+    challengeRating: Float,
+    onPageSelected: (Int) -> Unit,
+    passivePerception: Int,
+    tremorSense: String,
+    blindSight: String,
+    darkVision: String,
+    trueSight: String,
     statsMap: ImmutableMap<Stat, Int>,
     speedStats: Map<MovingType, String>,
-    creatureArmor: List<ArmorPresentationModel>,
-    actionsMap: Map<ActionType, List<CreatureActionPresentationModel>>,
-    onPageSelected: (Int) -> Unit,
+    creatureArmor: ImmutableList<ArmorPresentationModel>,
+    proficiencies: ImmutableList<CreatureProficiencyPresentationModel>,
+    actionsMap: ImmutableMap<ActionType, List<CreatureActionPresentationModel>>,
 ) {
     val observedPage by pages.subscribeAsState()
     val selectedIndex by derivedStateOf { observedPage.selectedIndex }
@@ -169,7 +222,17 @@ private fun CreaturePages(
             }
 
             is CreatureComponent.Pages.Info -> InfoScreen(
-
+                size = size,
+                type = type,
+                passivePerception = passivePerception,
+                tremorSense = tremorSense,
+                blindSight = blindSight,
+                darkVision = darkVision,
+                trueSight = trueSight,
+                subtype = subtype,
+                languages = languages,
+                alignments = alignments,
+                description = description,
             )
 
             is CreatureComponent.Pages.Stats -> StatsScreen(
@@ -177,6 +240,7 @@ private fun CreaturePages(
                 hitPoints = hitPoints,
                 xpGain = xpGain,
                 challengeRating = challengeRating,
+                proficiencies = proficiencies,
                 hitDice = hitDice,
                 hitRolls = hitRolls,
                 proficiencyBonus = proficiencyBonus,
@@ -187,10 +251,3 @@ private fun CreaturePages(
         }
     }
 }
-
-private fun CreatureComponent.Pages.getTitleByPage(): String =
-    when (this) {
-        is CreatureComponent.Pages.Actions -> "Actions"
-        is CreatureComponent.Pages.Info -> "Info"
-        is CreatureComponent.Pages.Stats -> "Stats"
-    }

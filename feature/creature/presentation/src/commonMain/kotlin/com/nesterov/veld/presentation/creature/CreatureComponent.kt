@@ -40,6 +40,10 @@ interface CreatureComponent {
         data class OnPageSelected(val index: Int) : Event
         data class OnSearchCreature(val query: String) : Event
     }
+
+    sealed interface Action {
+        data object OnBackClick : Action
+    }
 }
 
 @OptIn(ExperimentalDecomposeApi::class)
@@ -48,6 +52,7 @@ class CreatureComponentImpl(
     index: String,
     dependencies: CreatureDependencies,
     componentContext: ComponentContext,
+    private val action: (CreatureComponent.Action) -> Unit,
 ) : BaseComponent(componentContext), CreatureComponent {
     private val pagesNavigation = PagesNavigation<Configuration>()
     override val pages: Value<ChildPages<Configuration, CreatureComponent.Pages>> =
@@ -102,7 +107,7 @@ class CreatureComponentImpl(
     override fun onObtainEvent(event: CreatureComponent.Event) =
         when (event) {
             CreatureComponent.Event.OnBackClick -> {
-
+                action(CreatureComponent.Action.OnBackClick)
             }
 
             CreatureComponent.Event.OnRetryClick -> {

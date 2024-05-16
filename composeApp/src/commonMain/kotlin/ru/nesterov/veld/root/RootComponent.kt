@@ -80,8 +80,8 @@ class RootComponentImpl(
                     ClassDetailsComponentImpl(
                         componentContext = componentContext,
                         storeFactory = storeFactory,
-                        index = configuration.classIndex,
                         dependencies = classDetailsDependencies,
+                        index = configuration.classIndex,
                         action = ::onClassDetailsAction,
                     )
                 )
@@ -94,6 +94,7 @@ class RootComponentImpl(
                         storeFactory = storeFactory,
                         index = configuration.creatureIndex,
                         dependencies = creatureDependencies,
+                        action = ::onCreatureAction,
                     )
                 )
             }
@@ -134,6 +135,11 @@ class RootComponentImpl(
             }
         }
 
+    private fun onCreatureAction(action: CreatureComponent.Action) =
+        when (action) {
+            CreatureComponent.Action.OnBackClick -> navigation.pop()
+        }
+
     @Serializable
     private sealed interface Configuration {
         @Serializable
@@ -142,7 +148,6 @@ class RootComponentImpl(
         data class SpellDetails(val spellIndex: String) : Configuration
         @Serializable
         data class ClassDetails(val classIndex: String) : Configuration
-
         @Serializable
         data class Creature(val creatureIndex: String) : Configuration
     }

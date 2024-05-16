@@ -35,22 +35,28 @@ import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import com.nesterov.veld.common.getAsyncImageLoader
 import com.nesterov.veld.design_system.theme.VeldTheme
+import com.nesterov.veld.design_system.theme.VeldTheme.colors
 import com.nesterov.veld.design_system.ui.HeadedBlock
+import com.nesterov.veld.design_system.ui.VeldListItem
 import com.nesterov.veld.helpers.appendUrl
 import com.nesterov.veld.presentation.creature.model.ArmorPresentationModel
+import com.nesterov.veld.presentation.creature.model.CreatureProficiencyPresentationModel
 import com.nesterov.veld.presentation.creature.model.MovingType
 import com.nesterov.veld.presentation.creature.model.Stat
 import com.nesterov.veld.ui.VeldStatIndicator
 import com.nesterov.veld.ui.getColorByStat
+import com.nesterov.veld.ui.getMultiplierByStat
 import com.nesterov.veld.ui.getTitleByMovingType
 import com.nesterov.veld.ui.getTitleByStat
 import com.nesterov.veld.сore.design_system.strings.DesignStrings
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
 
 private const val MAX_HIT_POINTS = 400f
 private const val MAX_XP = 70000f
 private const val MAX_CHALLENGE_RATING = 30f
 private const val MAX_STAT = 22f
+private const val ITEMS_PER_ROW = 2
 
 @Composable
 fun StatsScreen(
@@ -62,8 +68,9 @@ fun StatsScreen(
     hitRolls: String,
     proficiencyBonus: Int,
     statsMap: ImmutableMap<Stat, Int>,
-    creatureArmor: List<ArmorPresentationModel>,
     speedStats: Map<MovingType, String>,
+    creatureArmor: List<ArmorPresentationModel>,
+    proficiencies: ImmutableList<CreatureProficiencyPresentationModel>
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
@@ -83,6 +90,10 @@ fun StatsScreen(
             CreatureStatsBlock(
                 statMap = statsMap,
             )
+            Spacer(Modifier.height(16.dp))
+            ProficienciesBlock(
+                proficiencies = proficiencies,
+            )
             Spacer(Modifier.height(24.dp))
             CreatureSpeedAndArmorBlock(
                 speedStats = speedStats,
@@ -99,6 +110,43 @@ fun StatsScreen(
         }
         item {
             Spacer(Modifier.height(32.dp))
+        }
+    }
+}
+
+@Composable
+private fun ProficienciesBlock(
+    proficiencies: ImmutableList<CreatureProficiencyPresentationModel>,
+) {
+    HeadedBlock(
+        modifier = Modifier.padding(horizontal = 16.dp),
+        headerText = DesignStrings.creature_prof_header_text
+    ) {
+        Column {
+            proficiencies.chunked(ITEMS_PER_ROW).forEach { rowItems ->
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    rowItems.forEach { proficiency ->
+                        VeldListItem(
+                            title = proficiency.proficiency.name,
+                            backgroundColor = colors.materialColors.primary,
+                            onItemClick = { },
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(vertical = 8.dp)
+                        )
+                    }
+                    if (rowItems.size < ITEMS_PER_ROW) {
+                        for (i in rowItems.size until ITEMS_PER_ROW) {
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -139,7 +187,7 @@ private fun CreatureHeaderBlock(
                     .align(Alignment.CenterStart)
                     .padding(start = 8.dp),
                 text = DesignStrings.creature_hit_points.format(hp = hitPoints.toString()),
-                color = VeldTheme.colors.textColorPrimary,
+                color = colors.textColorPrimary,
                 maxLines = 1,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,
@@ -152,7 +200,6 @@ private fun CreatureHeaderBlock(
         ) {
             Text(
                 text = DesignStrings.creature_hit_rolls.format(
-                    hitDice = hitDice,
                     hitRolls = hitRolls
                 ),
                 maxLines = 1,
@@ -164,7 +211,7 @@ private fun CreatureHeaderBlock(
                     bonus = proficiencyBonus.toString()
                 ),
                 maxLines = 1,
-                fontSize = 14.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold,
             )
         }
@@ -176,11 +223,12 @@ private fun CreatureStatsBlock(
     statMap: ImmutableMap<Stat, Int>,
 ) {
     statMap.forEach { entry ->
+        val indicator = entry.value
         Spacer(Modifier.height(4.dp))
         CreatureStatIndicator(
-            indicatorTitle = entry.key.getTitleByStat(),
+            indicatorTitle = entry.key.getTitleByStat(indicator.getMultiplierByStat()),
             color = entry.key.getColorByStat(),
-            indicatorValue = entry.value,
+            indicatorValue = indicator,
         )
         Spacer(Modifier.height(4.dp))
     }
@@ -199,12 +247,12 @@ private fun CreatureStatIndicator(
     ) {
         Spacer(Modifier.weight(0.1f))
         Text(
-            modifier = Modifier.weight(0.1f),
+            modifier = Modifier.weight(0.2f),
             text = indicatorTitle,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Bold,
         )
-        Spacer(Modifier.width(8.dp))
+        Spacer(Modifier.width(4.dp))
         VeldStatIndicator(
             modifier = Modifier
                 .weight(0.8f)
@@ -234,7 +282,7 @@ private fun CreatureSpeedAndArmorBlock(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Start,
-                text = "Speed",
+                text = DesignStrings.creature_speed_header_text,
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp,
             )
@@ -256,7 +304,7 @@ private fun CreatureSpeedAndArmorBlock(
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Armor",
+                text = DesignStrings.creature_armor_header_text,
                 textAlign = TextAlign.End,
                 fontWeight = FontWeight.Bold,
                 fontSize = 22.sp,
@@ -312,14 +360,14 @@ private fun CreatureExperienceGain(
         .padding(horizontal = 16.dp)
     HeadedBlock(
         modifier = commonModifier,
-        headerText = "XP"
+        headerText = DesignStrings.creature_exp_header_text
     ) {
         VeldStatIndicator(
             modifier = commonModifier
                 .height(20.dp)
                 .clip(RoundedCornerShape(12.dp)),
             progress = { xpGain.toFloat() / MAX_XP },
-            color = VeldTheme.colors.charisma,
+            color = colors.charisma,
             stat = xpGain,
         )
     }
@@ -334,7 +382,7 @@ private fun CreatureChallengeRating(
         .padding(horizontal = 16.dp)
     HeadedBlock(
         modifier = commonModifier,
-        headerText = "Challenge rating"
+        headerText = DesignStrings.creature_challenge_header_text
     ) {
         VeldStatIndicator(
             modifier = commonModifier

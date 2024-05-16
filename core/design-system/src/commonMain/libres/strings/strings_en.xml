@@ -40,7 +40,7 @@
     <string name="classes_details_prerequisites_header">Multiclass prerequisites</string>
     <string name="classes_details_prerequisites_descr">To qualify for a new class, you must meet the ability score prerequisites for both your current class and your new one, as shown beneath.</string>
 
-    <string name="creature_hit_rolls">${hitDice} / ${hitRolls}</string>
+    <string name="creature_hit_rolls">${hitRolls}</string>
     <string name="creature_prof_bonus">Bonus: ${bonus}</string>
     <string name="creature_attack_bonus">Attack bonus: ${bonus}</string>
     <string name="creature_hit_points">HP: ${hp}</string>
@@ -49,17 +49,40 @@
     <string name="creature_rest_type">Rest type: ${restType}</string>
     <string name="creature_damage_header_title">Damage</string>
     <string name="creature_difficulty_header_title">Difficulty</string>
+    <string name="creature_prof_header_text">Proficiencies</string>
+    <string name="creature_speed_header_text">Speed</string>
+    <string name="creature_armor_header_text">Armor</string>
+    <string name="creature_challenge_header_text">Challenge rating</string>
+    <string name="creature_exp_header_text">XP</string>
     <string name="creature_difficulty_success_type">In case of success: ${successType}</string>
+    <string name="creature_info_perception_text">Senses (Passive perception = ${passivePerception})</string>
+    <string name="creature_info_tremor_text">Tremor: ${tremor}</string>
+    <string name="creature_info_blind_sight_text">Blind sight: ${blindSight}</string>
+    <string name="creature_info_dark_vision_text">Dark vision: ${darkVision}</string>
+    <string name="creature_info_true_sight_text">True sight: ${trueSight}</string>
+    <string name="creature_info_size_text">Size: ${size}</string>
+    <string name="creature_info_type_text">Type: ${type} </string>
+    <string name="creature_info_subtype_text">Subtype: ${subtype} </string>
+    <string name="creature_info_languages_text">Languages: ${languages}</string>
+    <string name="creature_info_alignments_text">Alignments: ${alignments}</string>
+    <string name="creature_info_description_text">Description</string>
+    <string name="creature_info_common_text">Common Info</string>
+    <string name="creature_info_action_default_text">Default</string>
+    <string name="creature_info_action_special_text">Special Abilities</string>
+    <string name="creature_info_action_legendary_text">Legendary</string>
+    <string name="creature_info_tabs_actions_text">Actions</string>
+    <string name="creature_info_tabs_info_text">Info</string>
+    <string name="creature_info_tabs_stats_text">Stats</string>
 
     <string name="movement_walk">walking: ${speed}</string>
     <string name="movement_climbing">climbing: ${speed}</string>
     <string name="movement_burrowing">burrowing: ${speed}</string>
     <string name="movement_swimming">swimming: ${speed}</string>
 
-    <string name="wisdom">WIS</string>
-    <string name="dexterity">DEX</string>
-    <string name="charisma">CHA</string>
-    <string name="strength">STR</string>
-    <string name="constitution">CON</string>
-    <string name="intelligence">INT</string>
+    <string name="wisdom">WIS ${multiplier}</string>
+    <string name="dexterity">DEX ${multiplier}</string>
+    <string name="charisma">CHA ${multiplier}</string>
+    <string name="strength">STR ${multiplier}</string>
+    <string name="constitution">CON ${multiplier}</string>
+    <string name="intelligence">INT ${multiplier}</string>
 </resources>
