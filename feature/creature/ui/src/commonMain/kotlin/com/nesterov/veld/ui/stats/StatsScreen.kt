@@ -53,8 +53,8 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.ImmutableMap
 
 private const val MAX_HIT_POINTS = 400f
-private const val MAX_XP = 70000f
-private const val MAX_CHALLENGE_RATING = 30f
+private const val MAX_XP = 30000f
+private const val MAX_CHALLENGE_RATING = 25f
 private const val MAX_STAT = 22f
 private const val ITEMS_PER_ROW = 2
 
@@ -85,15 +85,23 @@ fun StatsScreen(
                 hitDice = hitDice,
                 hitRolls = hitRolls,
                 proficiencyBonus = proficiencyBonus,
+                creatureArmor = creatureArmor,
             )
             Spacer(Modifier.height(16.dp))
             CreatureStatsBlock(
                 statMap = statsMap,
             )
             Spacer(Modifier.height(16.dp))
-            ProficienciesBlock(
-                proficiencies = proficiencies,
+            CreatureDiceAndBonusBlock(
+                hitRolls = hitRolls,
+                proficiencyBonus = proficiencyBonus,
             )
+            if (proficiencies.isNotEmpty()) {
+                Spacer(Modifier.height(16.dp))
+                ProficienciesBlock(
+                    proficiencies = proficiencies,
+                )
+            }
             Spacer(Modifier.height(24.dp))
             CreatureSpeedAndArmorBlock(
                 speedStats = speedStats,
@@ -154,12 +162,14 @@ private fun ProficienciesBlock(
 @Composable
 private fun CreatureHeaderBlock(
     modifier: Modifier = Modifier,
-    creatureImageUrl: String,
-    proficiencyBonus: Int,
+    hitPoints: Int,
     hitDice: String,
     hitRolls: String,
-    hitPoints: Int,
+    proficiencyBonus: Int,
+    creatureImageUrl: String,
+    creatureArmor: List<ArmorPresentationModel>,
 ) {
+    val armor = creatureArmor.firstOrNull()
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -193,28 +203,48 @@ private fun CreatureHeaderBlock(
                 fontWeight = FontWeight.SemiBold,
             )
         }
-        Row(
-            modifier = Modifier
-                .width(200.dp),
-            horizontalArrangement = Arrangement.SpaceAround,
-        ) {
+        if (armor != null) {
             Text(
-                text = DesignStrings.creature_hit_rolls.format(
-                    hitRolls = hitRolls
+                modifier = Modifier.width(200.dp),
+                text = DesignStrings.creature_stats_armor_text.format(
+                    armorValue = armor.value.toString(),
                 ),
                 maxLines = 1,
                 fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold,
-            )
-            Text(
-                text = DesignStrings.creature_prof_bonus.format(
-                    bonus = proficiencyBonus.toString()
-                ),
-                maxLines = 1,
-                fontSize = 16.sp,
+                textAlign = TextAlign.Center,
                 fontWeight = FontWeight.SemiBold,
             )
         }
+    }
+}
+
+@Composable
+private fun CreatureDiceAndBonusBlock(
+    hitRolls: String,
+    proficiencyBonus: Int,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+    ) {
+        Text(
+            text = DesignStrings.creature_hit_rolls.format(
+                hitRolls = hitRolls
+            ),
+            maxLines = 1,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.SemiBold,
+        )
+        Spacer(Modifier.size(8.dp))
+        Text(
+            text = DesignStrings.creature_prof_bonus.format(
+                bonus = proficiencyBonus.toString()
+            ),
+            maxLines = 1,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.SemiBold,
+        )
     }
 }
 

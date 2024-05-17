@@ -40,8 +40,8 @@
     <string name="classes_details_prerequisites_header">Требования для мультикласса</string>
     <string name="classes_details_prerequisites_descr">Чтобы претендовать на новый класс, вы должны соответствовать предварительным требованиям к очкам способностей как для вашего текущего класса, так и для нового, как показано ниже.</string>
 
-    <string name="creature_hit_rolls">${hitRolls}</string>
-    <string name="creature_prof_bonus">Бонус: ${bonus}</string>
+    <string name="creature_hit_rolls">Кости хитов: ${hitRolls}</string>
+    <string name="creature_prof_bonus">Бонус мастерства: ${bonus}</string>
     <string name="creature_attack_bonus">Бонус аттаки: ${bonus}</string>
     <string name="creature_hit_points">ХП: ${hp}</string>
     <string name="creature_usage_times">Количество использований: ${times}</string>
@@ -73,6 +73,7 @@
     <string name="creature_info_tabs_actions_text">Действия</string>
     <string name="creature_info_tabs_info_text">Инфо</string>
     <string name="creature_info_tabs_stats_text">Статы</string>
+    <string name="creature_stats_armor_text">Доспех: ${armorValue}</string>
 
     <string name="movement_walk">скорость: ${speed}</string>
     <string name="movement_climbing">лазания: ${speed}</string>
@@ -83,6 +84,6 @@
    <string name="dexterity">ЛОВ  ${multiplier}</string>
    <string name="charisma">ХАР  ${multiplier}</string>
    <string name="strength">СИЛ  ${multiplier}</string>
-   <string name="constitution">ВЫН  ${multiplier}</string>
+   <string name="constitution">ТЕЛ  ${multiplier}</string>
    <string name="intelligence">ИНТ  ${multiplier}</string>
 </resources>

@@ -40,8 +40,8 @@
     <string name="classes_details_prerequisites_header">Multiclass prerequisites</string>
     <string name="classes_details_prerequisites_descr">To qualify for a new class, you must meet the ability score prerequisites for both your current class and your new one, as shown beneath.</string>
 
-    <string name="creature_hit_rolls">${hitRolls}</string>
-    <string name="creature_prof_bonus">Bonus: ${bonus}</string>
+    <string name="creature_hit_rolls">Hit rolls: ${hitRolls}</string>
+    <string name="creature_prof_bonus">Proficiency bonus: ${bonus}</string>
     <string name="creature_attack_bonus">Attack bonus: ${bonus}</string>
     <string name="creature_hit_points">HP: ${hp}</string>
     <string name="creature_usage_times">Usage times: ${times}</string>
@@ -73,6 +73,7 @@
     <string name="creature_info_tabs_actions_text">Actions</string>
     <string name="creature_info_tabs_info_text">Info</string>
     <string name="creature_info_tabs_stats_text">Stats</string>
+    <string name="creature_stats_armor_text">Armor: ${armorValue}</string>
 
     <string name="movement_walk">walking: ${speed}</string>
     <string name="movement_climbing">climbing: ${speed}</string>
