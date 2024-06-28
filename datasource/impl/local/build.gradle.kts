@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.multiplatform)
+    alias(libs.plugins.room)
+    id("com.google.devtools.ksp")
     id("com.android.library")
 }
 
@@ -32,7 +34,11 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-           // implementation(project(":core:common"))
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
+            implementation(libs.sqlite)
+            implementation(project(":core:common"))
+            implementation(project(":datasource:api:local"))
         }
     }
 }
@@ -47,4 +53,12 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+}
+// Room set up
+dependencies {
+    ksp(libs.room.compiler)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }

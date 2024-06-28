@@ -55,7 +55,7 @@ class CreatureStoreFactory(
                     dispatch(Action.FetchCreatureListFailure)
                 }
 
-                is ResultHolder.Loading -> withContext(dispatcher.mainDispatcher) {
+                is ResultHolder.Initial -> withContext(dispatcher.mainDispatcher) {
                     dispatch(Action.FetchCreatureListLoading)
                 }
 

@@ -8,15 +8,18 @@ import com.arkivanov.mvikotlin.extensions.coroutines.CoroutineBootstrapperScope
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineBootstrapper
 import com.arkivanov.mvikotlin.extensions.coroutines.coroutineExecutorFactory
 import com.nesterov.veld.common.ResultHolder
-import com.nesterov.veld.domain.CreatureDomainModel
 import com.nesterov.veld.presentation.di.BestiaryDependencies
-import com.nesterov.veld.presentation.mapper.toCreaturePresentationModel
 import com.nesterov.veld.presentation.model.CreaturePresentationModel
+import com.nesterov.veld.presentation.utils.LocalList
+import com.nesterov.veld.presentation.utils.RemoteList
+import com.nesterov.veld.presentation.utils.mergeCreaturesList
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @OptIn(ExperimentalMviKotlinApi::class)
 class BestiaryStoreFactory(
@@ -50,35 +53,51 @@ class BestiaryStoreFactory(
                             )
                         )
                     }
+                    onIntent<BestiaryStore.Intent.OnAddCreature> { }
+                    onIntent<BestiaryStore.Intent.OnDeleteCreature> { }
                 },
                 reducer = ReducerImpl
             ) {}
 
-    private var loadCreatureList: Job? = null
+    private var loadCreatureListJob: Job? = null
     private fun CoroutineBootstrapperScope<Action>.loadCreatureList() {
-        if (loadCreatureList?.isActive == true) return
+        if (loadCreatureListJob?.isActive == true) return
 
-        loadCreatureList = launch(dispatcher.ioDispatcher) {
-            when (val result = fetchCreatureListUseCase().status) {
-                is ResultHolder.Error -> withContext(dispatcher.mainDispatcher) {
+        loadCreatureListJob = launch(
+            CoroutineExceptionHandler(handler = { _, _ -> handleCoroutineException() })
+        ) {
+
+            val loadRemoteCreatureList: Deferred<RemoteList>?
+            loadRemoteCreatureList = async(dispatcher.ioDispatcher) {
+                fetchCreatureRemoteListUseCase()
+            }
+
+            val loadLocalCreatureList: Deferred<LocalList>?
+            loadLocalCreatureList = async(dispatcher.ioDispatcher) {
+                fetchCreatureLocalListUseCase()
+            }
+
+            when (val result = mergeCreaturesList(
+                localList = loadLocalCreatureList.await(),
+                remoteList = loadRemoteCreatureList.await()
+            ).status) {
+                is ResultHolder.Error -> {
                     dispatch(Action.FetchCreatureListFailure)
                 }
 
-                is ResultHolder.Loading -> withContext(dispatcher.mainDispatcher) {
+                is ResultHolder.Initial -> {
                     dispatch(Action.FetchCreatureListLoading)
                 }
 
-                is ResultHolder.Success -> withContext(dispatcher.mainDispatcher) {
-                    dispatch(
-                        Action.FetchCreatureListSuccess(
-                            result.data.map(
-                                CreatureDomainModel::toCreaturePresentationModel
-                            )
-                        )
-                    )
+                is ResultHolder.Success -> {
+                    dispatch(Action.FetchCreatureListSuccess(result.data))
                 }
             }
         }
+    }
+
+    private fun CoroutineBootstrapperScope<Action>.handleCoroutineException() {
+        dispatch(Action.FetchCreatureListFailure)
     }
 
     private sealed interface Action {

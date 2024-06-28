@@ -7,6 +7,8 @@ import kotlinx.collections.immutable.ImmutableList
 interface BestiaryStore : Store<BestiaryStore.Intent, BestiaryStore.State, BestiaryStore.Label> {
     sealed interface Intent {
         data class OnSearchCreature(val query: String) : Intent
+        data class OnAddCreature(val creature: CreaturePresentationModel) : Intent
+        data class OnDeleteCreature(val index: String) : Intent
     }
 
     sealed interface Label

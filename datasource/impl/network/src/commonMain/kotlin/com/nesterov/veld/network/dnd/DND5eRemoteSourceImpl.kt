@@ -14,7 +14,7 @@ import io.ktor.client.request.get
 import io.ktor.client.request.url
 
 class DND5eRemoteSourceImpl(
-    private val dependencies: DND5eRemoteSource.Dependencies,
+    private val dependencies: Dependencies,
 ) : DND5eRemoteSource, HttpClientConfig by dependencies.config {
 
     override suspend fun fetchSpellList(): RequestResult<List<ReferenceOptionDTO>> =
@@ -51,4 +51,8 @@ class DND5eRemoteSourceImpl(
                 url("${HttpRoutes.CREATURE}/$index")
             }.body<CreatureDTO>()
         }
+
+    interface Dependencies {
+        val config: HttpClientConfig
+    }
 }

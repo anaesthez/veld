@@ -48,7 +48,8 @@ class SpellDetailsDetailsStoreFactory(
                     is ResultHolder.Error -> withContext(dispatcher.mainDispatcher) {
                         dispatch(Action.FetchSpellFailure)
                     }
-                    is ResultHolder.Loading ->  withContext(dispatcher.mainDispatcher) {
+
+                    is ResultHolder.Initial -> withContext(dispatcher.mainDispatcher) {
                         dispatch(Action.FetchSpellLoading)
                     }
                     is ResultHolder.Success ->  withContext(dispatcher.mainDispatcher) {

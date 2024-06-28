@@ -6,6 +6,7 @@ import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.nesterov.veld.common.base.BaseComponent
 import com.nesterov.veld.presentation.di.BestiaryDependencies
+import com.nesterov.veld.presentation.model.CreaturePresentationModel
 
 interface BestiaryComponent {
     val state: Value<BestiaryStore.State>
@@ -19,6 +20,8 @@ interface BestiaryComponent {
     sealed interface Event {
         data object OnRetryClick : Event
         data class OnCreatureClick(val index: String) : Event
+        data class OnDeleteClick(val index: String) : Event
+        data class OnAddClick(val creature: CreaturePresentationModel) : Event
         data class OnSearchCreature(val query: String) : Event
     }
 }
@@ -49,6 +52,14 @@ class BestiaryComponentImpl(
 
             is BestiaryComponent.Event.OnSearchCreature -> {
                 bestiaryStore.accept(BestiaryStore.Intent.OnSearchCreature(event.query))
+            }
+
+            is BestiaryComponent.Event.OnAddClick -> {
+                bestiaryStore.accept(BestiaryStore.Intent.OnAddCreature(event.creature))
+            }
+
+            is BestiaryComponent.Event.OnDeleteClick -> {
+                bestiaryStore.accept(BestiaryStore.Intent.OnDeleteCreature(event.index))
             }
         }
 }

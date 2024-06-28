@@ -4,4 +4,10 @@ data class CreaturePresentationModel(
     val index: String,
     val name: String,
     val url: String,
+    val status: CreatureMemoryStatus,
 )
+
+enum class CreatureMemoryStatus {
+    LOCAL,
+    REMOTE,
+}

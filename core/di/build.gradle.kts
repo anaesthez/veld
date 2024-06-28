@@ -32,6 +32,11 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            with(libs) {
+                implementation(room.runtime)
+                implementation(sqlite.bundled)
+                implementation(sqlite)
+            }
             with(libs.ktor) {
                 implementation(client.logging)
                 implementation(client.content.negotiation)
@@ -42,6 +47,9 @@ kotlin {
 
             implementation(project(":datasource:api:network"))
             implementation(project(":datasource:impl:network"))
+
+            implementation(project(":datasource:api:local"))
+            implementation(project(":datasource:impl:local"))
 
             implementation(project(":feature:spell:data"))
             implementation(project(":feature:spell:domain"))

@@ -34,6 +34,7 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":feature:bestiary:domain"))
             implementation(project(":datasource:api:network"))
+            implementation(project(":datasource:api:local"))
             implementation(project(":core:common"))
             implementation(project(":core:helpers"))
         }
