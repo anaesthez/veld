@@ -9,7 +9,8 @@ class RemoteSourceDnDModule(
 ) {
     fun createDnDSource(): DND5eRemoteSource =
         DND5eRemoteSourceImpl(
-            dependencies = object : DND5eRemoteSource.Dependencies, Dependencies by dependencies {}
+            dependencies = object : DND5eRemoteSourceImpl.Dependencies,
+                Dependencies by dependencies {}
         )
 
     interface Dependencies {

@@ -14,11 +14,6 @@ kotlin {
 
     jvm()
 
-    js {
-        browser()
-        binaries.executable()
-    }
-
     listOf(
         iosX64(),
         iosArm64(),
@@ -32,7 +27,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-           // implementation(project(":core:common"))
+            implementation(project(":core:common"))
         }
     }
 }

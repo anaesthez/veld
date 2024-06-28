@@ -59,6 +59,7 @@ interface HubRootComponent {
     sealed interface Action {
         data class NavigateSpellDetails(val spellIndex: String): Action
         data class NavigateClassDetails(val classIndex: String) : Action
+        data class NavigateCreatureDetails(val creatureIndex: String) : Action
     }
 }
 
@@ -66,7 +67,7 @@ interface HubRootComponent {
 class HubRootComponentImpl(
     componentContext: ComponentContext,
     private val storeFactory: StoreFactory,
-    private val spellDependencies: SpellDependencies,
+    private val dependencies: SpellDependencies,
     private val bestiaryDependencies: BestiaryDependencies,
     private val onAction: (HubRootComponent.Action) -> Unit,
 ) : BaseComponent(componentContext), HubRootComponent {
@@ -98,7 +99,7 @@ class HubRootComponentImpl(
                 SpellComponentImpl(
                     componentContext = ctx,
                     storeFactory = storeFactory,
-                    dependencies = spellDependencies,
+                    dependencies = dependencies,
                     action = ::onSpellAction,
                 )
             )
@@ -122,6 +123,7 @@ class HubRootComponentImpl(
                     componentContext = ctx,
                     storeFactory = storeFactory,
                     dependencies = bestiaryDependencies,
+                    action = ::onBestiaryAction,
                 )
             )
         }
@@ -137,6 +139,13 @@ class HubRootComponentImpl(
         when (action) {
             is ClassesComponent.Action.NavigateClassDetails -> onAction(
                 HubRootComponent.Action.NavigateClassDetails(action.index)
+            )
+        }
+
+    private fun onBestiaryAction(action: BestiaryComponent.Action) =
+        when (action) {
+            is BestiaryComponent.Action.OnCreatureClick -> onAction(
+                HubRootComponent.Action.NavigateCreatureDetails(action.index)
             )
         }
 

@@ -26,13 +26,13 @@ sealed interface ClassDetailsComponent {
 class ClassDetailsComponentImpl(
     storeFactory: StoreFactory,
     index: String,
-    classDetailsDependencies: ClassDetailsDependencies,
+    dependencies: ClassDetailsDependencies,
     componentContext: ComponentContext,
     private val action: (ClassDetailsComponent.Action) -> Unit,
 ) : BaseComponent(componentContext), ClassDetailsComponent {
     private val classesStore = instanceKeeper.getStore {
         ClassDetailsStoreFactory(
-            classDetailsDependencies = classDetailsDependencies,
+            classDetailsDependencies = dependencies,
             storeFactory = storeFactory,
             index = index,
         ).create()

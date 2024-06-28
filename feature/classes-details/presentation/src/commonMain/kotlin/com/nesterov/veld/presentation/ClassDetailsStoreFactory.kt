@@ -58,7 +58,7 @@ class ClassDetailsStoreFactory(
                         }
                     }
 
-                    is ResultHolder.Loading -> {
+                    is ResultHolder.Initial -> {
                         withContext(dispatcher.mainDispatcher) {
                             dispatch(ClassDetailsStore.Action.FetchClassDetailsLoading)
                         }

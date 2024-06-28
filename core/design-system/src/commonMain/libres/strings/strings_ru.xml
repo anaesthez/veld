@@ -17,7 +17,7 @@
     <string name="spell_details_duration_text">Длительность</string>
     <string name="spell_details_requires_text">Требуется</string>
     <string name="spell_details_damage_text">урон</string>
-    <string name="spell_details_abjuration_text">Отречение</string>
+    <string name="spell_details_abjuration_text">Ограждение</string>
     <string name="spell_details_conjuration_text">Вызов</string>
     <string name="spell_details_enchantment_text">Очарование</string>
     <string name="spell_details_divination_text">Прорицание</string>
@@ -39,4 +39,51 @@
     <string name="classes_details_spell_failure_retry">Повторить попытку</string>
     <string name="classes_details_prerequisites_header">Требования для мультикласса</string>
     <string name="classes_details_prerequisites_descr">Чтобы претендовать на новый класс, вы должны соответствовать предварительным требованиям к очкам способностей как для вашего текущего класса, так и для нового, как показано ниже.</string>
+
+    <string name="creature_hit_rolls">Кости хитов: ${hitRolls}</string>
+    <string name="creature_prof_bonus">Бонус мастерства: ${bonus}</string>
+    <string name="creature_attack_bonus">Бонус аттаки: ${bonus}</string>
+    <string name="creature_hit_points">ХП: ${hp}</string>
+    <string name="creature_usage_times">Количество использований: ${times}</string>
+    <string name="creature_usage_type">Тип использования: ${usageType}</string>
+    <string name="creature_rest_type">Тип отдыха: ${restType}</string>
+    <string name="creature_damage_header_title">Урон</string>
+    <string name="creature_difficulty_header_title">Сложность</string>
+    <string name="creature_prof_header_text">Владения</string>
+    <string name="creature_speed_header_text">Cкорость</string>
+    <string name="creature_armor_header_text">Доспех</string>
+    <string name="creature_challenge_header_text">Уровень сложности</string>
+    <string name="creature_exp_header_text">Опыт</string>
+    <string name="creature_difficulty_success_type">В случае успеха: ${successType}</string>
+    <string name="creature_info_perception_text">Чувства (Пассивная внимательность = ${passivePerception})</string>
+    <string name="creature_info_tremor_text">Дрожь: ${tremor}</string>
+    <string name="creature_info_blind_sight_text">Слепое зрение: ${blindSight}</string>
+    <string name="creature_info_dark_vision_text">Темное зрение: ${darkVision}</string>
+    <string name="creature_info_true_sight_text">Истинное зрение: ${trueSight}</string>
+    <string name="creature_info_size_text">Размер: ${size}</string>
+    <string name="creature_info_type_text">Тип: ${type} </string>
+    <string name="creature_info_subtype_text">Подтип: ${subtype} </string>
+    <string name="creature_info_languages_text">Языки: ${languages}</string>
+    <string name="creature_info_alignments_text">Привязанности: ${alignments}</string>
+    <string name="creature_info_description_text">Описание</string>
+    <string name="creature_info_common_text">Общее</string>
+    <string name="creature_info_action_default_text">Обычные действия</string>
+    <string name="creature_info_action_special_text">Способности</string>
+    <string name="creature_info_action_legendary_text">Легендарный действия</string>
+    <string name="creature_info_tabs_actions_text">Действия</string>
+    <string name="creature_info_tabs_info_text">Инфо</string>
+    <string name="creature_info_tabs_stats_text">Статы</string>
+    <string name="creature_stats_armor_text">Доспех: ${armorValue}</string>
+
+    <string name="movement_walk">скорость: ${speed}</string>
+    <string name="movement_climbing">лазания: ${speed}</string>
+    <string name="movement_burrowing">ничком: ${speed}</string>
+    <string name="movement_swimming">вплавь: ${speed}</string>
+
+   <string name="wisdom">МДР  ${multiplier}</string>
+   <string name="dexterity">ЛОВ  ${multiplier}</string>
+   <string name="charisma">ХАР  ${multiplier}</string>
+   <string name="strength">СИЛ  ${multiplier}</string>
+   <string name="constitution">ТЕЛ  ${multiplier}</string>
+   <string name="intelligence">ИНТ  ${multiplier}</string>
 </resources>

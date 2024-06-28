@@ -79,7 +79,7 @@ class SpellStoreFactory(
                         }
                     }
 
-                    is ResultHolder.Loading -> {
+                    is ResultHolder.Initial -> {
                         withContext(dispatcher.mainDispatcher) {
                             dispatch(SpellStore.Action.FetchSpellListLoading)
                         }
@@ -114,7 +114,7 @@ class SpellStoreFactory(
                         }
                     }
 
-                    is ResultHolder.Loading -> {
+                    is ResultHolder.Initial -> {
                         withContext(dispatcher.mainDispatcher) {
                             dispatch(loading)
                         }

@@ -1,5 +1,6 @@
 package com.nesterov.veld.di.graph
 
+import com.nesterov.veld.presentation.creature.di.CreatureDependencies
 import com.nesterov.veld.presentation.di.BestiaryDependencies
 import com.nesterov.veld.presentation.di.ClassDetailsDependencies
 import com.nesterov.veld.presentation.di.SpellDependencies
@@ -10,4 +11,5 @@ interface DependenciesScope {
     val spellDetailsDependencies: SpellDetailsDependencies
     val classDetailsDependencies: ClassDetailsDependencies
     val bestiaryDependencies: BestiaryDependencies
+    val creatureDependencies: CreatureDependencies
 }

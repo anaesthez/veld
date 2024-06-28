@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.Text
@@ -23,12 +25,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
+import com.nesterov.veld.design_system.theme.VeldIcons
 import com.nesterov.veld.design_system.theme.VeldTheme
 import com.nesterov.veld.design_system.ui.VeldFailureScreen
 import com.nesterov.veld.design_system.ui.VeldProgressBar
 import com.nesterov.veld.presentation.BestiaryComponent
 import com.nesterov.veld.presentation.BestiaryStore
+import com.nesterov.veld.presentation.model.CreatureMemoryStatus
 import com.nesterov.veld.presentation.model.CreaturePresentationModel
+import io.github.skeptick.libres.compose.painterResource
 import kotlinx.collections.immutable.ImmutableList
 
 @Composable
@@ -41,7 +46,8 @@ fun BestiaryScreen(component: BestiaryComponent) {
             component.onObtainEvent(event)
         }
     }
-    when (state.screenState) {
+
+    when (val bestiary = state.screenState) {
         BestiaryStore.ScreenState.Failure -> VeldFailureScreen(
             errorText = "",
             onRetryClick = {
@@ -50,14 +56,11 @@ fun BestiaryScreen(component: BestiaryComponent) {
         )
 
         BestiaryStore.ScreenState.Loading -> VeldProgressBar()
-        is BestiaryStore.ScreenState.Success -> {
-            val result = (state.screenState as BestiaryStore.ScreenState.Success)
-            BestiaryScreenStateful(
-                lazyListState = lazyListState,
-                creatures = result.creatures,
-                onObtainEvent = onObtainEvent,
-            )
-        }
+        is BestiaryStore.ScreenState.Success -> BestiaryScreenStateful(
+            lazyListState = lazyListState,
+            creatures = bestiary.creatures,
+            onObtainEvent = onObtainEvent,
+        )
     }
 }
 
@@ -75,7 +78,16 @@ private fun BestiaryScreenStateful(
             Spacer(modifier = Modifier.height(8.dp))
             CreatureListItem(
                 creatureName = creature.name,
-                onCreatureClick = { onObtainEvent(BestiaryComponent.Event.OnBackClick) }
+                memoryStatus = creature.status,
+                onCreatureClick = {
+                    onObtainEvent(BestiaryComponent.Event.OnCreatureClick(creature.index))
+                },
+                onDeleteClick = {
+                    onObtainEvent(BestiaryComponent.Event.OnDeleteClick(creature.index))
+                },
+                onAddClick = {
+                    onObtainEvent(BestiaryComponent.Event.OnAddClick(creature))
+                }
             )
         }
     }
@@ -84,7 +96,10 @@ private fun BestiaryScreenStateful(
 @Composable
 private fun CreatureListItem(
     creatureName: String,
+    memoryStatus: CreatureMemoryStatus,
     onCreatureClick: () -> Unit,
+    onDeleteClick: () -> Unit,
+    onAddClick: () -> Unit,
 ) {
     ListItem(
         modifier = Modifier
@@ -100,6 +115,28 @@ private fun CreatureListItem(
                 text = creatureName,
             )
         },
+        trailingContent = {
+            // MemoryStatusIconButton(memoryStatus, onDeleteClick, onAddClick) TODO("add saving")
+        },
         colors = ListItemDefaults.colors(containerColor = Color(0xFF8F94FF))
     )
+}
+
+@Composable
+private fun MemoryStatusIconButton(
+    status: CreatureMemoryStatus,
+    onDeleteClick: () -> Unit,
+    onAddClick: () -> Unit
+) {
+    val (iconResource, clickAction) = when (status) {
+        CreatureMemoryStatus.LOCAL -> VeldIcons.delete to onDeleteClick
+        CreatureMemoryStatus.REMOTE -> VeldIcons.add to onAddClick
+    }
+
+    IconButton(onClick = clickAction) {
+        Icon(
+            painter = painterResource(iconResource),
+            contentDescription = null
+        )
+    }
 }

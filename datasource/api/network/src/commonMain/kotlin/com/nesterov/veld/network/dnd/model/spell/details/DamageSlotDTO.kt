@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 class DamageSlotDTO(
+    @SerialName("1") val first: String? = null,
     @SerialName("2") val second: String? = null,
     @SerialName("3") val third: String? = null,
     @SerialName("4") val fourth: String? = null,

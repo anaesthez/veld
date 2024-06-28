@@ -6,8 +6,10 @@ interface DispatcherOwner {
     val appDispatcher: AppDispatcher
 }
 
-fun <T> AppDispatcher.provideDispatcher(block: DispatcherOwner.() -> T): T {
-    return object : DispatcherOwner {
-        override val appDispatcher: AppDispatcher = this@provideDispatcher
-    }.block()
+object DispatcherOwnerInstance : DispatcherOwner {
+    override val appDispatcher: AppDispatcher = AppDispatcherImpl
+}
+
+fun <T> provideDispatcher(block: DispatcherOwner.() -> T): T {
+    return DispatcherOwnerInstance.block()
 }

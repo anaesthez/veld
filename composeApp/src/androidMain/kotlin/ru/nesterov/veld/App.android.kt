@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.arkivanov.decompose.defaultComponentContext
 import com.nesterov.veld.design_system.theme.VeldTheme
+import com.nesterov.veld.di.context.AppContext
 import ru.nesterov.veld.root.RootComponentImpl
 import ru.nesterov.veld.root.RootScreen
 
@@ -18,7 +19,7 @@ class AndroidApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        INSTANCE = this
+        INSTANCE = this.also { appContext -> AppContext.set(appContext) }
     }
 }
 

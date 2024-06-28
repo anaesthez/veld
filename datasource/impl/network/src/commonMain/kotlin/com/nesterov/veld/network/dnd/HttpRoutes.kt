@@ -6,4 +6,5 @@ object HttpRoutes {
     const val BESTIARY = "$BASE_URL/monsters"
     const val SPELL_DETAILS = "$SPELLS/"
     const val CLASSES_DETAILS = "$BASE_URL/classes"
+    const val CREATURE = "$BASE_URL/monsters"
 }

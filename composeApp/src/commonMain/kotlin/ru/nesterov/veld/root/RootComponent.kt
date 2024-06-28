@@ -14,6 +14,8 @@ import com.nesterov.veld.presentation.ClassDetailsComponent
 import com.nesterov.veld.presentation.ClassDetailsComponentImpl
 import com.nesterov.veld.presentation.SpellDetailsComponent
 import com.nesterov.veld.presentation.SpellDetailsComponentImpl
+import com.nesterov.veld.presentation.creature.CreatureComponent
+import com.nesterov.veld.presentation.creature.CreatureComponentImpl
 import kotlinx.serialization.Serializable
 import ru.nesterov.veld.hub.HubRootComponent
 import ru.nesterov.veld.hub.HubRootComponentImpl
@@ -25,13 +27,13 @@ interface RootComponent{
         data class Hub(val component: HubRootComponent): Child
         data class SpellDetails(val component: SpellDetailsComponent): Child
         data class ClassDetails(val component: ClassDetailsComponent) : Child
+        data class Creature(val component: CreatureComponent) : Child
     }
 }
 
 class RootComponentImpl(
     componentContext: ComponentContext,
 ) : RootComponent, ComponentContext by componentContext {
-
     private val navigation = StackNavigation<Configuration>()
     private val storeFactory: DefaultStoreFactory = DefaultStoreFactory()
     private val stack = childStack(
@@ -55,7 +57,7 @@ class RootComponentImpl(
                         componentContext = componentContext,
                         storeFactory = storeFactory,
                         bestiaryDependencies = bestiaryDependencies,
-                        spellDependencies = spellDependencies,
+                        dependencies = spellDependencies,
                         onAction = ::onHubAction,
                     )
                 )
@@ -78,9 +80,21 @@ class RootComponentImpl(
                     ClassDetailsComponentImpl(
                         componentContext = componentContext,
                         storeFactory = storeFactory,
+                        dependencies = classDetailsDependencies,
                         index = configuration.classIndex,
-                        classDetailsDependencies = classDetailsDependencies,
                         action = ::onClassDetailsAction,
+                    )
+                )
+            }
+
+            is Configuration.Creature -> provideDependencies {
+                RootComponent.Child.Creature(
+                    CreatureComponentImpl(
+                        componentContext = componentContext,
+                        storeFactory = storeFactory,
+                        index = configuration.creatureIndex,
+                        dependencies = creatureDependencies,
+                        action = ::onCreatureAction,
                     )
                 )
             }
@@ -95,6 +109,10 @@ class RootComponentImpl(
 
             is HubRootComponent.Action.NavigateClassDetails -> {
                 navigation.pushNew(Configuration.ClassDetails(classIndex = action.classIndex))
+            }
+
+            is HubRootComponent.Action.NavigateCreatureDetails -> {
+                navigation.pushNew(Configuration.Creature(creatureIndex = action.creatureIndex))
             }
         }
 
@@ -117,6 +135,11 @@ class RootComponentImpl(
             }
         }
 
+    private fun onCreatureAction(action: CreatureComponent.Action) =
+        when (action) {
+            CreatureComponent.Action.OnBackClick -> navigation.pop()
+        }
+
     @Serializable
     private sealed interface Configuration {
         @Serializable
@@ -125,5 +148,7 @@ class RootComponentImpl(
         data class SpellDetails(val spellIndex: String) : Configuration
         @Serializable
         data class ClassDetails(val classIndex: String) : Configuration
+        @Serializable
+        data class Creature(val creatureIndex: String) : Configuration
     }
 }

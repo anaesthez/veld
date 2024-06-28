@@ -6,16 +6,22 @@ import com.arkivanov.mvikotlin.core.instancekeeper.getStore
 import com.arkivanov.mvikotlin.core.store.StoreFactory
 import com.nesterov.veld.common.base.BaseComponent
 import com.nesterov.veld.presentation.di.BestiaryDependencies
+import com.nesterov.veld.presentation.model.CreaturePresentationModel
 
 interface BestiaryComponent {
     val state: Value<BestiaryStore.State>
 
     fun onObtainEvent(event: Event)
 
+    sealed interface Action {
+        data class OnCreatureClick(val index: String) : Action
+    }
+
     sealed interface Event {
         data object OnRetryClick : Event
-        data object OnBackClick : Event
-        data object OnCreatureClick : Event
+        data class OnCreatureClick(val index: String) : Event
+        data class OnDeleteClick(val index: String) : Event
+        data class OnAddClick(val creature: CreaturePresentationModel) : Event
         data class OnSearchCreature(val query: String) : Event
     }
 }
@@ -24,6 +30,7 @@ class BestiaryComponentImpl(
     storeFactory: StoreFactory,
     dependencies: BestiaryDependencies,
     componentContext: ComponentContext,
+    private val action: (BestiaryComponent.Action) -> Unit,
 ) : BaseComponent(componentContext), BestiaryComponent {
     private val bestiaryStore = instanceKeeper.getStore {
         BestiaryStoreFactory(
@@ -35,20 +42,24 @@ class BestiaryComponentImpl(
 
     override fun onObtainEvent(event: BestiaryComponent.Event) =
         when (event) {
-            BestiaryComponent.Event.OnBackClick -> {
-
-            }
-
             BestiaryComponent.Event.OnRetryClick -> {
 
             }
 
-            BestiaryComponent.Event.OnCreatureClick -> {
-
+            is BestiaryComponent.Event.OnCreatureClick -> {
+                action(BestiaryComponent.Action.OnCreatureClick(event.index))
             }
 
             is BestiaryComponent.Event.OnSearchCreature -> {
                 bestiaryStore.accept(BestiaryStore.Intent.OnSearchCreature(event.query))
+            }
+
+            is BestiaryComponent.Event.OnAddClick -> {
+                bestiaryStore.accept(BestiaryStore.Intent.OnAddCreature(event.creature))
+            }
+
+            is BestiaryComponent.Event.OnDeleteClick -> {
+                bestiaryStore.accept(BestiaryStore.Intent.OnDeleteCreature(event.index))
             }
         }
 }
