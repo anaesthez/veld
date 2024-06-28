@@ -1,8 +1,11 @@
 # Compose Multiplatform Application
 
-## Used
-+	Decompose
+## Technologies
++	decompose
 +	MVI-kotlin
 +	Manual DI
-+	Coroutines 
++	kotlinx-coroutines 
 +	ktor-client
++ Room 
++ coil
++ libres
